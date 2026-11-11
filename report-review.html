@@ -142,6 +142,19 @@ tr.wrong .ans{background:#FFD5DC}
 td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 .cx{font-weight:600}.cx.h1{background:#FFE1E6;color:#B4233F}.cx.h2{background:#FFC2CD;color:#8E1530}.cx.z{color:#B8BCC6}
 .link{font-size:13px;color:var(--yt);background:var(--y);border:1px dashed var(--yl);border-radius:6px;padding:3px 8px;margin-top:8px;display:inline-block}
+.sbar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.sbar .k{font-size:13px;color:var(--sub)}.sbar .v{font-size:18px;font-weight:700}.sbar .v small{font-size:13px;font-weight:500;color:var(--sub);margin-left:3px}
+.sbar2{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:10px;margin-top:10px}
+.band{margin-top:12px}.band .bh{font-size:14px;font-weight:700;color:#24339a;margin-bottom:6px}
+.mt{width:100%;table-layout:fixed;font-size:13px;background:#fff}
+.mt th,.mt td{padding:6px 2px;line-height:1.3;overflow-wrap:anywhere}
+.mt td:first-child{width:62px;background:var(--th);color:#3d4250;font-weight:500}
+.mt td.ng{background:#FFE1E6;color:#B4233F;font-weight:700}.mt td.qn{cursor:pointer;font-weight:700}.mt td.qn:hover{outline:2px solid var(--pri);outline-offset:-2px}
+.mt td.lo{color:#C24E00;font-weight:700}.mt td.sm{font-size:12px;color:var(--sub)}
+.mlg{display:inline-block;min-width:22px;text-align:center;border-radius:4px;padding:0 4px;font-weight:700;margin-right:4px}.mlg.ng{background:#FFE1E6;color:#B4233F}.mlg.lo{color:#C24E00;border:1px solid #F2B98A}
+.gup{display:inline-block;margin-top:4px;background:var(--red);color:#fff;font-size:12px;font-weight:700;border-radius:999px;padding:1px 8px;white-space:nowrap}
+.gupx{display:inline-block;background:var(--red);color:#fff;font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;margin-top:6px}
+.cut td{font-size:13px}
 </style>
 </head>
 <body>
@@ -184,8 +197,8 @@ td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 
 <section class="card">
 <h2>개인성적 분석</h2>
+<div class="upd" id="sumBar" style="margin:0 0 16px"></div>
 <div class="grid g4" id="scoreBox"></div>
-<div class="upd" id="nextGrade"></div>
 <div class="note" id="scoreNote">※ 표준점수/백분위/등급은 자사 재원생의 성적과 수능 DB를 매칭·분석한 결과로 실제 수능 점수와 다를 수 있습니다.</div>
 </section>
 
@@ -263,16 +276,18 @@ td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 <section class="card" id="secEval">
 <h2>평가요소별 상세 분석</h2>
 <div class="tblwrap"><table id="evalTbl"></table></div>
-<div class="upd" id="crossBox"><b>단원 × 평가요소 오답 분포</b> <span class="tagU">보강</span><div class="fl" style="margin-top:4px">칸 = 오답 수 / 출제 수 · 오답이 몰린 칸이 진하게 표시됩니다.</div><div class="tblwrap"><table id="crossTbl" style="background:#fff"></table></div></div>
 </section>
 
 <section class="card">
 <h2>문항별 나의 점수 분석</h2>
-<div class="concl" id="cQ"></div><div class="upd" style="margin-top:0;margin-bottom:16px"><b>문항 한눈에 보기</b> <span class="tagU">보강</span>
-<div class="mx" id="mx" style="margin-top:10px"></div>
-<div class="mxrow"><span class="ans" style="background:#EEF2FF">O</span>정답 <span class="ans" style="background:#FFE1E6">X</span>오답 · 막대 = 전체 정답률 · 칸을 누르면 아래 표의 해당 문항으로 이동</div></div>
+<div class="concl" id="cQ"></div>
+<div class="upd" style="margin-top:0;margin-bottom:14px"><b>문항 분석</b> <span class="tagU">보강</span>
+<div id="mxBands"></div>
+<div class="mxrow"></div></div>
+<button class="tbtn" id="qToggle" style="margin-bottom:12px">문항 전체 보기 ▾</button>
+<div id="qDetail" class="hide">
 <div class="fl"><span class="tagU">보강</span> 등급별 정답률 열 추가 <span class="tagD">서버 산출 필요</span> · <span style="box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;padding:0 5px;border-radius:3px;font-weight:700">주황 테두리</span> = 내 오답이 최다 오답 선택지와 같음</div>
-<div class="tblwrap"><table id="qTbl"></table></div>
+<div class="tblwrap"><table id="qTbl"></table></div></div>
 </section>
 
 <div class="stage"><b>5</b>누적<span>다음 회차에 확인할 것</span></div>
@@ -283,6 +298,7 @@ td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 <div class="btnrow" id="trBtns"></div>
 <div class="legend2" style="margin-top:12px"><span><i style="background:var(--pri)"></i>나의 점수</span><span id="lgAvg"><i style="background:#4B5563"></i>응시생 평균</span></div>
 <div class="trend"><svg id="trSvg" width="100%" height="220"></svg></div>
+<div class="note" id="trNote" style="margin:-8px 0 10px"></div>
 <div class="tblwrap"><table id="trTbl"></table></div>
 </section>
 
@@ -411,6 +427,9 @@ function prep(){
  }}
 prep();
 for(const k of ORDER){const s=SUBJ[k];const r=rng((s.seed||3)*31+7);s.qs.forEach(q=>{q.g=[.8,.55,.32].map(a=>q.rate>=99.9?100:Math.min(100,Math.round(q.rate+(100-q.rate)*(a+(r()-.5)*.12)*(q.rate/100+.3))))})}
+const EVS={'사실적이해':'사실','추론적이해':'추론','종합적이해':'종합','비판적이해':'비판','창의적이해':'창의','어휘/어법':'어휘','어법/어휘':'어법','계산영역':'계산','문제해결':'문제해결','이해력':'이해','추론':'추론','적용':'적용'};
+const POP={OMEGA:4820,BLACK:1260};
+function actualPct(s){const base=s.pct!=null?s.pct:[98,92,82,68,50,32,18,8,2][s.grade-1];return Math.max(1,base-7)}
 const expv=q=>Math.round(q.pts*q.rate/100*10)/10;
 function nextGap(s){for(let r=s.raw+1;r<=s.total;r++){if(est(s,r).grade<s.grade)return r-s.raw}return null}
 
@@ -441,7 +460,7 @@ function render(){
  $('iType').textContent=black?'OMEGA Black':'OMEGA';$('iSubj').textContent=s.sel;
  renderTabs();
  const showPoint=!(s.tam);$('pointBox').classList.toggle('hide',!showPoint);$('pointTxt').textContent=s.point||'';
- renderSummary();renderScore();renderCut();renderLost();renderUnit();renderEval();renderCross();renderQ();renderOpp();renderRec();renderReview();renderTrend();renderFeedback();
+ renderSummary();renderScore();renderCut();renderLost();renderUnit();renderEval();renderQ();renderOpp();renderRec();renderReview();renderTrend();renderFeedback();
 }
 function renderTabs(){$('subTabs').innerHTML=subs().map(k=>`<button class="tbtn ${k===S.sub?'on':''}" data-sub="${k}">${scoreName(SUBJ[k])}</button>`).join('')}
 
@@ -476,18 +495,23 @@ function renderScore(){
  const cells=s.eng?[['원점수',raw],['등급',`<div class="score"><b>${s.grade}</b></div>`]]:[['원점수',raw],['표준점수',`<div class="score"><b>${s.std}<small>점</small></b></div>`],['백분위',`<div class="score"><b>${s.pct}</b></div>`],['등급',`<div class="score"><b>${s.grade}</b></div>`]];
  $('scoreBox').className='grid '+(s.eng?'g2':'g4');
  $('scoreBox').innerHTML=cells.map(c=>`<div><div class="fl">${c[0]}</div>${c[1]}</div>`).join('');
- let gapRaw=null,tgt=null;for(let r=s.raw+1;r<=s.total;r++){const e=est(s,r);if(e.grade<s.grade){gapRaw=r-s.raw;tgt=e;break}}
- const v=s.basis==='std'?s.std:s.raw,cut=s.grade>1?s.cuts[s.grade-2]:null;
- $('nextGrade').innerHTML=`<b>목표 등급까지</b> <span class="tagU">보강</span><div style="margin-top:6px">`+(s.grade===1?`1등급 구간입니다. 1등급 구분점수(${s.cuts[0]})보다 <b class="o">${v-s.cuts[0]}${s.basis==='std'?'':'점'}</b> 위에 있습니다.`:`${s.grade-1}등급 구분점수 ${cut}${s.basis==='std'?'(표준점수)':'점'}까지 <b class="x">${cut-v}${s.basis==='std'?'':'점'}</b> 부족 · 원점수로 약 <b class="x">${gapRaw}점</b> (${(()=>{const mp=Math.max(...s.qs.map(q=>q.pts));return gapRaw<=mp?'문항 1개 수준':'최소 '+Math.ceil(gapRaw/mp)+'문항'})()})`)+'</div>';
+ const w=s.qs.filter(q=>!q.ok),N=POP[S.mode],ap=actualPct(s),rank=Math.max(1,Math.round(N*(100-ap)/100));
+ $('sumBar').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><b>${s.name} 요약</b><span class="tagU">보강</span></div>
+ <div class="sbar"><div><div class="k">총 문항</div><div class="v">${s.qs.length}<small>문항</small></div></div><div><div class="k">정답</div><div class="v o">${s.qs.length-w.length}<small>문항</small></div></div><div><div class="k">오답</div><div class="v x">${w.length}<small>문항</small></div></div><div><div class="k">취약 문항</div><div class="v" style="font-size:16px">${w.map(q=>q.n).join(', ')||'없음'}</div></div></div>
+ <div class="sbar2"><div class="pm" style="background:#fff"><div class="t">OMEGA${isBlack()?' Black':''} 응시자 중 석차 <span class="tagD">서버 산출</span></div><div class="v">${rank.toLocaleString()}<small style="font-size:14px;font-weight:500"> / ${N.toLocaleString()}명</small></div><div class="s">상위 ${Math.round((rank/N)*1000)/10}% · 동점자 같은 등수</div></div>
+ <div class="pm" style="background:#fff"><div class="t">실제 백분위 <span class="tagD">서버 산출</span></div><div class="v">${ap}</div><div class="s">이번 회차 응시자 기준</div></div>
+ <div class="pm" style="background:#fff"><div class="t">예상 백분위</div><div class="v">${s.pct??'-'}</div><div class="s">${s.pct!=null?'수능 환산 기준':'영어는 백분위 미제공'}</div></div></div>`;
  $('scoreNote').classList.toggle('hide',!!s.eng);
 }
 
 function renderCut(){
  const s=cur();const v=s.basis==='std'?s.std:s.raw;
  let h=`<thead><tr><th colspan="2">구분</th><th>등급</th>${[1,2,3,4,5,6,7,8,9].map(g=>`<th${g===s.grade?' class="me"':''}>${g}</th>`).join('')}</tr></thead><tbody>`;
- h+=`<tr><td rowspan="2" class="lab">${s.area}</td><td rowspan="2" class="lab">${s.name}</td><td>구분점수</td>${s.cuts.map((c,i)=>`<td class="${i+1===s.grade?'on':''}">${c}</td>`).join('')}<td class="${s.grade===9?'on':''}">${s.cuts[7]-1}이하</td></tr>`;
- h+=`<tr><td>본인위치</td>${[1,2,3,4,5,6,7,8,9].map(g=>`<td class="${g===s.grade?'on':''}">${g===s.grade?'▲'+v:''}</td>`).join('')}</tr></tbody>`;
- $('cutTbl').innerHTML=h;$('cutNote').textContent='※ [국어·수학] 수능 예상 표준점수, [영어·탐구] 원점수 기준';
+ const rng2=i=>i===0?`${s.cuts[0]} 이상`:i===8?`${s.cuts[7]-1} 이하`:`${s.cuts[i]}~${s.cuts[i-1]-1}`;
+ const up=s.grade>1?s.cuts[s.grade-2]-v:null,gap=nextGap(s);
+ h+=`<tr><td rowspan="2" class="lab">${s.area}</td><td rowspan="2" class="lab">${s.name}</td><td>구분점수</td>${[0,1,2,3,4,5,6,7,8].map(i=>`<td class="${i+1===s.grade?'on':''}">${rng2(i)}</td>`).join('')}</tr>`;
+ h+=`<tr><td>본인위치</td>${[1,2,3,4,5,6,7,8,9].map(g=>`<td class="${g===s.grade?'on':''}">${g===s.grade?'▲'+v+(up?`<br><span class="gup">GRADE UP +${up}</span>`:''):''}</td>`).join('')}</tr></tbody>`;
+ $('cutTbl').innerHTML=h;$('cutNote').innerHTML=(up?`<span style="color:var(--ink)"><b class="x">${s.grade-1}등급까지 ${s.basis==='std'?'표준점수 ':''}+${up}${s.basis==='std'?'':'점'}</b> · 원점수로 약 ${gap}점</span> <span class="tagU">보강</span><br>`:'')+'※ [국어·수학] 수능 예상 표준점수, [영어·탐구] 원점수 기준';
  $('dist').innerHTML=GR_PCT.map((p,i)=>`<div class="${i+1===s.grade?'on':''}" style="height:${p/20*100}%"></div>`).join('');
  $('distl').innerHTML=GR_PCT.map((p,i)=>`<div>${i+1}등급<br>${p}%</div>`).join('');
  const above=GR_PCT.slice(0,s.grade-1).reduce((a,b)=>a+b,0);
@@ -521,22 +545,29 @@ function renderEval(){
  $('evalTbl').innerHTML=h+'</tbody>';
 }
 const trap=q=>!q.ok&&q.my!=='-'&&q.mw!=='-'&&q.mw.split(',').includes(q.my);
-function renderCross(){
- const s=cur();const box=$('crossBox');const ok=hasEval(s);box.classList.toggle('hide',!ok);if(!ok)return;
- const us=s.unitOrder,es=s.evalOrder;
- let h=`<thead><tr><th>단원 \\ 평가요소</th>${es.map(e=>`<th>${e}</th>`).join('')}<th>합계</th></tr></thead><tbody>`;
- us.forEach(u=>{const row=es.map(e=>{const qs=s.qs.filter(q=>q.unit===u&&q.ev===e);const w=qs.filter(q=>!q.ok).length;return qs.length?`<td class="cx ${w>=2?'h2':w?'h1':''}">${w} / ${qs.length}</td>`:'<td class="cx z">-</td>'}).join('');
-  const qs=s.qs.filter(q=>q.unit===u),w=qs.filter(q=>!q.ok).length;h+=`<tr><td>${u}</td>${row}<td class="cx ${w?'h1':''}">${w} / ${qs.length}</td></tr>`});
- h+=`<tr><td><b>합계</b></td>${es.map(e=>{const qs=s.qs.filter(q=>q.ev===e),w=qs.filter(q=>!q.ok).length;return`<td class="cx ${w?'h1':''}">${w} / ${qs.length}</td>`}).join('')}<td class="cx">${s.qs.filter(q=>!q.ok).length} / ${s.qs.length}</td></tr>`;
- $('crossTbl').innerHTML=h+'</tbody>';
-}
 function renderQ(){
  const s=cur();const ev=hasEvalCol(s);
- $('mx').innerHTML=s.qs.map(q=>`<div class="cell ${q.ok?'ok':'ng'}" data-q="${q.n}" title="${q.n}번 · ${q.unit} · 정답률 ${fmt(q.rate)}%"><b>${q.n}</b>${q.ok?'O':'X'}<div class="rt"><i style="width:${q.rate}%"></i></div></div>`).join('');
+ {const ev=hasEvalCol(s),lo=TH[S.mode].lo;let mh='';
+  for(let a=0;a<s.qs.length;a+=15){const qs=s.qs.slice(a,a+15),pad=15-qs.length;const cell=(f,c='')=>qs.map(q=>`<td class="${typeof c==='function'?c(q):c}">${f(q)}</td>`).join('')+'<td></td>'.repeat(pad);
+   mh+=`<div class="band"><div class="bh">${qs[0].n}~${qs[qs.length-1].n}번</div><div class="tblwrap"><table class="mt"><tbody>
+   <tr><td>번호</td>${cell(q=>q.n,q=>'qn'+(q.ok?'':' ng'))}</tr>
+   <tr><td>정답</td>${cell(q=>q.ans)}</tr>
+   <tr><td>내 선택</td>${cell(q=>q.my,q=>q.ok?'':'ng')}</tr>
+   <tr><td>배점</td>${cell(q=>q.pts)}</tr>
+   <tr><td>정답률</td>${cell(q=>Math.round(q.rate)+'%',q=>q.rate<lo?'lo':'')}</tr>
+   <tr><td>단원</td>${cell(q=>q.unit,'sm')}</tr>
+   ${ev?`<tr><td>평가요소</td>${cell(q=>EVS[q.ev]||q.ev,'sm')}</tr>`:''}</tbody></table></div></div>`}
+  $('mxBands').innerHTML=mh;document.querySelector('.mxrow').innerHTML=`<span class="mlg ng">X</span>오답 <span class="mlg lo">%</span>정답률 ${lo}% 미만 · 번호 칸을 누르면 상세 표의 해당 행으로 이동`}
  let h=`<thead><tr><th>문항</th><th>단원</th><th>세부단원</th>${ev?'<th>평가<br>요소</th>':''}<th>배점</th><th>정오</th><th>정답률</th><th>내 답안</th><th>정답</th><th>최다 오답<br>선택지</th><th style="background:var(--y);white-space:nowrap">등급별 정답률<br><span style="font-size:12px">1 / 2 / 3등급</span></th></tr></thead><tbody>`;
  s.qs.forEach(q=>{h+=`<tr id="q${q.n}" class="${q.ok?'':'wrong'}"><td>${q.n}</td><td>${q.unit}</td><td>${q.sub}</td>${ev?`<td>${q.ev}</td>`:''}<td>${q.pts}</td><td class="${q.ok?'o':'x'}">${q.ok?'O':'X'}</td><td>${fmt(q.rate)}%</td><td><span class="ans">${q.my}</span></td><td>${q.ans}</td><td class="${trap(q)?'same':''}">${q.mw}</td><td style="background:#FFFBEA;white-space:nowrap">${q.g.join(' / ')}</td></tr>`});
  const w=s.qs.filter(q=>!q.ok),same=w.filter(trap),top=w.filter(q=>q.g[0]>=80);
- $('cQ').innerHTML=w.length?`오답 ${w.length}문항 중 1등급 정답률 80% 이상 ${top.length}문항${top.length?` (${top.map(q=>q.n+'번').join(', ')})`:''}<span class="s">최다 오답 선택지와 같은 답을 고른 문항 ${same.length}개${same.length?` (${same.map(q=>q.n+'번').join(', ')}) · 응시자들이 많이 빠진 선택지`:''}</span>`:'오답 문항이 없습니다';
+ const cnt=k=>{const m={};w.forEach(q=>{if(q[k])(m[q[k]]=m[q[k]]||[]).push(q)});return Object.entries(m).sort((a,b)=>b[1].length-a[1].length)[0]};
+ const ce=hasEvalCol(s)?cnt('ev'):null,cu=cnt('unit');let pat;
+ if(!w.length)pat='오답 문항이 없습니다';
+ else if(ce&&ce[1].length>=2)pat=`오답 ${w.length}문항 중 <b>${ce[0]}</b> 유형 ${ce[1].length}문항 (${ce[1].map(q=>q.n+'번 '+q.unit).join(', ')}) · 단원보다 유형이 공통점`;
+ else if(cu&&cu[1].length>=2)pat=`오답 ${w.length}문항 중 <b>${cu[0]}</b> 단원 ${cu[1].length}문항 (${cu[1].map(q=>q.n+'번').join(', ')}) · 이 단원 개념 복습 먼저`;
+ else pat=`오답 ${w.length}문항이 여러 단원·유형에 흩어져 있음 · 특정 약점보다 문항별 복습`;
+ $('cQ').innerHTML=pat+(w.length?`<span class="s">1등급 정답률 80% 이상 오답 ${top.length}문항${top.length?' ('+top.map(q=>q.n+'번').join(', ')+')':''} · 최다 오답 선택지와 같은 답 ${same.length}문항${same.length?' ('+same.map(q=>q.n+'번').join(', ')+')':''}</span>`:'');
  $('qTbl').innerHTML=h+'</tbody>';
 }
 
@@ -546,7 +577,7 @@ function renderOpp(){
  $('oppMsg').textContent='';
  if(!t.length){$('oppBox').innerHTML='<div style="grid-column:1/-1;color:var(--sub)">오답 문항이 없습니다. 현재 학습 방향을 유지해 보세요.</div>';$('simWrap').classList.add('hide');return}
  $('simWrap').classList.remove('hide');
- $('oppBox').innerHTML=t.map(q=>`<div class="opp ${SEL[k].has(q.n)?'sel':''}" data-opp="${q.n}"><div class="hd"><span class="chk">✓</span>${q.n}번</div><span class="pill">${q.pts}점</span><span class="pill">정답률 ${fmt(q.rate)}%</span><div class="kv"><span>단원</span>${q.unit}<span>세부단원</span>${q.sub}${hasEvalCol(s)?`<span>평가요소</span>${q.ev}`:''}</div></div>`).join('');
+ $('oppBox').innerHTML=t.map(q=>`<div class="opp ${SEL[k].has(q.n)?'sel':''}" data-opp="${q.n}"><div class="hd"><span class="chk">✓</span>${q.n}번</div>${est(s,s.raw+q.pts).grade<s.grade?'<span class="gupx">이 문항으로 등급 상승</span>':''}<span class="pill">${q.pts}점</span><span class="pill">정답률 ${fmt(q.rate)}%</span><div class="kv"><span>단원</span>${q.unit}<span>세부단원</span>${q.sub}${hasEvalCol(s)?`<span>평가요소</span>${q.ev}`:''}</div></div>`).join('');
  renderSim();
 }
 const ARW=`<svg class="arw" viewBox="0 0 58 42"><defs><linearGradient id="ag" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FF7A93"/><stop offset="1" stop-color="#FF1F4B"/></linearGradient></defs><path d="M3 38 C 18 37, 30 31, 40 19" fill="none" stroke="url(#ag)" stroke-width="6" stroke-linecap="round"/><path d="M33 13 L55 4 L48 27 Z" fill="#FF1F4B"/></svg>`;
@@ -586,27 +617,28 @@ function updRvPct(w,steps){const s=cur();w=w||s.qs.filter(q=>!q.ok);let tot=0,do
  const p=tot?Math.round(done/tot*100):0;$('rvPct').textContent=`${done}/${tot} 단계 · ${p}%`;$('rvBar').style.width=p+'%'}
 
 function renderTrend(){
- const s=cur();const H=s.hist;const n=S.hist>1?5:1;const idx=[...Array(n)].map((_,i)=>5-n+i);
+ const s=cur();const H=s.hist;const many=S.hist>1;const att=many?[0,1,2,3,4]:[4];
+ const R8=[1,2,3,4,5,6,7,8];const at=r=>{const i=H.rounds.indexOf(r);return i>=0&&att.includes(i)?i:-1};
  const btns=s.eng?[['raw','원점수'],['grade','등급']]:[['raw','원점수'],['pct','백분위'],['grade','등급']];
  if(!btns.some(b=>b[0]===S.trend))S.trend='raw';
  $('trBtns').innerHTML=btns.map(b=>`<button class="tbtn ${S.trend===b[0]?'on':''}" data-tr="${b[0]}">${b[1]}</button>`).join('');
  $('lgAvg').classList.toggle('hide',S.trend!=='raw');
- const svg=$('trSvg');const W=svg.clientWidth||800,Hh=220,pl=20,pr=20,pt=30,pb=34;
- const key=S.trend;const vals=idx.map(i=>H[key][i]);const avg=key==='raw'?idx.map(i=>H.avg[i]):null;
+ const svg=$('trSvg');const W=svg.clientWidth||800,Hh=220,pl=20,pr=20,pt=30,pb=34;const key=S.trend;
  const maxV=key==='grade'?9:key==='pct'?100:s.total,minV=key==='grade'?1:0;
- const xs=idx.map((_,j)=>n===1?W/2:pl+40+j*(W-pl-pr-80)/(n-1));
+ const X=j=>pl+30+j*(W-pl-pr-60)/7;
  const y=v=>key==='grade'?pt+(v-1)/8*(Hh-pt-pb):pt+(1-(v-minV)/(maxV-minV))*(Hh-pt-pb);
  let g='';for(let k=0;k<5;k++){const yy=pt+k*(Hh-pt-pb)/4;g+=`<line x1="${pl}" x2="${W-pr}" y1="${yy}" y2="${yy}" stroke="#E6E8EE"/>`}
- const last=xs[xs.length-1];g=`<rect x="${last-55}" y="${pt}" width="110" height="${Hh-pt-pb}" fill="#FFF1F3"/>`+g;
- if(avg&&n>1)g+=`<polyline fill="none" stroke="#4B5563" stroke-width="2" points="${xs.map((x,j)=>x+','+y(avg[j])).join(' ')}"/>`;
- if(n>1)g+=`<polyline fill="none" stroke="#3B5BFB" stroke-width="2.5" points="${xs.map((x,j)=>x+','+y(vals[j])).join(' ')}"/>`;
- xs.forEach((x,j)=>{g+=`<circle cx="${x}" cy="${y(vals[j])}" r="4" fill="#3B5BFB"/><text x="${x}" y="${y(vals[j])-10}" text-anchor="middle" font-size="15" font-weight="700" fill="#3B5BFB">${vals[j]}</text>`;
-  if(avg)g+=`<text x="${x}" y="${y(avg[j])+20}" text-anchor="middle" font-size="13" fill="#4B5563" font-weight="600">${avg[j]}</text>`;
-  g+=`<text x="${x}" y="${Hh-8}" text-anchor="middle" font-size="14" font-weight="700" fill="#1B1D22">${H.rounds[idx[j]]}회</text>`});
+ const xl=X(7);g=`<rect x="${xl-36}" y="${pt}" width="72" height="${Hh-pt-pb}" fill="#FFF1F3"/>`+g;
+ const pts=R8.map((r,j)=>{const i=at(r);return i<0?null:{x:X(j),v:H[key][i],a:H.avg[i]}}).filter(Boolean);
+ if(key==='raw'&&pts.length>1)g+=`<polyline fill="none" stroke="#4B5563" stroke-width="2" points="${pts.map(p=>p.x+','+y(p.a)).join(' ')}"/>`;
+ if(pts.length>1)g+=`<polyline fill="none" stroke="#3B5BFB" stroke-width="2.5" points="${pts.map(p=>p.x+','+y(p.v)).join(' ')}"/>`;
+ pts.forEach(p=>{g+=`<circle cx="${p.x}" cy="${y(p.v)}" r="4" fill="#3B5BFB"/><text x="${p.x}" y="${y(p.v)-10}" text-anchor="middle" font-size="15" font-weight="700" fill="#3B5BFB">${p.v}</text>`;if(key==='raw')g+=`<text x="${p.x}" y="${y(p.a)+20}" text-anchor="middle" font-size="13" fill="#4B5563" font-weight="600">${p.a}</text>`});
+ R8.forEach((r,j)=>{const miss=at(r)<0;g+=`<text x="${X(j)}" y="${Hh-8}" text-anchor="middle" font-size="14" font-weight="${miss?400:700}" fill="${miss?'#B8BCC6':'#1B1D22'}">${r}회</text>`;if(miss)g+=`<text x="${X(j)}" y="${(pt+Hh-pb)/2}" text-anchor="middle" font-size="12" fill="#C3C7D1">미응시</text>`});
  svg.innerHTML=g;
  let t=`<thead><tr><th>응시회차</th><th>원점수</th>${s.eng?'':'<th>예상 표준점수</th><th>예상 백분위</th>'}<th>예상 등급</th></tr></thead><tbody>`;
- idx.forEach(i=>{const lastR=i===4;t+=`<tr${lastR?' style="background:#FFF1F3"':''}><td>${H.rounds[i]}회</td><td>${lastR?'<span class="ans" style="background:#FFD5DC">':''}${H.raw[i]}점${lastR?'</span>':''}</td>${s.eng?'':`<td>${H.std[i]}점</td><td>${H.pct[i]}</td>`}<td>${H.grade[i]}등급</td></tr>`});
+ att.forEach(i=>{const lastR=i===4;t+=`<tr${lastR?' style="background:#FFF1F3"':''}><td>${H.rounds[i]}회</td><td>${lastR?'<span class="ans" style="background:#FFD5DC">':''}${H.raw[i]}점${lastR?'</span>':''}</td>${s.eng?'':`<td>${H.std[i]}점</td><td>${H.pct[i]}</td>`}<td>${H.grade[i]}등급</td></tr>`});
  $('trTbl').innerHTML=t+'</tbody>';
+ $('trNote').textContent='미응시 회차는 빈칸으로 표시됩니다.';
 }
 
 function evalGoal(s,g){
@@ -630,7 +662,7 @@ function renderFeedback(){
 }
 
 document.addEventListener('click',e=>{
- const t=e.target.closest('[data-mode],[data-hist],[data-sub],[data-opp],[data-tr],[data-q],[data-rv],#pointBtn');if(!t)return;
+ const t=e.target.closest('[data-mode],[data-hist],[data-sub],[data-opp],[data-tr],[data-q],[data-rv],#pointBtn,#qToggle,td.qn');if(!t)return;
  if(t.dataset.mode){S.mode=t.dataset.mode;document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('on',b===t));if(!subs().includes(S.sub))S.sub='math';render();return}
  if(t.dataset.hist){S.hist=+t.dataset.hist;document.querySelectorAll('[data-hist]').forEach(b=>b.classList.toggle('on',b===t));render();return}
  if(t.dataset.sub){S.sub=t.dataset.sub;render();return}
@@ -638,6 +670,8 @@ document.addEventListener('click',e=>{
  if(t.dataset.opp){const k=S.mode+S.sub;const n=+t.dataset.opp;const set=SEL[k];
   if(set.has(n)){if(set.size===1){$('oppMsg').textContent='최소 1개 문항은 선택해 주세요.';return}set.delete(n)}else set.add(n);
   $('oppMsg').textContent='';t.classList.toggle('sel');renderSim();return}
+ if(t.id==='qToggle'){const d=$('qDetail');d.classList.toggle('hide');t.textContent=d.classList.contains('hide')?'문항 전체 보기 ▾':'문항 전체 접기 ▴';return}
+ if(t.classList&&t.classList.contains('qn')){$('qDetail').classList.remove('hide');$('qToggle').textContent='문항 전체 접기 ▴';t.dataset.q=t.textContent}
  if(t.dataset.q){const r=$('q'+t.dataset.q);r.scrollIntoView({behavior:'smooth',block:'center'});r.classList.add('flash');setTimeout(()=>r.classList.remove('flash'),1400);return}
  if(t.dataset.rv){RV[t.dataset.rv]=!RV[t.dataset.rv];saveRv(RV);t.classList.toggle('done');updRvPct();return}
  if(t.id==='pointBtn'){const b=$('pointBox');b.classList.toggle('open');t.textContent=b.classList.contains('open')?'접기':'… 더보기'}
