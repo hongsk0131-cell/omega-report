@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OMEGA 모의고사 성적 리포트 | V5 검토본</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--pri:#3B5BFB;--pri2:#7FA3FF;--pril:#EEF2FF;--bg:#F7F8FA;--line:#E6E8EE;--th:#F7F8FB;--ink:#1B1D22;--sub:#5B6170;--mut:#8A90A0;--red:#EF3E5C;--redl:#FFF1F3;--y:#FFF6D6;--yl:#F2C94C;--yt:#7A5A00}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Pretendard,'Malgun Gothic',sans-serif;color:var(--ink);font-size:15px;line-height:1.6}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:900px;margin:0 auto;padding:24px 18px 80px}
+.hero{background:linear-gradient(90deg,#2C57FF,#7FA3FF);color:#fff;border-radius:18px;text-align:center;padding:26px 16px;font-size:24px;font-weight:700;letter-spacing:-.02em}
+.card{background:#fff;border-radius:18px;padding:28px 24px;margin-top:22px}
+.card>h2{font-size:19px;font-weight:700;margin:0 0 18px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.desc{color:var(--sub);margin:-6px 0 16px;font-size:15px}
+.note{font-size:13px;color:var(--mut);text-align:right;margin-top:12px}
+.grid{display:grid;gap:14px}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.fl{font-size:14px;color:var(--sub);margin-bottom:6px}
+.fv{border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-size:15px;box-shadow:0 1px 2px #0000000a}
+.point{background:var(--bg);border-radius:12px;padding:16px 18px;margin-top:16px;font-size:14px;color:#3d4250}
+.point b{color:var(--ink);font-weight:600}
+.point .txt{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.point.open .txt{display:block}
+.lnk{background:none;border:0;padding:0;color:var(--sub);text-decoration:underline;font-size:14px;margin-top:6px}
+.score{border:1px solid var(--pri);border-radius:12px;text-align:center;padding:16px 8px;background:#fff}
+.score:nth-child(n+2){background:#F5F7FF}
+.score b{font-size:26px;color:var(--pri);font-weight:700}.score b small{font-size:15px;color:var(--ink);font-weight:600;margin-left:2px}
+.score .s2{font-size:13px;color:var(--sub)}
+table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:14px}
+th{background:var(--th);font-weight:500;color:#3d4250;padding:10px 6px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+td{padding:11px 6px;text-align:center;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+tr>*:last-child{border-right:0}tbody tr:last-child td{border-bottom:0}
+td.me,th.me{background:var(--redl);color:var(--red)}
+td.lab{background:#fff}
+tr.wrong td{background:var(--redl)}tr.flash td{background:#FFE58A!important;transition:background .2s}
+.o{color:var(--pri)}.x{color:var(--red)}
+.ans{display:inline-block;min-width:24px;padding:2px 6px;border-radius:5px;background:var(--pril);font-weight:700}
+tr.wrong .ans{background:#FFD5DC}
+.tblwrap{overflow-x:auto}
+.cut td.on{background:var(--redl);color:var(--red)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+.tbtn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 14px;font-size:15px;color:var(--ink)}
+.tbtn.on{background:var(--pri);border-color:var(--pri);color:#fff;font-weight:600}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--pri);margin-right:8px;vertical-align:2px}
+.opp{background:#F5F7FF;border-radius:14px;padding:16px 18px;border:2px solid transparent;cursor:pointer;user-select:none}
+.opp.sel{border-color:var(--pri)}
+.opp .hd{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:700}
+.chk{width:24px;height:24px;border-radius:5px;border:2px solid #b9c3ea;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+.opp.sel .chk{background:var(--pri);border-color:var(--pri)}
+.pill{display:inline-block;border:1px solid #9fb0f5;color:var(--pri);border-radius:999px;padding:2px 10px;font-size:13px;margin:8px 4px 8px 0;background:#fff}
+.kv{display:grid;grid-template-columns:62px 1fr;gap:4px 8px;font-size:14px}.kv span{color:var(--sub);font-size:13px}
+.sim{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:end;margin-top:14px}
+.simc{text-align:center}
+.bars{height:170px;display:flex;align-items:flex-end;justify-content:center;gap:12px;position:relative}
+.bar{width:42px;border-radius:8px 8px 0 0;display:flex;justify-content:center;padding-top:8px;font-weight:600;font-size:16px}
+.bar.cur{background:#ECEEF2;color:#3d4250}.bar.exp{background:linear-gradient(180deg,#3B5BFB,#8FA9FF);color:#fff}
+.delta{display:inline-block;border:1px solid var(--red);color:var(--red);border-radius:999px;padding:1px 10px;font-size:14px;margin-bottom:8px;background:#fff}
+.delta.keep{border-color:var(--mut);color:var(--mut)}
+.simc .lb{font-weight:700;margin-top:8px}
+.legend2{display:flex;gap:14px;justify-content:flex-end;font-size:13px;color:var(--sub)}
+.legend2 i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.rec{border:1px solid var(--line);border-radius:14px;padding:16px}
+.rank{display:inline-block;background:var(--pri);color:#fff;border-radius:999px;padding:3px 12px;font-weight:700;font-size:15px;margin-bottom:10px}
+.recbox{background:var(--bg);border-radius:10px;padding:12px;margin-top:10px;font-size:14px}
+.recbox a{color:var(--pri);text-decoration:none}
+.trend{position:relative;height:220px;margin:18px 0}
+.msg{font-size:14px;color:var(--red);margin-top:8px;min-height:20px}
+.new{position:relative;outline:3px solid var(--yl);outline-offset:-3px}
+.tagN{display:inline-block;background:var(--yl);color:#4a3600;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;letter-spacing:.02em}
+.tagU{display:inline-block;background:var(--y);color:var(--yt);border:1px solid var(--yl);font-size:12px;font-weight:700;padding:1px 8px;border-radius:6px}
+.tagD{display:inline-block;background:#F1F2F5;color:#5B6170;font-size:12px;font-weight:600;padding:1px 8px;border-radius:6px}
+.upd{background:var(--y);border:1px dashed var(--yl);border-radius:10px;padding:12px 14px;margin-top:14px}
+.review{background:var(--y);border:1px solid var(--yl);border-radius:14px;padding:14px 18px;margin-top:16px;font-size:14px}
+.review .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.review .row>span{min-width:92px;color:var(--yt);font-weight:600}
+.stabs{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 6px;margin-top:6px}
+.stabs .tbtn{font-size:16px;padding:8px 16px}
+.sum3{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.box{border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.box h3{margin:0 0 8px;font-size:16px;font-weight:700}
+.lbl{display:inline-block;font-size:13px;font-weight:700;padding:2px 9px;border-radius:6px;margin-right:6px}
+.lbl.g{background:#E7F7EF;color:#0B7A4B}.lbl.r{background:var(--redl);color:var(--red)}.lbl.b{background:var(--pril);color:var(--pri)}.lbl.k{background:#F1F2F5;color:#5B6170}
+.rx{counter-reset:r;list-style:none;padding:0;margin:0}
+.rx li{display:grid;grid-template-columns:86px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.rx li:first-child{border-top:0}
+.rx .k{font-weight:700;color:var(--pri)}
+.prof{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.pm{background:var(--bg);border-radius:12px;padding:12px 14px}
+.pm .t{font-size:13px;color:var(--sub)}.pm .v{font-size:20px;font-weight:700}.pm .s{font-size:12px;color:var(--mut)}
+.meter{height:6px;background:#E3E6EE;border-radius:4px;margin-top:6px;overflow:hidden}.meter i{display:block;height:100%;background:var(--pri)}
+.lost{display:flex;height:40px;border-radius:10px;overflow:hidden;margin:6px 0 10px;background:#ECEEF2}
+.lost div{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden}
+.c1{background:#EF3E5C}.c2{background:#F59E0B}.c3{background:#8A90A0}.c0{background:#3B5BFB}
+.lostk{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.lk{border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.lk .h{font-weight:700;display:flex;align-items:center;gap:6px}.lk .h i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.lk .n{font-size:22px;font-weight:700}.lk .q{font-size:13px;color:var(--sub)}
+.mx{display:grid;grid-template-columns:repeat(15,1fr);gap:4px}
+.mx .cell{border-radius:6px;text-align:center;font-size:12px;padding:5px 0;cursor:pointer;border:1px solid transparent;line-height:1.35}
+.mx .cell b{display:block;font-size:13px}
+.mx .ok{background:#EEF2FF;color:#2a3d9e}.mx .ng{background:#FFE1E6;color:#B4233F}.mx .cell:hover{border-color:var(--pri)}
+.mx .rt{height:4px;border-radius:2px;margin:4px 3px 0;background:#cfd5e6;position:relative;overflow:hidden}.mx .rt i{position:absolute;left:0;top:0;bottom:0;background:#5d75f0}
+.mxrow{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mut);margin-top:6px;flex-wrap:wrap}
+.rv{border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:12px}
+.rv .top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.rv .qn{font-size:17px;font-weight:700}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.step{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:14px;background:#fff;cursor:pointer;user-select:none}
+.step.done{background:var(--pril);border-color:#9fb0f5;color:var(--pri);font-weight:600}
+.step .c{width:16px;height:16px;border-radius:4px;border:2px solid #b9c3ea;display:inline-block}
+.step.done .c{background:var(--pri);border-color:var(--pri)}
+.prog{height:10px;background:#ECEEF2;border-radius:6px;overflow:hidden;margin:6px 0}.prog i{display:block;height:100%;background:var(--pri)}
+.goal{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.goal:first-of-type{border-top:0}
+.gn{width:28px;height:28px;border-radius:50%;background:var(--pri);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center}
+.res{font-weight:700;font-size:14px;padding:3px 10px;border-radius:6px}
+.res.ok{background:#E7F7EF;color:#0B7A4B}.res.ng{background:var(--redl);color:var(--red)}.res.na{background:#F1F2F5;color:#5B6170}
+.chg td.dn{color:var(--red);font-weight:600}.chg td.up{color:#0B7A4B;font-weight:600}
+.dist{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;align-items:end;height:90px;margin-top:10px}
+.dist div{background:#DCE3FF;border-radius:4px 4px 0 0;position:relative}
+.dist div.on{background:var(--pri)}
+.distl{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;font-size:12px;color:var(--sub);text-align:center;margin-top:4px}
+.hbar{display:grid;grid-template-columns:160px 1fr 60px;gap:10px;align-items:center;font-size:14px;margin:6px 0}
+.hbar .tr{height:16px;background:#ECEEF2;border-radius:4px;overflow:hidden}.hbar .tr i{display:block;height:100%;background:#9fb0f5}
+.hbar.me .tr i{background:var(--pri)}.hbar.me{font-weight:700;color:var(--pri)}
+.prio{display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start;padding:12px 0;border-top:1px solid var(--line)}
+.prio:first-child{border-top:0}
+.pn{width:36px;height:36px;border-radius:10px;background:var(--pri);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:17px}
+.hide{display:none!important}
+.subhd{font-weight:700;margin:22px 0 10px;font-size:16px}
+@media(max-width:720px){.g4,.prof,.sim{grid-template-columns:repeat(2,1fr)}.g3,.lostk,.sum3,.g2{grid-template-columns:1fr}.hbar{grid-template-columns:110px 1fr 50px}.card{padding:22px 16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hero" id="heroT">OMEGA 모의고사 성적 리포트</div>
+
+<div class="review">
+<b>V5 검토본</b> · 노란 테두리 = V5 신규 영역, 노란 점선 = 기존 영역 안 보강 항목, <span class="tagD">시연값</span> = 실서비스에서 서버 산출이 필요한 수치. 아래 전환 버튼은 검토용이며 학생 화면에는 없습니다.
+<div class="row"><span>시험 유형</span><button class="tbtn on" data-mode="OMEGA">OMEGA</button><button class="tbtn" data-mode="BLACK">OMEGA Black</button></div>
+<div class="row"><span>응시 이력</span><button class="tbtn on" data-hist="1">첫 응시 (1회)</button><button class="tbtn" data-hist="5">누적 5회</button></div>
+</div>
+
+<section class="card">
+<h2>학생 기본 정보</h2>
+<div class="grid g3">
+<div><div class="fl">소속학원</div><div class="fv">러셀 강남</div></div>
+<div><div class="fl">학번</div><div class="fv">511618</div></div>
+<div><div class="fl">이름</div><div class="fv">TEST15</div></div>
+</div>
+</section>
+
+<section class="card new" id="secTotal">
+<h2>회차 종합 <span class="tagN">V5 신규</span></h2>
+<p class="desc">2과목 이상 응시한 경우에만 노출됩니다. 과목별 성적표를 따로 열지 않아도 과목 간 비교와 보완 순서를 확인할 수 있습니다.</p>
+<div class="tblwrap"><table id="totTbl"></table></div>
+<div class="subhd">과목 간 보완 우선순위</div>
+<div id="totPrio"></div>
+<div class="subhd">과목별 핵심 기회 문항을 모두 맞혔을 때 <span class="tagD">시연값</span></div>
+<div class="tblwrap"><table id="totSim"></table></div>
+<div class="subhd omOnly">반영 영역별 성적 <span class="tagD">서버 산출 필요</span></div>
+<div class="tblwrap omOnly"><table id="totArea"></table></div>
+<div class="subhd omOnly">선택과목 조합 응시 비율 <span class="tagD">서버 산출 필요</span></div>
+<div id="totCombo" class="omOnly"></div>
+</section>
+
+<div class="stabs"><div class="btnrow" id="subTabs"></div></div>
+
+<section class="card">
+<h2>응시 정보</h2>
+<div class="grid g4">
+<div><div class="fl">시행 연도</div><div class="fv">2026년</div></div>
+<div><div class="fl">유형</div><div class="fv" id="iType">OMEGA</div></div>
+<div><div class="fl">회차</div><div class="fv">8</div></div>
+<div><div class="fl">과목</div><div class="fv" id="iSubj"></div></div>
+</div>
+<div class="point" id="pointBox"><div><b>✓ 출제 Point</b></div><div class="txt" id="pointTxt"></div><button class="lnk" id="pointBtn">… 더보기</button></div>
+</section>
+
+<section class="card new" id="secSummary">
+<h2>이번 회차 학습 진단 <span class="tagN">V5 신규</span></h2>
+<p class="desc">이번 시험 결과를 바탕으로 강점·보완점과 무엇부터 할지 정리했습니다.</p>
+<div class="sum3">
+<div class="box"><h3><span class="lbl g">강점</span></h3><div id="sStr"></div></div>
+<div class="box"><h3><span class="lbl r">보완</span></h3><div id="sWeak"></div></div>
+</div>
+<div class="box" style="margin-top:14px"><h3><span class="lbl b">처방</span>무엇부터 할까</h3><ol class="rx" id="sRx"></ol></div>
+<div class="prof" id="sProf"></div>
+</section>
+
+<section class="card">
+<h2>개인성적 분석</h2>
+<div class="grid g4" id="scoreBox"></div>
+<div class="upd" id="nextGrade"></div>
+<div class="note" id="scoreNote">※ 표준점수/백분위/등급은 자사 재원생의 성적과 수능 DB를 매칭·분석한 결과로 실제 수능 점수와 다를 수 있습니다.</div>
+</section>
+
+<section class="card">
+<h2>등급 구분 점수</h2>
+<div class="tblwrap"><table class="cut" id="cutTbl"></table></div>
+<div class="note" id="cutNote"></div>
+<div class="upd"><b>등급 분포 속 내 위치</b> <span class="tagU">V5 보강</span>
+<div class="dist" id="dist"></div><div class="distl" id="distl"></div>
+<div style="font-size:14px;margin-top:8px" id="distTxt"></div></div>
+</section>
+
+<section class="card new">
+<h2>잃은 점수 진단 <span class="tagN">V5 신규</span></h2>
+<p class="desc" id="lostDesc"></p>
+<div class="lost" id="lostBar"></div>
+<div class="lostk" id="lostKeys"></div>
+<div class="upd" id="hardNote" style="background:#F7F8FA;border:1px solid var(--line)"></div>
+</section>
+
+<section class="card" id="secUnit">
+<h2>단원별 상세 분석</h2>
+<div class="tblwrap"><table id="unitTbl"></table></div>
+</section>
+
+<section class="card" id="secEval">
+<h2>평가요소별 상세 분석</h2>
+<div class="tblwrap"><table id="evalTbl"></table></div>
+</section>
+
+<section class="card">
+<h2>문항별 나의 점수 분석</h2>
+<div class="upd" style="margin-top:0;margin-bottom:16px"><b>문항 한눈에 보기</b> <span class="tagU">V5 보강</span>
+<div class="mx" id="mx" style="margin-top:10px"></div>
+<div class="mxrow"><span class="ans" style="background:#EEF2FF">O</span>정답 <span class="ans" style="background:#FFE1E6">X</span>오답 · 막대 = 전체 정답률 · 칸을 누르면 아래 표의 해당 문항으로 이동</div></div>
+<div class="tblwrap"><table id="qTbl"></table></div>
+</section>
+
+<section class="card">
+<h2>한 문제로 바뀌는 성적</h2>
+<p class="desc" style="margin-top:0">나의 오답 문항 중 정답률이 높은 문항을 더 맞혔을 경우 예상 성적 변화를 제공합니다.<br>문항을 선택한 뒤, 결과를 확인해 보세요.</p>
+<div><span class="dot"></span>핵심 기회 문항 TOP 3</div>
+<div class="grid g3" id="oppBox" style="margin-top:12px"></div>
+<div class="msg" id="oppMsg"></div>
+<div id="simWrap">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><div><span class="dot"></span>성적 변화 시뮬레이션</div><div class="legend2"><span><i style="background:#ECEEF2"></i>현재</span><span><i style="background:var(--pri)"></i>예상</span></div></div>
+<div class="sim" id="sim"></div>
+<div class="note" id="simNote"></div>
+</div>
+</section>
+
+<section class="card">
+<h2>맞춤 보완 문항</h2>
+<p class="desc" style="margin-top:0">취약 유형과 단원을 분석하여 점수 향상에 효과적인 기출 문항을 추천합니다.</p>
+<div class="grid g3" id="recBox"></div>
+<div class="note">※ OMEGA 시험 결과 및 기출 문항 정보를 기반으로 제공합니다.</div>
+</section>
+
+<section class="card new">
+<h2>복습 순서와 확인 <span class="tagN">V5 신규</span></h2>
+<p class="desc">점수로 바꾸기 쉬운 문항부터 순서대로 복습하세요. 단계마다 체크하면 진행률이 표시됩니다.</p>
+<div style="display:flex;justify-content:space-between;font-size:14px"><b>복습 진행률</b><span id="rvPct"></span></div>
+<div class="prog"><i id="rvBar" style="width:0"></i></div>
+<div id="rvList"></div>
+<div class="note">검토본: 체크 상태는 이 브라우저에만 임시 저장됩니다. 실서비스는 학생 계정 저장 연동이 필요합니다.</div>
+</section>
+
+<section class="card">
+<h2>회차별 나의 성적 추이</h2>
+<div class="btnrow" id="trBtns"></div>
+<div class="legend2" style="margin-top:12px"><span><i style="background:var(--pri)"></i>나의 점수</span><span id="lgAvg"><i style="background:#4B5563"></i>응시생 평균</span></div>
+<div class="trend"><svg id="trSvg" width="100%" height="220"></svg></div>
+<div class="tblwrap"><table id="trTbl"></table></div>
+</section>
+
+<section class="card new">
+<h2>누적 피드백과 다음 회차 목표 <span class="tagN">V5 신규</span></h2>
+<div class="subhd" style="margin-top:0">지난 회차 확인 목표 결과</div>
+<div id="prevGoals"></div>
+<div class="subhd">단원별 정답률 변화</div>
+<div id="unitChg"></div>
+<div class="subhd">다음 회차에서 확인할 목표</div>
+<div id="nextGoals"></div>
+<div class="note">다음 회차 성적표에서 이 목표의 달성 여부를 자동으로 확인합니다. 해당 단원이 출제되지 않으면 판정하지 않습니다.</div>
+</section>
+</div>
+
+<script>
+const TH={OMEGA:{hi:70,lo:40},BLACK:{hi:60,lo:30}};
+const GR_PCT=[4,7,12,17,20,17,12,7,4];
+const S={mode:'OMEGA',hist:1,sub:'math',trend:'raw'};
+
+function rng(seed){let s=seed%2147483647;if(s<=0)s+=2147483646;return()=>(s=s*16807%2147483647)/2147483647}
+
+const MATH_Q=[
+[1,'지수함수와 로그함수','지수와 로그','계산영역',2,1,100,'2','2','-'],
+[2,'다항함수의 미분법','미분계수와 도함수','계산영역',2,1,100,'5','5','-'],
+[3,'삼각함수','삼각함수','계산영역',3,1,100,'1','1','-'],
+[4,'함수의 극한과 연속','함수의 극한','계산영역',3,1,100,'1','1','-'],
+[5,'다항함수의 적분법','부정적분과 정적분','계산영역',3,1,100,'3','3','-'],
+[6,'수열','등차수열과 등비수열','계산영역',3,1,100,'2','2','-'],
+[7,'다항함수의 미분법','도함수의 활용','이해력',3,1,100,'4','4','-'],
+[8,'지수함수와 로그함수','지수와 로그','이해력',3,1,100,'3','3','-'],
+[9,'다항함수의 적분법','정적분의 활용','이해력',4,1,100,'5','5','-'],
+[10,'삼각함수','삼각함수의 활용','이해력',4,1,100,'4','4','-'],
+[11,'함수의 극한과 연속','함수의 연속','이해력',4,1,100,'1','1','-'],
+[12,'수열','등차수열과 등비수열','이해력',4,1,100,'3','3','-'],
+[13,'다항함수의 미분법','도함수의 활용','추론',4,1,70.8,'5','5','3'],
+[14,'삼각함수','삼각함수','이해력',4,0,75,'3','5','3'],
+[15,'다항함수의 적분법','부정적분과 정적분','문제해결',4,1,54.2,'2','2','3,4'],
+[16,'지수함수와 로그함수','지수함수와 로그함수','계산영역',3,1,100,'9','9','-'],
+[17,'다항함수의 미분법','미분계수와 도함수','계산영역',3,1,100,'13','13','-'],
+[18,'수열','수열의 합','이해력',3,1,95.8,'3','3','-'],
+[19,'다항함수의 적분법','부정적분과 정적분','이해력',3,1,95.8,'20','20','-'],
+[20,'지수함수와 로그함수','지수함수와 로그함수','문제해결',4,1,95.8,'243','243','-'],
+[21,'함수의 극한과 연속','함수의 극한','문제해결',4,0,33.3,'-','45','-'],
+[22,'수열','수학적 귀납법','추론',4,0,33.3,'-','165','-'],
+[23,'미분법','여러 가지 함수의 미분','계산영역',2,1,100,'5','5','-'],
+[24,'적분법','여러 가지 적분법','계산영역',3,1,100,'3','3','-'],
+[25,'수열의 극한','수열의 극한','이해력',3,1,100,'4','4','-'],
+[26,'적분법','정적분의 활용','이해력',3,1,100,'1','1','-'],
+[27,'미분법','여러 가지 미분법','이해력',3,1,91.7,'1','1','2'],
+[28,'미분법','도함수의 활용','문제해결',4,0,66.7,'-','2','3'],
+[29,'수열의 극한','급수','이해력',4,1,54.2,'296','296','-'],
+[30,'적분법','여러 가지 적분법','이해력',4,1,16.7,'145','145','-']
+].map(a=>({n:a[0],unit:a[1],sub:a[2],ev:a[3],pts:a[4],ok:!!a[5],rate:a[6],my:a[7],ans:a[8],mw:a[9]}));
+
+const SUBJ={
+math:{name:'수학',sel:'미적분',raw:84,total:100,std:128,pct:95,grade:2,basis:'std',cuts:[131,123,117,110,96,78,72,69],
+ prev:{raw:81,std:125,pct:92,grade:2},
+ combos:{84:[128,95,2],88:[131,97,1],92:[134,98,1],96:[137,99,1]},
+ big:{'지수함수와 로그함수':'수학I','삼각함수':'수학I','수열':'수학I','함수의 극한과 연속':'수학II','다항함수의 미분법':'수학II','다항함수의 적분법':'수학II','수열의 극한':'미적분','미분법':'미적분','적분법':'미적분'},
+ unitOrder:['지수함수와 로그함수','삼각함수','수열','함수의 극한과 연속','다항함수의 미분법','다항함수의 적분법','수열의 극한','미분법','적분법'],
+ unitAvg:{'지수함수와 로그함수':[12,12,12,10],'삼각함수':[11,10,10,8],'수열':[14,14,10,10],'함수의 극한과 연속':[7,9,7,8],'다항함수의 미분법':[12,10,11,9],'다항함수의 적분법':[14,13,11,11],'수열의 극한':[7,6,5,3],'미분법':[9,7,7,6],'적분법':[10,7,6,6]},
+ evalOrder:['계산영역','이해력','문제해결','추론'],
+ evalAvg:{'계산영역':[27,27,27,27],'이해력':[49,43,42,38],'문제해결':[12,13,8,6],'추론':[8,6,3,1]},
+ recs:[['이해력','수학I - 삼각함수','2027학년도 6월 평가원 모의고사 미적분 14번','4점 | 삼각함수'],['문제해결','미적분 - 미분법','OMEGA black 수학 7회 미적분 28번','4점 | 도함수의 활용'],['추론','수학I - 수열','2027학년도 6월 평가원 모의고사 미적분 22번','4점 | 수학적 귀납법']],
+ point:'[공통과목] 공통과목에서는 익숙한 유형의 문항을 바탕으로 조건 해석에 집중해야 하는 문항 위주로 구성하였다. 전반적으로 방향성 파악에 초점을 두고 계산 부담이 과하지 않도록 하여, 핵심 문항과 선택과목에 풀이 시간을 집중할 수 있도록 하고자 하였다. 특히, [수학I]에서는 그래프와 도형의 성질을 활용하는 문항을 배치하였다. [선택과목] 미적분에서는 도함수의 활용과 급수의 수렴 조건을 묻는 문항을 통해 개념의 정확한 적용을 확인하고자 하였다. [주목할 문항] 14번, 21번, 28번.',
+ hist:{rounds:[3,5,6,7,8],raw:[76,80,72,81,84],avg:[70.2,74.1,68.5,79,83.5],std:[119,124,117,125,128],pct:[86,91,83,92,95],grade:[3,2,3,2,2]},
+ prevGoals:[{t:'miss',v:0,txt:'놓친 문항(정답률 70%↑) 오답 0개'},{t:'unit',u:'삼각함수',v:.9,txt:'삼각함수 단원 득점률 90% 이상'},{t:'eval',u:'문제해결',v:.5,txt:'문제해결 평가요소 득점률 50% 이상'}]
+},
+kor:{name:'국어',sel:'언어와매체',raw:82,total:100,basis:'std',cuts:[131,125,118,110,99,88,79,71],k:[60,17,'kor'],prev:{raw:78},seed:11,n:45,
+ blocks:[['독서','인문·예술',1,4],['독서','사회·문화',5,9],['독서','과학·기술',10,13],['독서','주제 통합',14,17],['문학','현대시',18,21],['문학','고전시가',22,25],['문학','현대소설',26,30],['문학','고전산문',31,34],['언어','음운·단어',35,39],['언어','문장·담화',40,41],['매체','매체 자료',42,45]],
+ evs:['사실적이해','추론적이해','비판적이해','어휘/어법','창의적이해'],
+ point:'독서는 주제 통합형 지문에서 두 관점의 공통점과 차이를 비교하도록 구성하였고, 문학은 현대시와 고전시가를 엮은 복합 지문을 배치하였다. [주목할 문항] 13번, 16번, 39번.',
+ hist:{rounds:[3,5,6,7,8],raw:[74,79,70,78,82],avg:[68,71,66,72,73.4]}},
+eng:{name:'영어',sel:'영어',raw:88,total:100,basis:'raw',cuts:[90,80,70,60,50,40,30,20],prev:{raw:85},seed:23,n:45,eng:true,
+ blocks:[['듣기','대화·담화 이해',1,17],['중심 내용 파악','주제·요지·제목',18,24],['세부정보 파악','내용 일치',25,28],['어법·어휘','어법성 판단',29,30],['맥락 파악','빈칸 추론',31,34],['간접 쓰기','순서·삽입',35,39],['간접 쓰기','요약문',40,40],['세트형','장문 독해',41,45]],
+ evs:['사실적이해','추론적이해','종합적이해','어법/어휘','적용'],
+ point:'빈칸 추론은 다양한 표현으로 제시된 근거가 하나의 개념을 가리킨다는 점을 파악해야 해결되도록 구성하였다. [주목할 문항] 21번, 23번, 32번.',
+ hist:{rounds:[3,5,6,7,8],raw:[80,84,79,85,88],avg:[72,75,70,74,76.2]}},
+bio:{name:'탐구',sel:'생명과학I',raw:44,total:50,basis:'raw',cuts:[47,43,39,33,26,20,15,12],k:[30,10,'tam'],prev:{raw:40},seed:37,n:20,tam:true,
+ blocks:[['생명 과학의 이해','생명 현상의 특성',1,2],['사람의 물질대사','물질대사와 에너지',3,5],['항상성과 몸의 조절','신경계',6,9],['항상성과 몸의 조절','항상성 유지',10,12],['유전','유전 현상',13,17],['생태계와 상호 작용','생태계 구성',18,20]],
+ hist:{rounds:[3,5,6,7,8],raw:[38,41,36,40,44],avg:[31,33,30,32,32.8]}},
+earth:{name:'탐구',sel:'지구과학I',raw:38,total:50,basis:'raw',cuts:[46,42,37,31,25,19,14,11],k:[30,10,'tam'],prev:{raw:39},seed:53,n:20,tam:true,
+ blocks:[['고체 지구','판 구조론',1,4],['고체 지구','지질 시대',5,8],['대기와 해양','날씨와 기후',9,12],['대기와 해양','해양 순환',13,15],['우주','별과 외계 행성',16,18],['우주','우주의 구조',19,20]],
+ hist:{rounds:[3,5,6,7,8],raw:[35,37,33,39,38],avg:[29,30,28,31,30.5]}}
+};
+const ORDER=['kor','math','eng','bio','earth'];
+const BLACK_SUBS=['math','bio'];
+
+function gradeOf(s,v){for(let i=0;i<8;i++)if(v>=s.cuts[i])return i+1;return 9}
+function pctOf(s,v){const anc=[96,89,77,60,40,23,11,4];if(v>=s.cuts[0]){const top=s.basis==='std'?s.cuts[0]+12:s.total;return Math.min(100,Math.round(96+(v-s.cuts[0])/Math.max(1,top-s.cuts[0])*4))}
+ for(let i=1;i<8;i++)if(v>=s.cuts[i])return Math.round(anc[i]+(v-s.cuts[i])/(s.cuts[i-1]-s.cuts[i])*(anc[i-1]-anc[i]));return Math.max(1,Math.round(4*v/s.cuts[7]))}
+function est(s,raw){
+ if(s.combos&&s.combos[raw]){const c=s.combos[raw];return{raw,std:c[0],pct:c[1],grade:c[2]}}
+ if(s.eng)return{raw,grade:gradeOf(s,raw)};
+ if(s.combos){const std=Math.round(s.std+(raw-s.raw)*.75);return{raw,std,pct:pctOf(s,std),grade:gradeOf(s,std)}}
+ const[m,sd,kind]=s.k;const std=Math.round(kind==='kor'?100+20*(raw-m)/sd:50+10*(raw-m)/sd);
+ const v=s.basis==='std'?std:raw;return{raw,std,pct:pctOf(s,v),grade:gradeOf(s,v)}}
+
+function genQs(s){
+ for(let tries=0;tries<400;tries++){
+  const r=rng(s.seed*97+tries);const qs=[];
+  const n=s.n,three=s.tam?10:10;const pts=Array(n).fill(2);
+  const idx=[...Array(n).keys()].sort((a,b)=>r()-.5);idx.slice(0,three).forEach(i=>pts[i]=3);
+  s.blocks.forEach(([u,sub,a,b])=>{for(let q=a;q<=b;q++){const base=s.eng&&q<=17?.93:.78;let rate=Math.round(Math.min(99,Math.max(14,(base+(r()-.55)*.62)*100))*10)/10;
+   qs.push({n:q,unit:u,sub,ev:s.evs?s.evs[Math.floor(r()*s.evs.length)]:'',pts:pts[q-1],ok:true,rate})}});
+  let need=s.total-s.raw;const cand=qs.slice().sort((a,b)=>(a.rate+r()*40)-(b.rate+r()*40));
+  for(const q of cand){if(need<=0)break;if(q.pts<=need&&need-q.pts!==1){q.ok=false;need-=q.pts}}
+  if(need!==0)continue;
+  qs.forEach(q=>{const ans=1+Math.floor(r()*5);let mw=1+Math.floor(r()*5);if(mw===ans)mw=mw%5+1;q.ans=String(ans);
+   if(q.ok){q.my=q.ans}else{let m=1+Math.floor(r()*5);if(m===ans)m=m%5+1;q.my=String(m)}q.mw=q.rate>=99?'-':String(mw)});
+  return qs}
+}
+function prep(){
+ for(const k of ORDER){const s=SUBJ[k];s.key=k;
+  if(!s.qs)s.qs=k==='math'?MATH_Q:genQs(s);
+  if(k!=='math'){const e=est(s,s.raw);Object.assign(s,{std:e.std,pct:e.pct,grade:e.grade});const p=est(s,s.prev.raw);s.prev=p;
+   const units=[...new Set(s.qs.map(q=>q.unit))];s.unitOrder=units;s.unitAvg={};const r=rng(s.seed+5);
+   units.forEach(u=>{const T=s.qs.filter(q=>q.unit===u).reduce((a,q)=>a+q.pts,0);s.unitAvg[u]=[.97,.92,.85,.76].map(f=>Math.min(T,Math.round(T*(f+(r()-.5)*.08))))});
+   if(s.evs){s.evalOrder=s.evs.filter(e=>s.qs.some(q=>q.ev===e));s.evalAvg={};s.evalOrder.forEach(e=>{const T=s.qs.filter(q=>q.ev===e).reduce((a,q)=>a+q.pts,0);s.evalAvg[e]=[.97,.92,.85,.76].map(f=>Math.min(T,Math.round(T*(f+(r()-.5)*.08))))})}
+   const w=s.qs.filter(q=>!q.ok).sort((a,b)=>b.rate-a.rate);
+   s.recs=w.slice(0,3).map((q,i)=>[s.evs?q.ev:'',`${s.sel} - ${q.unit}`,['2027학년도 6월 평가원 모의고사','2026학년도 대학수학능력시험','2027학년도 9월 평가원 모의고사'][i]+` ${s.sel} ${5+((q.n*7)%(s.n-5))}번`,`${q.pts}점 | ${q.sub}`]);
+   s.big={};units.forEach(u=>s.big[u]=s.sel);
+   s.hist.std=s.hist.raw.map(v=>est(s,v).std);s.hist.pct=s.hist.raw.map(v=>est(s,v).pct);s.hist.grade=s.hist.raw.map(v=>est(s,v).grade);
+   s.prevGoals=[{t:'miss',v:0,txt:'놓친 문항(정답률 70%↑) 오답 0개'},{t:'unit',u:units[1],v:.85,txt:`${units[1]} 단원 득점률 85% 이상`},{t:'unit',u:units[units.length-1],v:.8,txt:`${units[units.length-1]} 단원 득점률 80% 이상`}]}
+ }}
+prep();
+
+const $=id=>document.getElementById(id);
+const fmt=v=>Number.isInteger(v)?v:(+v).toFixed(1);
+function subs(){return S.mode==='BLACK'?BLACK_SUBS:ORDER}
+function cur(){return SUBJ[S.sub]}
+function isBlack(){return S.mode==='BLACK'}
+function hasEval(s){return !!s.evalOrder&&!s.tam&&!(isBlack())}
+function hasEvalCol(s){return !!s.evalOrder&&!s.tam}
+function hasGradeAvg(){return !isBlack()}
+function cls(rate){const t=TH[S.mode];return rate>=t.hi?1:rate>=t.lo?2:3}
+function stats(s,key,list){return list.map(u=>{const qs=s.qs.filter(q=>q[key]===u);const T=qs.reduce((a,q)=>a+q.pts,0);const M=qs.filter(q=>q.ok).reduce((a,q)=>a+q.pts,0);
+ const avgRate=qs.reduce((a,q)=>a+q.rate*q.pts,0)/T;return{u,qs,n:qs.length,c:qs.filter(q=>q.ok).length,T,M,nums:qs.map(q=>q.n).join(','),avgRate,wrong:qs.filter(q=>!q.ok)}})}
+function top3(s){return s.qs.filter(q=>!q.ok).sort((a,b)=>b.rate-a.rate||b.pts-a.pts||a.n-b.n).slice(0,3)}
+function scoreName(s){return s.tam?s.sel:s.name==='수학'?`수학(${s.sel})`:s.name==='국어'?`국어(${s.sel})`:s.name}
+
+function diagUnits(s){
+ const us=stats(s,'unit',s.unitOrder);
+ return us.map(x=>{let gap;if(hasGradeAvg()){gap=x.M-s.unitAvg[x.u][1]}else{gap=Math.round((x.M/x.T*100-x.avgRate))/10}
+  const personal=x.wrong.filter(q=>cls(q.rate)<3);const wp=personal.reduce((a,q)=>a+q.pts,0);
+  const weak=personal.length>=2||wp>=6||(personal.length===1&&gap<0);
+  return{...x,gap,weak,onlyHard:x.wrong.length>0&&personal.length===0}})}
+
+function render(){
+ const s=cur();const black=isBlack();
+ $('heroT').textContent=(black?'OMEGA Black':'OMEGA')+' 모의고사 성적 리포트';
+ $('iType').textContent=black?'OMEGA Black':'OMEGA';$('iSubj').textContent=s.sel;
+ renderTabs();renderTotal();
+ const showPoint=!(s.tam);$('pointBox').classList.toggle('hide',!showPoint);$('pointTxt').textContent=s.point||'';
+ renderSummary();renderScore();renderCut();renderLost();renderUnit();renderEval();renderQ();renderOpp();renderRec();renderReview();renderTrend();renderFeedback();
+}
+function renderTabs(){$('subTabs').innerHTML=subs().map(k=>`<button class="tbtn ${k===S.sub?'on':''}" data-sub="${k}">${scoreName(SUBJ[k])}</button>`).join('')}
+
+function renderTotal(){
+ const list=subs();const show=list.length>=2;$('secTotal').classList.toggle('hide',!show);if(!show)return;
+ const hasPrev=S.hist>1;document.querySelectorAll('.omOnly').forEach(e=>e.classList.toggle('hide',isBlack()));
+ let h=`<thead><tr><th>과목</th><th>원점수</th><th>표준점수</th><th>백분위</th><th>등급</th><th>잃은 점수 중<br>놓친 문항</th><th>전 회차 대비</th></tr></thead><tbody>`;
+ list.forEach(k=>{const s=SUBJ[k];const miss=s.qs.filter(q=>!q.ok&&cls(q.rate)===1).reduce((a,q)=>a+q.pts,0);
+  const d=hasPrev?s.raw-s.prev.raw:null;
+  h+=`<tr${k===S.sub?' style="font-weight:700"':''}><td>${scoreName(s)}</td><td>${s.raw}</td><td>${s.std??'-'}</td><td>${s.pct??'-'}</td><td>${s.grade}</td><td class="${miss?'me':''}">${miss}점</td><td>${d===null?'<span style="color:var(--mut)">첫 응시</span>':d>0?`<span class="o">▲ ${d}점</span>`:d<0?`<span class="x">▼ ${-d}점</span>`:'유지'}</td></tr>`});
+ $('totTbl').innerHTML=h+'</tbody>';
+ const pr=list.map(k=>{const s=SUBJ[k];const miss=s.qs.filter(q=>!q.ok&&cls(q.rate)===1).reduce((a,q)=>a+q.pts,0);const fix=s.qs.filter(q=>!q.ok&&cls(q.rate)<=2).reduce((a,q)=>a+q.pts,0);
+  let gapRaw=null;if(s.grade>1){for(let r=s.raw+1;r<=s.total;r++){if(est(s,r).grade<s.grade){gapRaw=r-s.raw;break}}}
+  const reach=gapRaw!==null&&fix>=gapRaw;return{s,miss,fix,gapRaw,reach,score:(reach?100:0)+fix*2+miss}}).sort((a,b)=>b.score-a.score);
+ $('totPrio').innerHTML=pr.map((p,i)=>`<div class="prio"><div class="pn">${i+1}</div><div><b>${scoreName(p.s)}</b> · 현재 ${p.s.grade}등급<br><span style="color:var(--sub);font-size:14px">${p.s.grade===1?'1등급 유지 · 놓친 문항 '+p.miss+'점 정리':p.reach?`놓친·보완 문항 ${p.fix}점 중 <b style="color:var(--red)">${p.gapRaw}점</b>만 회복해도 ${p.s.grade-1}등급 도달`:`다음 등급까지 원점수 ${p.gapRaw}점 필요 · 놓친·보완 문항 ${p.fix}점 우선 회복`}</span></div></div>`).join('');
+ let sh=`<thead><tr><th>과목</th><th>선택 문항</th><th>원점수</th><th>백분위</th><th>등급</th></tr></thead><tbody>`;
+ list.forEach(k=>{const s=SUBJ[k];const t=top3(s);const add=t.reduce((a,q)=>a+q.pts,0);const e=est(s,s.raw+add);
+  sh+=`<tr><td>${scoreName(s)}</td><td>${t.map(q=>q.n+'번').join(', ')||'-'}</td><td>${s.raw} → <b class="o">${e.raw}</b></td><td>${s.pct??'-'}${s.pct!=null?` → <b class="o">${e.pct}</b>`:''}</td><td>${s.grade} → <b class="o">${e.grade}</b></td></tr>`});
+ $('totSim').innerHTML=sh+'</tbody>';
+ const K=SUBJ.kor,M=SUBJ.math,B=SUBJ.bio,E=SUBJ.earth,EN=SUBJ.eng;
+ if(isBlack()){$('totArea').innerHTML='<tbody><tr><td style="color:var(--mut)">OMEGA Black은 수학·탐구 시험으로 반영 영역 조합 분석을 제공하지 않습니다.</td></tr></tbody>';$('totCombo').innerHTML='<div style="color:var(--mut);font-size:14px">OMEGA Black은 제공하지 않습니다.</div>'}
+ else{
+ const areas=[['국수탐(2)',K.std+M.std+B.std+E.std,K.pct+M.pct+B.pct+E.pct,8.4],['국수탐(1)',K.std+M.std+Math.max(B.std,E.std),K.pct+M.pct+Math.max(B.pct,E.pct),6.1],['국수영',K.std+M.std,K.pct+M.pct,7.2],['국영탐',K.std+B.std+E.std,K.pct+B.pct+E.pct,12.8],['수영탐',M.std+B.std+E.std,M.pct+B.pct+E.pct,6.9]];
+ $('totArea').innerHTML=`<thead><tr><th>반영 영역</th><th>표준점수 합</th><th>백분위 합</th><th>상위 누적</th></tr></thead><tbody>`+areas.map(a=>`<tr><td>${a[0]}</td><td>${a[1]}</td><td>${a[2]}</td><td>${a[3]}%</td></tr>`).join('')+`</tbody>`+'';
+ const combos=[['언어와매체 · 미적분',41.2,true],['화법과작문 · 미적분',18.5],['언어와매체 · 확률과통계',14.3],['화법과작문 · 확률과통계',19.6],['언어와매체 · 기하',3.4],['화법과작문 · 기하',3.0]];
+ $('totCombo').innerHTML=combos.map(c=>`<div class="hbar ${c[2]?'me':''}"><div>${c[0]}${c[2]?' (나)':''}</div><div class="tr"><i style="width:${c[1]/45*100}%"></i></div><div>${c[1]}%</div></div>`).join('')+'<div class="note">영어는 영역 조합 표준점수 합산에서 제외(절대평가), 상위 누적·응시 비율은 시연값입니다.</div>'}
+}
+
+function renderSummary(){
+ const s=cur();const du=diagUnits(s);
+ const thr=isBlack()?1:0;const strong=du.filter(x=>x.n>=2&&x.gap>thr).sort((a,b)=>b.gap-a.gap)[0]||du.filter(x=>x.wrong.length===0).sort((a,b)=>b.T-a.T)[0];
+ const hardOk=s.qs.filter(q=>q.ok&&q.rate<TH[S.mode].lo).sort((a,b)=>a.rate-b.rate)[0];
+ const basis=hasGradeAvg()?'1등급 평균':'응시자 평균 득점률';
+ $('sStr').innerHTML=strong?`<b>${strong.u}</b> 단원 ${hasGradeAvg()?`${strong.M}/${strong.T}점 · ${basis}보다 <b class="o">+${strong.gap}점</b>`:`득점률 ${Math.round(strong.M/strong.T*100)}% · ${basis}보다 <b class="o">+${strong.gap*10}%p</b>`}`+(hardOk?`<div style="margin-top:6px;font-size:14px;color:var(--sub)">정답률 ${fmt(hardOk.rate)}% 고난도 ${hardOk.n}번 정답</div>`:''):'-';
+ const weakU=du.filter(x=>x.weak).sort((a,b)=>a.gap-b.gap)[0];
+ let weakE=null;if(s.evalOrder&&hasEval(s)){weakE=stats(s,'ev',s.evalOrder).map(x=>({...x,gap:x.M-s.evalAvg[x.u][1]})).sort((a,b)=>a.gap-b.gap)[0];if(weakE.gap>=0)weakE=null}
+ $('sWeak').innerHTML=(weakU?`<b>${weakU.u}</b> 단원 오답 ${weakU.wrong.length}문항 · ${hasGradeAvg()?`${basis} 대비 <b class="x">${weakU.gap}점</b>`:`${basis} 대비 <b class="x">${weakU.gap*10}%p</b>`}`:'개인 취약으로 볼 단원 없음')+(weakE?`<div style="margin-top:6px;font-size:14px;color:var(--sub)">평가요소 <b style="color:var(--ink)">${weakE.u}</b> ${weakE.M}/${weakE.T}점 · 1등급 평균 ${s.evalAvg[weakE.u][1]}점</div>`:'');
+ const w=s.qs.filter(q=>!q.ok).sort((a,b)=>cls(a.rate)-cls(b.rate)||b.rate*b.pts-a.rate*a.pts);
+ const c1=w.filter(q=>cls(q.rate)===1),c2=w.filter(q=>cls(q.rate)===2),c3=w.filter(q=>cls(q.rate)===3);
+ let gapRaw=null;for(let r=s.raw+1;r<=s.total;r++){if(est(s,r).grade<s.grade){gapRaw=r-s.raw;break}}
+ const li=[];
+ if(c1.length){const p=c1.reduce((a,q)=>a+q.pts,0);li.push(['최우선',`<b>${c1.map(q=>q.n+'번').join(', ')}</b> 재풀이 — 응시자 ${TH[S.mode].hi}% 이상이 맞힌 문항. 회복 시 +${p}점${gapRaw&&p>=gapRaw?` → <b class="x">${s.grade-1}등급 도달</b>`:''}`])}
+ if(c2.length){li.push([li.length?'그다음':'최우선',`<b>${c2.map(q=>q.n+'번').join(', ')}</b> — ${[...new Set(c2.map(q=>q.unit))].join('·')} 개념 확인 후 맞춤 보완 문항으로 같은 유형 1문항 더 풀기`])}
+ if(c3.length){li.push(['전략',`<b>${c3.map(q=>q.n+'번').join(', ')}</b> — 응시자 대부분이 틀린 고난도 문항. 개인 약점보다 변별 문항이므로 해설로 풀이 흐름만 확인`])}
+ if(!w.length)li.push(['유지','오답 문항이 없습니다. 현재 학습 방향을 유지해 보세요.']);
+ $('sRx').innerHTML=li.map(x=>`<li><span class="k">${x[0]}</span><span>${x[1]}</span></li>`).join('');
+ const H=SUBJ[S.sub].hist;const many=S.hist>1;
+ const trend=many?s.raw-Math.round((H.raw[0]+H.raw[1])/2):null;
+ const prof=[['성취도',Math.round(s.raw/s.total*100),`원점수 ${s.raw}/${s.total}`,Math.round(s.raw/s.total*100)+'%'],['위치',s.pct??Math.max(1,100-[4,11,23,40,60,77,89,96,100][s.grade-1]+2),s.pct!=null?`백분위 ${s.pct}`:`${s.grade}등급 구간`],['추세',many?Math.max(0,Math.min(100,50+trend*3)):null,many?`초반 대비 ${trend>=0?'+':''}${trend}점`:'2회 응시부터 표시'],['응시',many?Math.round(5/8*100):Math.round(1/8*100),many?'시행 8회 중':'시행 8회 중',many?'5회':'1회']];
+ $('sProf').innerHTML=prof.map(p=>`<div class="pm"><div class="t">${p[0]}</div><div class="v">${p[1]===null?'-':(p[3]??p[1])}</div><div class="meter"><i style="width:${p[1]||0}%"></i></div><div class="s">${p[2]}</div></div>`).join('');
+}
+
+function renderScore(){
+ const s=cur();const isMath=s.name==='수학';
+ const raw=`<div class="score"><b>${s.raw}<small>점</small></b>${isMath?'<div class="s2">공통 62점+선택 22점</div>':''}</div>`;
+ const cells=s.eng?[['원점수',raw],['등급',`<div class="score"><b>${s.grade}</b></div>`]]:[['원점수',raw],['표준점수',`<div class="score"><b>${s.std}<small>점</small></b></div>`],['백분위',`<div class="score"><b>${s.pct}</b></div>`],['등급',`<div class="score"><b>${s.grade}</b></div>`]];
+ $('scoreBox').className='grid '+(s.eng?'g2':'g4');
+ $('scoreBox').innerHTML=cells.map(c=>`<div><div class="fl">${c[0]}</div>${c[1]}</div>`).join('');
+ let gapRaw=null,tgt=null;for(let r=s.raw+1;r<=s.total;r++){const e=est(s,r);if(e.grade<s.grade){gapRaw=r-s.raw;tgt=e;break}}
+ const v=s.basis==='std'?s.std:s.raw,cut=s.grade>1?s.cuts[s.grade-2]:null;
+ $('nextGrade').innerHTML=`<b>목표 등급까지</b> <span class="tagU">V5 보강</span><div style="margin-top:6px">`+(s.grade===1?`1등급 구간입니다. 1등급 구분점수(${s.cuts[0]})보다 <b class="o">${v-s.cuts[0]}${s.basis==='std'?'':'점'}</b> 위에 있습니다.`:`${s.grade-1}등급 구분점수 ${cut}${s.basis==='std'?'(표준점수)':'점'}까지 <b class="x">${cut-v}${s.basis==='std'?'':'점'}</b> 부족 · 원점수로 약 <b class="x">${gapRaw}점</b> (${(()=>{const mp=Math.max(...s.qs.map(q=>q.pts));return gapRaw<=mp?'문항 1개 수준':'최소 '+Math.ceil(gapRaw/mp)+'문항'})()})`)+'</div>';
+ $('scoreNote').classList.toggle('hide',!!s.eng);
+}
+
+function renderCut(){
+ const s=cur();const v=s.basis==='std'?s.std:s.raw;
+ let h=`<thead><tr><th colspan="2">구분</th><th>등급</th>${[1,2,3,4,5,6,7,8,9].map(g=>`<th${g===s.grade?' class="me"':''}>${g}</th>`).join('')}</tr></thead><tbody>`;
+ h+=`<tr><td rowspan="2" class="lab">${s.tam?'탐구':s.name}</td><td rowspan="2" class="lab">${s.sel}</td><td>구분점수</td>${s.cuts.map((c,i)=>`<td class="${i+1===s.grade?'on':''}">${c}</td>`).join('')}<td class="${s.grade===9?'on':''}">${s.cuts[7]-1}이하</td></tr>`;
+ h+=`<tr><td>본인위치</td>${[1,2,3,4,5,6,7,8,9].map(g=>`<td class="${g===s.grade?'on':''}">${g===s.grade?'▲'+v:''}</td>`).join('')}</tr></tbody>`;
+ $('cutTbl').innerHTML=h;$('cutNote').textContent='※ [국어·수학] 수능 예상 표준점수, [영어·탐구] 원점수 기준';
+ $('dist').innerHTML=GR_PCT.map((p,i)=>`<div class="${i+1===s.grade?'on':''}" style="height:${p/20*100}%"></div>`).join('');
+ $('distl').innerHTML=GR_PCT.map((p,i)=>`<div>${i+1}등급<br>${p}%</div>`).join('');
+ const above=GR_PCT.slice(0,s.grade-1).reduce((a,b)=>a+b,0);
+ $('distTxt').innerHTML=s.pct!=null?`백분위 <b class="o">${s.pct}</b> · 응시자 100명 중 약 <b class="o">${Math.max(1,100-s.pct)}등</b> 위치 (${s.grade}등급 구간 ${above}~${above+GR_PCT[s.grade-1]}%)`:`${s.grade}등급 구간 (상위 ${above}~${above+GR_PCT[s.grade-1]}%) · 영어는 절대평가로 백분위를 제공하지 않습니다.`;
+}
+
+function renderLost(){
+ const s=cur();const t=TH[S.mode];const lost=s.total-s.raw;const w=s.qs.filter(q=>!q.ok);
+ const g=[1,2,3].map(c=>w.filter(q=>cls(q.rate)===c));const p=g.map(x=>x.reduce((a,q)=>a+q.pts,0));
+ $('lostDesc').innerHTML=`잃은 <b>${lost}점</b>을 전체 응시자 정답률 기준으로 나눴습니다. (${S.mode==='BLACK'?'OMEGA Black':'OMEGA'} 기준: ${t.hi}% 이상 / ${t.lo}~${t.hi}% / ${t.lo}% 미만)`;
+ $('lostBar').innerHTML=`<div class="c0" style="width:${s.raw/s.total*100}%">득점 ${s.raw}</div>`+['c1','c2','c3'].map((c,i)=>p[i]?`<div class="${c}" style="width:${p[i]/s.total*100}%">${p[i]}</div>`:'').join('');
+ const meta=[['놓친 문항','c1',`응시자 ${t.hi}% 이상이 맞힘 · 가장 먼저 회복`],['보완 문항','c2',`정답률 ${t.lo}~${t.hi}% · 개념 확인 필요`],['고난도 문항','c3',`정답률 ${t.lo}% 미만 · 응시자 다수 오답`]];
+ $('lostKeys').innerHTML=meta.map((m,i)=>`<div class="lk"><div class="h"><i class="${m[1]}"></i>${m[0]}</div><div class="n">${p[i]}점 <span style="font-size:14px;color:var(--sub);font-weight:500">${g[i].length}문항</span></div><div class="q">${g[i].map(q=>q.n+'번').join(', ')||'없음'}</div><div class="q">${m[2]}</div></div>`).join('');
+ const du=diagUnits(s);const oh=du.filter(x=>x.onlyHard);
+ $('hardNote').innerHTML=`<b>개인 약점과 구분할 문항</b><div style="font-size:14px;margin-top:4px">`+(g[2].length?`${g[2].map(q=>`${q.n}번(${q.unit}, 정답률 ${fmt(q.rate)}%)`).join(', ')}은 응시자 대부분이 틀린 문항입니다. `+(oh.length?`<b>${oh.map(x=>x.u).join(', ')}</b> 단원은 이 문항만 틀려 개인 취약 단원으로 판정하지 않았습니다.`:'개인 취약 판정에는 반영 비중을 낮췄습니다.'):'이번 회차에는 응시자 다수가 틀린 문항에서의 오답이 없습니다.')+`</div>`;
+}
+
+function renderUnit(){
+ const s=cur();const ga=hasGradeAvg();const du=diagUnits(s);
+ let h=`<thead><tr><th rowspan="${ga?2:1}">단원</th><th rowspan="${ga?2:1}">전체<br>문항수</th><th rowspan="${ga?2:1}">정답<br>문항수</th><th rowspan="${ga?2:1}">전체<br>배점</th><th rowspan="${ga?2:1}" class="me">나의<br>득점</th>${ga?'<th colspan="4">등급별 평균 득점</th>':''}<th rowspan="${ga?2:1}">문항번호</th><th rowspan="${ga?2:1}" style="background:var(--y);color:var(--yt)">진단<br><span style="font-size:11px">V5</span></th></tr>${ga?'<tr><th>1%</th><th>1등급</th><th>2등급</th><th>3등급</th></tr>':''}</thead><tbody>`;
+ du.forEach(x=>{const a=s.unitAvg[x.u];const tag=x.weak?'<span class="lbl r">보완</span>':x.onlyHard?'<span class="lbl k">고난도</span>':(x.gap>(isBlack()?1:0)&&x.n>=2)?'<span class="lbl g">강점</span>':'';
+  h+=`<tr><td>${x.u}</td><td>${x.n}</td><td>${x.c}</td><td>${x.T}</td><td class="me">${x.M}</td>${ga?a.map(v=>`<td>${v}</td>`).join(''):''}<td>${x.nums}</td><td style="background:#FFFBEA">${tag}</td></tr>`});
+ $('unitTbl').innerHTML=h+'</tbody>';
+}
+function renderEval(){
+ const s=cur();const show=hasEval(s);$('secEval').classList.toggle('hide',!show);if(!show)return;
+ let h=`<thead><tr><th rowspan="2">평가요소</th><th rowspan="2">전체<br>문항수</th><th rowspan="2">정답<br>문항수</th><th rowspan="2">전체<br>배점</th><th rowspan="2" class="me">나의<br>득점</th><th colspan="4">등급별 평균 득점</th><th rowspan="2">문항번호</th></tr><tr><th>1%</th><th>1등급</th><th>2등급</th><th>3등급</th></tr></thead><tbody>`;
+ stats(s,'ev',s.evalOrder).forEach(x=>{h+=`<tr><td>${x.u}</td><td>${x.n}</td><td>${x.c}</td><td>${x.T}</td><td class="me">${x.M}</td>${s.evalAvg[x.u].map(v=>`<td>${v}</td>`).join('')}<td>${x.nums}</td></tr>`});
+ $('evalTbl').innerHTML=h+'</tbody>';
+}
+function renderQ(){
+ const s=cur();const ev=hasEvalCol(s);
+ $('mx').innerHTML=s.qs.map(q=>`<div class="cell ${q.ok?'ok':'ng'}" data-q="${q.n}" title="${q.n}번 · ${q.unit} · 정답률 ${fmt(q.rate)}%"><b>${q.n}</b>${q.ok?'O':'X'}<div class="rt"><i style="width:${q.rate}%"></i></div></div>`).join('');
+ let h=`<thead><tr><th>문항</th><th>단원</th><th>세부단원</th>${ev?'<th>평가<br>요소</th>':''}<th>배점</th><th>정오</th><th>정답률</th><th>내 답안</th><th>정답</th><th>최다 오답<br>선택지</th></tr></thead><tbody>`;
+ s.qs.forEach(q=>{h+=`<tr id="q${q.n}" class="${q.ok?'':'wrong'}"><td>${q.n}</td><td>${q.unit}</td><td>${q.sub}</td>${ev?`<td>${q.ev}</td>`:''}<td>${q.pts}</td><td class="${q.ok?'o':'x'}">${q.ok?'O':'X'}</td><td>${fmt(q.rate)}%</td><td><span class="ans">${q.my}</span></td><td>${q.ans}</td><td>${q.mw}</td></tr>`});
+ $('qTbl').innerHTML=h+'</tbody>';
+}
+
+let SEL={};
+function renderOpp(){
+ const s=cur();const t=top3(s);const k=S.mode+S.sub;if(!SEL[k])SEL[k]=new Set(t.map(q=>q.n));
+ $('oppMsg').textContent='';
+ if(!t.length){$('oppBox').innerHTML='<div style="grid-column:1/-1;color:var(--sub)">오답 문항이 없습니다. 현재 학습 방향을 유지해 보세요.</div>';$('simWrap').classList.add('hide');return}
+ $('simWrap').classList.remove('hide');
+ $('oppBox').innerHTML=t.map(q=>`<div class="opp ${SEL[k].has(q.n)?'sel':''}" data-opp="${q.n}"><div class="hd"><span class="chk">✓</span>${q.n}번</div><span class="pill">${q.pts}점</span><span class="pill">정답률 ${fmt(q.rate)}%</span><div class="kv"><span>단원</span>${q.unit}<span>세부단원</span>${q.sub}${hasEvalCol(s)?`<span>평가요소</span>${q.ev}`:''}</div></div>`).join('');
+ renderSim();
+}
+function renderSim(){
+ const s=cur();const k=S.mode+S.sub;const add=s.qs.filter(q=>SEL[k].has(q.n)).reduce((a,q)=>a+q.pts,0);const e=est(s,s.raw+add);
+ const items=s.eng?[['원점수',s.raw,e.raw,'점',s.total],['등급',s.grade,e.grade,'등급',9]]:[['원점수',s.raw,e.raw,'점',s.total],['표준점수',s.std,e.std,'점',s.basis==='std'?150:80],['백분위',s.pct,e.pct,'',100],['등급',s.grade,e.grade,'등급',9]];
+ $('sim').style.gridTemplateColumns=`repeat(${items.length},1fr)`;
+ $('sim').innerHTML=items.map(([l,a,b,u,mx])=>{const g=l==='등급';const d=g?a-b:b-a;const ha=g?(10-a)/9*100:a/mx*100,hb=g?(10-b)/9*100:b/mx*100;
+  return`<div class="simc"><span class="delta ${d?'':'keep'}">${d?`+ ${d}${u}`:'유지'}</span><div class="bars"><div class="bar cur" style="height:${Math.max(18,ha*.85)}%">${a}</div><div class="bar exp" style="height:${Math.max(18,hb*.85)}%">${b}</div></div><div class="lb">${l}</div></div>`}).join('');
+ $('simNote').textContent=s.eng?'※ 영어는 절대평가 과목으로, 원점수와 등급 정보만 제공되며 예상 백분위 변화 그래프는 제공되지 않습니다.':'';
+}
+
+function renderRec(){
+ const s=cur();const w=s.qs.filter(q=>!q.ok);
+ if(!w.length){$('recBox').innerHTML='<div style="grid-column:1/-1;color:var(--sub)">오답 문항이 없습니다. 현재 학습 방향을 유지해 보세요.</div>';return}
+ $('recBox').innerHTML=s.recs.map((r,i)=>`<div class="rec"><span class="rank">${i+1}순위</span><div class="kv" style="grid-template-columns:62px 1fr">${s.tam?'':`<span>취약유형</span>${r[0]}`}<span>취약단원</span>${r[1]}</div><div class="recbox"><div style="color:var(--sub);font-size:13px;margin-bottom:4px">추천기출</div><a href="#" onclick="return false">${r[2]}</a><div style="color:var(--sub);font-size:13px;margin-top:4px">${r[3]}</div></div></div>`).join('');
+}
+
+function stKey(){return 'omegaV5:'+S.mode+':'+S.sub}
+function loadRv(){try{return JSON.parse(localStorage.getItem(stKey())||'{}')}catch(e){return{}}}
+function saveRv(o){try{localStorage.setItem(stKey(),JSON.stringify(o))}catch(e){}}
+let RV={};
+function renderReview(){
+ const s=cur();RV=loadRv();
+ const w=s.qs.filter(q=>!q.ok).sort((a,b)=>cls(a.rate)-cls(b.rate)||b.rate*b.pts-a.rate*a.pts);
+ const label=['','놓친 문항','보완 문항','고난도 문항'],lc=['','r','b','k'];
+ const why=q=>{const c=cls(q.rate);return c===1?`응시자 ${fmt(q.rate)}%가 맞힌 문항 · 내 답 ${q.my}${q.mw!=='-'&&q.my===q.mw?' (최다 오답 선택지와 같음)':''}`:c===2?`${q.unit} 단원 개념 적용 확인 필요 · 정답률 ${fmt(q.rate)}%`:`응시자 ${fmt(100-q.rate)}%가 틀린 고난도 · 풀이 흐름만 확인`};
+ const rec=q=>s.recs.find(r=>r[3].includes(q.sub)||r[1].includes(q.unit));
+ const steps=q=>cls(q.rate)===3?[['solve','해설 확인'],['d3','3일 뒤 다시 풀기']]:[['solve','다시 풀기'],['exp','해설 확인'],['sim','유사 기출 풀기'],['d3','3일 뒤'],['d7','7일 뒤']];
+ if(!w.length){$('rvList').innerHTML='<div style="color:var(--sub)">오답 문항이 없습니다.</div>';$('rvPct').textContent='-';$('rvBar').style.width='0';return}
+ $('rvList').innerHTML=w.map((q,i)=>{const r=rec(q);return`<div class="rv"><div class="top"><div><span class="qn">${i+1}. ${q.n}번</span> <span class="lbl ${lc[cls(q.rate)]}">${label[cls(q.rate)]}</span><span style="font-size:14px;color:var(--sub)">${q.pts}점 · ${q.unit} &gt; ${q.sub}</span></div></div><div style="font-size:14px;margin-top:6px">${why(q)}${r&&cls(q.rate)<3?`<br>유사 기출: <b class="o">${r[2]}</b>`:''}</div><div class="steps">${steps(q).map(([k,t])=>`<span class="step ${RV[q.n+k]?'done':''}" data-rv="${q.n+k}"><span class="c"></span>${t}</span>`).join('')}</div></div>`}).join('');
+ updRvPct(w,steps);
+}
+function updRvPct(w,steps){const s=cur();w=w||s.qs.filter(q=>!q.ok);let tot=0,done=0;
+ w.forEach(q=>{const st=cls(q.rate)===3?['solve','d3']:['solve','exp','sim','d3','d7'];st.forEach(k=>{tot++;if(RV[q.n+k])done++})});
+ const p=tot?Math.round(done/tot*100):0;$('rvPct').textContent=`${done}/${tot} 단계 · ${p}%`;$('rvBar').style.width=p+'%'}
+
+function renderTrend(){
+ const s=cur();const H=s.hist;const n=S.hist>1?5:1;const idx=[...Array(n)].map((_,i)=>5-n+i);
+ const btns=s.eng?[['raw','원점수'],['grade','등급']]:[['raw','원점수'],['pct','백분위'],['grade','등급']];
+ if(!btns.some(b=>b[0]===S.trend))S.trend='raw';
+ $('trBtns').innerHTML=btns.map(b=>`<button class="tbtn ${S.trend===b[0]?'on':''}" data-tr="${b[0]}">${b[1]}</button>`).join('');
+ $('lgAvg').classList.toggle('hide',S.trend!=='raw');
+ const svg=$('trSvg');const W=svg.clientWidth||800,Hh=220,pl=20,pr=20,pt=30,pb=34;
+ const key=S.trend;const vals=idx.map(i=>H[key][i]);const avg=key==='raw'?idx.map(i=>H.avg[i]):null;
+ const maxV=key==='grade'?9:key==='pct'?100:s.total,minV=key==='grade'?1:0;
+ const xs=idx.map((_,j)=>n===1?W/2:pl+40+j*(W-pl-pr-80)/(n-1));
+ const y=v=>key==='grade'?pt+(v-1)/8*(Hh-pt-pb):pt+(1-(v-minV)/(maxV-minV))*(Hh-pt-pb);
+ let g='';for(let k=0;k<5;k++){const yy=pt+k*(Hh-pt-pb)/4;g+=`<line x1="${pl}" x2="${W-pr}" y1="${yy}" y2="${yy}" stroke="#E6E8EE"/>`}
+ const last=xs[xs.length-1];g=`<rect x="${last-55}" y="${pt}" width="110" height="${Hh-pt-pb}" fill="#FFF1F3"/>`+g;
+ if(avg&&n>1)g+=`<polyline fill="none" stroke="#4B5563" stroke-width="2" points="${xs.map((x,j)=>x+','+y(avg[j])).join(' ')}"/>`;
+ if(n>1)g+=`<polyline fill="none" stroke="#3B5BFB" stroke-width="2.5" points="${xs.map((x,j)=>x+','+y(vals[j])).join(' ')}"/>`;
+ xs.forEach((x,j)=>{g+=`<circle cx="${x}" cy="${y(vals[j])}" r="4" fill="#3B5BFB"/><text x="${x}" y="${y(vals[j])-10}" text-anchor="middle" font-size="15" font-weight="700" fill="#3B5BFB">${vals[j]}</text>`;
+  if(avg)g+=`<text x="${x}" y="${y(avg[j])+20}" text-anchor="middle" font-size="13" fill="#4B5563" font-weight="600">${avg[j]}</text>`;
+  g+=`<text x="${x}" y="${Hh-8}" text-anchor="middle" font-size="14" font-weight="700" fill="#1B1D22">${H.rounds[idx[j]]}회</text>`});
+ svg.innerHTML=g;
+ let t=`<thead><tr><th>응시회차</th><th>원점수</th>${s.eng?'':'<th>예상 표준점수</th><th>예상 백분위</th>'}<th>예상 등급</th></tr></thead><tbody>`;
+ idx.forEach(i=>{const lastR=i===4;t+=`<tr${lastR?' style="background:#FFF1F3"':''}><td>${H.rounds[i]}회</td><td>${lastR?'<span class="ans" style="background:#FFD5DC">':''}${H.raw[i]}점${lastR?'</span>':''}</td>${s.eng?'':`<td>${H.std[i]}점</td><td>${H.pct[i]}</td>`}<td>${H.grade[i]}등급</td></tr>`});
+ $('trTbl').innerHTML=t+'</tbody>';
+}
+
+function evalGoal(s,g){
+ if(g.t==='miss'){const m=s.qs.filter(q=>!q.ok&&cls(q.rate)===1);return{ok:m.length<=g.v,val:`놓친 문항 ${m.length}개${m.length?' ('+m.map(q=>q.n+'번').join(', ')+')':''}`}}
+ const key=g.t==='unit'?'unit':'ev';const qs=s.qs.filter(q=>q[key]===g.u);if(!qs.length)return{ok:null,val:'이번 회차 미출제'};
+ const T=qs.reduce((a,q)=>a+q.pts,0),M=qs.filter(q=>q.ok).reduce((a,q)=>a+q.pts,0);return{ok:M/T>=g.v,val:`${M}/${T}점 · ${Math.round(M/T*100)}%`}}
+function renderFeedback(){
+ const s=cur();const many=S.hist>1;
+ if(!many){$('prevGoals').innerHTML='<div class="box" style="color:var(--sub);font-size:14px">첫 응시입니다. 이번 결과로 아래 <b style="color:var(--ink)">다음 회차 확인 목표</b>를 만들었고, 다음 성적표에서 달성 여부를 보여드립니다.</div>'}
+ else{$('prevGoals').innerHTML=`<div style="font-size:14px;color:var(--sub);margin-bottom:6px">7회 성적표에서 정한 목표 → 이번 8회 결과</div>`+s.prevGoals.map((g,i)=>{const r=evalGoal(s,g);return`<div class="goal"><div class="gn">${i+1}</div><div><b>${g.txt}</b><div style="font-size:14px;color:var(--sub)">이번 결과: ${r.val}</div></div><span class="res ${r.ok===null?'na':r.ok?'ok':'ng'}">${r.ok===null?'판정 보류':r.ok?'달성':'미달성'}</span></div>`}).join('')}
+ if(!many){$('unitChg').innerHTML='<div class="box" style="color:var(--sub);font-size:14px">같은 단원이 2개 회차 이상 출제되면 단원별 정답률 흐름과 하락 단원을 표시합니다.</div>'}
+ else{const H=s.hist;const du=stats(s,'unit',s.unitOrder);const r=rng(s.seed||7);
+  const rows=du.map(x=>{const now=Math.round(x.M/x.T*100);const seq=H.rounds.slice(1).map((_,j)=>j===3?now:Math.max(20,Math.min(100,Math.round(now+(r()-.45)*40))));const d=seq[3]-seq[2];return{u:x.u,seq,d}}).sort((a,b)=>a.d-b.d);
+  $('unitChg').innerHTML=`<div class="tblwrap"><table class="chg"><thead><tr><th>단원</th>${H.rounds.slice(1).map(v=>`<th>${v}회</th>`).join('')}<th>직전 대비</th></tr></thead><tbody>`+rows.map(x=>`<tr><td>${x.u}</td>${x.seq.map(v=>`<td>${v}%</td>`).join('')}<td class="${x.d<0?'dn':x.d>0?'up':''}">${x.d<0?'▼ '+(-x.d)+'%p':x.d>0?'▲ '+x.d+'%p':'유지'}</td></tr>`).join('')+'</tbody></table></div><div class="note">하락 단원 우선 정렬 · 회차별 단원 정답률은 시연값</div>'}
+ const du=diagUnits(s).filter(x=>x.weak).sort((a,b)=>a.gap-b.gap);const miss=s.qs.filter(q=>!q.ok&&cls(q.rate)===1);
+ const goals=[];goals.push(miss.length?`놓친 문항(정답률 ${TH[S.mode].hi}%↑) 오답 0개 — 이번 ${miss.length}개 (${miss.map(q=>q.n+'번').join(', ')})`:'놓친 문항 오답 0개 유지');
+ du.slice(0,1).forEach(x=>goals.push(`${x.u} 단원 득점률 ${Math.round(x.M/x.T*100)}% → ${hasGradeAvg()?Math.round(s.unitAvg[x.u][1]/x.T*100)+'% (1등급 평균 수준)':'90% 이상'}`));
+ if(hasEval(s)){const we=stats(s,'ev',s.evalOrder).map(x=>({...x,gap:x.M-s.evalAvg[x.u][1]})).sort((a,b)=>a.gap-b.gap)[0];if(we.gap<0)goals.push(`${we.u} 평가요소 득점률 ${Math.round(we.M/we.T*100)}% → ${Math.round(s.evalAvg[we.u][1]/we.T*100)}% (1등급 평균 수준)`)}
+ if(goals.length<3)goals.push(`원점수 ${s.raw}점 이상 유지 (이번 회차 기준)`);
+ $('nextGoals').innerHTML=goals.slice(0,3).map((g,i)=>`<div class="goal"><div class="gn">${i+1}</div><div><b>${g}</b></div><span class="res na">다음 회차 확인</span></div>`).join('');
+}
+
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-mode],[data-hist],[data-sub],[data-opp],[data-tr],[data-q],[data-rv],#pointBtn');if(!t)return;
+ if(t.dataset.mode){S.mode=t.dataset.mode;document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('on',b===t));if(!subs().includes(S.sub))S.sub='math';render();return}
+ if(t.dataset.hist){S.hist=+t.dataset.hist;document.querySelectorAll('[data-hist]').forEach(b=>b.classList.toggle('on',b===t));render();return}
+ if(t.dataset.sub){S.sub=t.dataset.sub;render();return}
+ if(t.dataset.tr){S.trend=t.dataset.tr;renderTrend();return}
+ if(t.dataset.opp){const k=S.mode+S.sub;const n=+t.dataset.opp;const set=SEL[k];
+  if(set.has(n)){if(set.size===1){$('oppMsg').textContent='최소 1개 문항은 선택해 주세요.';return}set.delete(n)}else set.add(n);
+  $('oppMsg').textContent='';t.classList.toggle('sel');renderSim();return}
+ if(t.dataset.q){const r=$('q'+t.dataset.q);r.scrollIntoView({behavior:'smooth',block:'center'});r.classList.add('flash');setTimeout(()=>r.classList.remove('flash'),1400);return}
+ if(t.dataset.rv){RV[t.dataset.rv]=!RV[t.dataset.rv];saveRv(RV);t.classList.toggle('done');updRvPct();return}
+ if(t.id==='pointBtn'){const b=$('pointBox');b.classList.toggle('open');t.textContent=b.classList.contains('open')?'접기':'… 더보기'}
+});
+window.addEventListener('resize',()=>renderTrend());
+render();
+</script>
+</body>
+</html>
