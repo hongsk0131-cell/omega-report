@@ -691,9 +691,9 @@ function renderQ(){
    mh+=`<div class="band"><div class="bh"><span>${qs[0].n}~${qs[qs.length-1].n}번</span></div><div class="tblwrap"><table class="mt"><tbody>
    <tr><td>번호</td>${cell(q=>q.n,q=>'qn'+(q.ok?'':' ng'))}</tr>
    <tr><td>정답</td>${cell(q=>circ(q,q.ans))}</tr>
-   <tr><td>내 선택</td>${cell(q=>q.ok?circ(q,q.my):`${q.my==='-'?'무응답':circ(q,q.my)}<small>오답</small>`,q=>q.ok?'':'ng')}</tr>
+   <tr><td>내 선택</td>${cell(q=>q.ok?circ(q,q.my):`${circ(q,q.my)}<small>오답</small>`,q=>q.ok?'':'ng')}</tr>
    <tr><td>배점</td>${cell(q=>q.pts)}</tr>
-   <tr><td>정답률</td>${cell(q=>Math.round(q.rate),q=>q.rate<lo?'lo':'')}</tr>
+   <tr><td>정답률</td>${cell(q=>fmt(q.rate),q=>q.rate<lo?'lo':'')}</tr>
    <tr><td>단원</td>${cell(su,'sm')}</tr>
    ${ev?`<tr><td>평가요소</td>${cell(q=>EVS[q.ev]||q.ev,'ev')}</tr>`:''}</tbody></table></div></div>`}
   $('mxBands').innerHTML=mh;document.querySelector('.mxrow').innerHTML=`<span class="mlg ng">X 오답</span><span class="mlg lo">낮은 정답률 (${lo}% 미만)</span><span>· 번호를 누르면 상세 표의 해당 문항으로 이동</span>`}
@@ -747,13 +747,13 @@ function renderReview(){
  const label=['','놓친 문항','보완 문항','고난도 문항'],lc=['','r','b','k'];
  const why=q=>{const c=cls(q.rate);return c===1?`응시자 ${fmt(q.rate)}%가 맞힌 문항 · 내 답 ${q.my}${trap(q)?' (최다 오답 선택지와 같음)':''}`:c===2?`${q.unit} 단원 개념 적용 확인 필요 · 정답률 ${fmt(q.rate)}%`:`응시자 ${fmt(100-q.rate)}%가 틀린 고난도 · 1등급 정답률 ${q.g[0]}% · 풀이 흐름 확인`};
  const rec=q=>s.recs.find(r=>r[3].includes(q.sub)||r[1].includes(q.unit));
- const steps=q=>cls(q.rate)===3?[['exp','해설 확인'],['solve','다시 풀기']]:[['solve','다시 풀기'],['exp','해설 확인'],['sim','유사 기출 풀기']];
+ const steps=q=>cls(q.rate)===3?[['solve','다시 풀기'],['exp','해설 확인']]:[['solve','다시 풀기'],['exp','해설 확인'],['sim','유사 기출 풀기']];
  if(!w.length){$('rvList').innerHTML='<div style="color:var(--sub)">오답 문항이 없습니다.</div>';$('rvPct').textContent='-';$('rvBar').style.width='0';return}
  $('rvList').innerHTML=w.map((q,i)=>{const r=rec(q);return`<div class="rv"><div class="top"><div><span class="qn">${i+1}. ${q.n}번</span> <span class="lbl ${lc[cls(q.rate)]}">${label[cls(q.rate)]}</span><span style="font-size:14px;color:var(--sub)">${q.pts}점 · ${q.unit} &gt; ${q.sub}${q.ev&&!s.tam?' · '+q.ev:''} · 회복 기대 ${expv(q)}점</span></div></div><div style="font-size:14px;margin-top:6px">${why(q)}${r&&cls(q.rate)<3?`<br>유사 기출: <b class="o">${r[2]}</b>`:''}</div><div class="steps">${steps(q).map(([k,t])=>`<span class="step ${RV[q.n+k]?'done':''}" data-rv="${q.n+k}"><span class="c"></span>${t}</span>`).join('')}</div></div>`}).join('');
  updRvPct(w,steps);
 }
 function updRvPct(w,steps){const s=cur();w=w||s.qs.filter(q=>!q.ok);let tot=0,done=0;
- w.forEach(q=>{const st=cls(q.rate)===3?['exp','solve']:['solve','exp','sim'];st.forEach(k=>{tot++;if(RV[q.n+k])done++})});
+ w.forEach(q=>{const st=cls(q.rate)===3?['solve','exp']:['solve','exp','sim'];st.forEach(k=>{tot++;if(RV[q.n+k])done++})});
  const p=tot?Math.round(done/tot*100):0;$('rvPct').textContent=`${done}/${tot} 단계 · ${p}%`;$('rvBar').style.width=p+'%'}
 
 function renderTrend(){
