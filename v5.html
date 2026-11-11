@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OMEGA 모의고사 성적 리포트 | V5 검토본</title>
+<title>OMEGA 모의고사 성적 리포트 | 개선안 검토본</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
 :root{--pri:#3B5BFB;--pri2:#7FA3FF;--pril:#EEF2FF;--bg:#F7F8FA;--line:#E6E8EE;--th:#F7F8FB;--ink:#1B1D22;--sub:#5B6170;--mut:#8A90A0;--red:#EF3E5C;--redl:#FFF1F3;--y:#FFF6D6;--yl:#F2C94C;--yt:#7A5A00}
@@ -138,7 +138,7 @@ tr.wrong .ans{background:#FFD5DC}
 .stage b{width:28px;height:28px;border-radius:50%;background:var(--pri);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px}
 .stage span{font-size:14px;font-weight:500;color:var(--mut)}
 .stage{background:var(--y);border:1px dashed var(--yl);border-radius:10px;padding:8px 12px}
-.stage::after{content:'V5 신규';margin-left:auto;font-size:12px;font-weight:700;background:var(--yl);color:#4a3600;padding:2px 8px;border-radius:6px}
+.stage::after{content:'신규';margin-left:auto;font-size:12px;font-weight:700;background:var(--yl);color:#4a3600;padding:2px 8px;border-radius:6px}
 td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 .cx{font-weight:600}.cx.h1{background:#FFE1E6;color:#B4233F}.cx.h2{background:#FFC2CD;color:#8E1530}.cx.z{color:#B8BCC6}
 .link{font-size:13px;color:var(--yt);background:var(--y);border:1px dashed var(--yl);border-radius:6px;padding:3px 8px;margin-top:8px;display:inline-block}
@@ -149,7 +149,7 @@ td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 <div class="hero" id="heroT">OMEGA 모의고사 성적 리포트</div>
 
 <div class="review">
-<b>V5 검토본 · 과목별 성적표</b> · 노란 테두리 = V5 신규 영역, 노란 점선 = 기존 영역 안 보강 항목, <span class="tagD">시연값</span> = 실서비스에서 서버 산출이 필요한 수치. 아래 전환 버튼은 검토용이며 학생 화면에는 없습니다.
+<b>개선안 검토본 · 과목별 성적표</b> · 노란 테두리 = 신규 영역, 노란 점선 = 기존 영역 안 보강 항목, <span class="tagD">시연값</span> = 실서비스에서 서버 산출이 필요한 수치. 아래 전환 버튼은 검토용이며 학생 화면에는 없습니다.
 <div class="row"><span>시험 유형</span><button class="tbtn on" data-mode="OMEGA">OMEGA</button><button class="tbtn" data-mode="BLACK">OMEGA Black</button></div>
 <div class="row"><span>과목</span><div class="btnrow" id="subTabs"></div></div>
 <div class="row"><span>응시 이력</span><button class="tbtn on" data-hist="1">첫 응시 (1회)</button><button class="tbtn" data-hist="5">누적 5회</button></div>
@@ -193,7 +193,7 @@ td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 <h2>등급 구분 점수</h2>
 <div class="tblwrap"><table class="cut" id="cutTbl"></table></div>
 <div class="note" id="cutNote"></div>
-<div class="upd"><b>등급 분포 속 내 위치</b> <span class="tagU">V5 보강</span>
+<div class="upd"><b>등급 분포 속 내 위치</b> <span class="tagU">보강</span>
 <div class="dist" id="dist"></div><div class="distl" id="distl"></div>
 <div style="font-size:14px;margin-top:8px" id="distTxt"></div></div>
 </section>
@@ -202,7 +202,7 @@ td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 
 
 <section class="card new" id="secSummary">
-<h2>이번 회차 학습 진단 <span class="tagN">V5 신규</span></h2>
+<h2>이번 회차 학습 진단 <span class="tagN">신규</span></h2>
 
 <div class="sum3">
 <div class="box"><h3><span class="lbl g">강점</span></h3><div id="sStr"></div></div>
@@ -213,7 +213,7 @@ td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 </section>
 
 <section class="card new">
-<h2>잃은 점수 진단 <span class="tagN">V5 신규</span></h2>
+<h2>잃은 점수 진단 <span class="tagN">신규</span></h2>
 <div class="concl" id="cLost"></div><div class="fl" id="lostDesc"></div>
 <div class="lost" id="lostBar"></div>
 <div class="lostk" id="lostKeys"></div>
@@ -244,7 +244,7 @@ td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 </section>
 
 <section class="card new">
-<h2>복습 순서와 확인 <span class="tagN">V5 신규</span></h2>
+<h2>복습 순서와 확인 <span class="tagN">신규</span></h2>
 <div class="concl" id="cRv"></div>
 <div style="display:flex;justify-content:space-between;font-size:14px"><b>복습 진행률</b><span id="rvPct"></span></div>
 <div class="prog"><i id="rvBar" style="width:0"></i></div>
@@ -263,15 +263,15 @@ td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 <section class="card" id="secEval">
 <h2>평가요소별 상세 분석</h2>
 <div class="tblwrap"><table id="evalTbl"></table></div>
-<div class="upd" id="crossBox"><b>단원 × 평가요소 오답 분포</b> <span class="tagU">V5 보강</span><div class="fl" style="margin-top:4px">칸 = 오답 수 / 출제 수 · 오답이 몰린 칸이 진하게 표시됩니다.</div><div class="tblwrap"><table id="crossTbl" style="background:#fff"></table></div></div>
+<div class="upd" id="crossBox"><b>단원 × 평가요소 오답 분포</b> <span class="tagU">보강</span><div class="fl" style="margin-top:4px">칸 = 오답 수 / 출제 수 · 오답이 몰린 칸이 진하게 표시됩니다.</div><div class="tblwrap"><table id="crossTbl" style="background:#fff"></table></div></div>
 </section>
 
 <section class="card">
 <h2>문항별 나의 점수 분석</h2>
-<div class="concl" id="cQ"></div><div class="upd" style="margin-top:0;margin-bottom:16px"><b>문항 한눈에 보기</b> <span class="tagU">V5 보강</span>
+<div class="concl" id="cQ"></div><div class="upd" style="margin-top:0;margin-bottom:16px"><b>문항 한눈에 보기</b> <span class="tagU">보강</span>
 <div class="mx" id="mx" style="margin-top:10px"></div>
 <div class="mxrow"><span class="ans" style="background:#EEF2FF">O</span>정답 <span class="ans" style="background:#FFE1E6">X</span>오답 · 막대 = 전체 정답률 · 칸을 누르면 아래 표의 해당 문항으로 이동</div></div>
-<div class="fl"><span class="tagU">V5 보강</span> 등급별 정답률 열 추가 <span class="tagD">서버 산출 필요</span> · <span style="box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;padding:0 5px;border-radius:3px;font-weight:700">주황 테두리</span> = 내 오답이 최다 오답 선택지와 같음</div>
+<div class="fl"><span class="tagU">보강</span> 등급별 정답률 열 추가 <span class="tagD">서버 산출 필요</span> · <span style="box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;padding:0 5px;border-radius:3px;font-weight:700">주황 테두리</span> = 내 오답이 최다 오답 선택지와 같음</div>
 <div class="tblwrap"><table id="qTbl"></table></div>
 </section>
 
@@ -287,7 +287,7 @@ td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 </section>
 
 <section class="card new">
-<h2>누적 피드백과 다음 회차 목표 <span class="tagN">V5 신규</span></h2>
+<h2>누적 피드백과 다음 회차 목표 <span class="tagN">신규</span></h2>
 <div class="subhd" style="margin-top:0">지난 회차 확인 목표 결과</div>
 <div id="prevGoals"></div>
 <div class="subhd">단원별 정답률 변화 · 반복 오답 단원</div>
@@ -478,7 +478,7 @@ function renderScore(){
  $('scoreBox').innerHTML=cells.map(c=>`<div><div class="fl">${c[0]}</div>${c[1]}</div>`).join('');
  let gapRaw=null,tgt=null;for(let r=s.raw+1;r<=s.total;r++){const e=est(s,r);if(e.grade<s.grade){gapRaw=r-s.raw;tgt=e;break}}
  const v=s.basis==='std'?s.std:s.raw,cut=s.grade>1?s.cuts[s.grade-2]:null;
- $('nextGrade').innerHTML=`<b>목표 등급까지</b> <span class="tagU">V5 보강</span><div style="margin-top:6px">`+(s.grade===1?`1등급 구간입니다. 1등급 구분점수(${s.cuts[0]})보다 <b class="o">${v-s.cuts[0]}${s.basis==='std'?'':'점'}</b> 위에 있습니다.`:`${s.grade-1}등급 구분점수 ${cut}${s.basis==='std'?'(표준점수)':'점'}까지 <b class="x">${cut-v}${s.basis==='std'?'':'점'}</b> 부족 · 원점수로 약 <b class="x">${gapRaw}점</b> (${(()=>{const mp=Math.max(...s.qs.map(q=>q.pts));return gapRaw<=mp?'문항 1개 수준':'최소 '+Math.ceil(gapRaw/mp)+'문항'})()})`)+'</div>';
+ $('nextGrade').innerHTML=`<b>목표 등급까지</b> <span class="tagU">보강</span><div style="margin-top:6px">`+(s.grade===1?`1등급 구간입니다. 1등급 구분점수(${s.cuts[0]})보다 <b class="o">${v-s.cuts[0]}${s.basis==='std'?'':'점'}</b> 위에 있습니다.`:`${s.grade-1}등급 구분점수 ${cut}${s.basis==='std'?'(표준점수)':'점'}까지 <b class="x">${cut-v}${s.basis==='std'?'':'점'}</b> 부족 · 원점수로 약 <b class="x">${gapRaw}점</b> (${(()=>{const mp=Math.max(...s.qs.map(q=>q.pts));return gapRaw<=mp?'문항 1개 수준':'최소 '+Math.ceil(gapRaw/mp)+'문항'})()})`)+'</div>';
  $('scoreNote').classList.toggle('hide',!!s.eng);
 }
 
@@ -507,7 +507,7 @@ function renderLost(){
 
 function renderUnit(){
  const s=cur();const ga=hasGradeAvg();const du=diagUnits(s);
- let h=`<thead><tr><th rowspan="${ga?2:1}">단원</th><th rowspan="${ga?2:1}">전체<br>문항수</th><th rowspan="${ga?2:1}">정답<br>문항수</th><th rowspan="${ga?2:1}">전체<br>배점</th><th rowspan="${ga?2:1}" class="me">나의<br>득점</th>${ga?'<th colspan="4">등급별 평균 득점</th>':''}<th rowspan="${ga?2:1}">문항번호</th><th rowspan="${ga?2:1}" style="background:var(--y);color:var(--yt)">진단<br><span style="font-size:11px">V5</span></th></tr>${ga?'<tr><th>1%</th><th>1등급</th><th>2등급</th><th>3등급</th></tr>':''}</thead><tbody>`;
+ let h=`<thead><tr><th rowspan="${ga?2:1}">단원</th><th rowspan="${ga?2:1}">전체<br>문항수</th><th rowspan="${ga?2:1}">정답<br>문항수</th><th rowspan="${ga?2:1}">전체<br>배점</th><th rowspan="${ga?2:1}" class="me">나의<br>득점</th>${ga?'<th colspan="4">등급별 평균 득점</th>':''}<th rowspan="${ga?2:1}">문항번호</th><th rowspan="${ga?2:1}" style="background:var(--y);color:var(--yt)">진단</th></tr>${ga?'<tr><th>1%</th><th>1등급</th><th>2등급</th><th>3등급</th></tr>':''}</thead><tbody>`;
  du.forEach(x=>{const a=s.unitAvg[x.u];const tag=x.weak?'<span class="lbl r">보완</span>':x.onlyHard?'<span class="lbl k">고난도</span>':(x.gap>(isBlack()?1:0)&&x.n>=2)?'<span class="lbl g">강점</span>':'';
   h+=`<tr><td>${x.u}</td><td>${x.n}</td><td>${x.c}</td><td>${x.T}</td><td class="me">${x.M}</td>${ga?a.map(v=>`<td>${v}</td>`).join(''):''}<td>${x.nums}</td><td style="background:#FFFBEA">${tag}</td></tr>`});
  $('unitTbl').innerHTML=h+'</tbody>';
@@ -576,13 +576,13 @@ function renderReview(){
  const label=['','놓친 문항','보완 문항','고난도 문항'],lc=['','r','b','k'];
  const why=q=>{const c=cls(q.rate);return c===1?`응시자 ${fmt(q.rate)}%가 맞힌 문항 · 내 답 ${q.my}${trap(q)?' (최다 오답 선택지와 같음)':''}`:c===2?`${q.unit} 단원 개념 적용 확인 필요 · 정답률 ${fmt(q.rate)}%`:`응시자 ${fmt(100-q.rate)}%가 틀린 고난도 · 1등급 정답률 ${q.g[0]}% · 풀이 흐름 확인`};
  const rec=q=>s.recs.find(r=>r[3].includes(q.sub)||r[1].includes(q.unit));
- const steps=q=>cls(q.rate)===3?[['solve','해설 확인'],['d3','3일 뒤 다시 풀기']]:[['solve','다시 풀기'],['exp','해설 확인'],['sim','유사 기출 풀기'],['d3','3일 뒤'],['d7','7일 뒤']];
+ const steps=q=>cls(q.rate)===3?[['exp','해설 확인'],['solve','다시 풀기']]:[['solve','다시 풀기'],['exp','해설 확인'],['sim','유사 기출 풀기']];
  if(!w.length){$('rvList').innerHTML='<div style="color:var(--sub)">오답 문항이 없습니다.</div>';$('rvPct').textContent='-';$('rvBar').style.width='0';return}
  $('rvList').innerHTML=w.map((q,i)=>{const r=rec(q);return`<div class="rv"><div class="top"><div><span class="qn">${i+1}. ${q.n}번</span> <span class="lbl ${lc[cls(q.rate)]}">${label[cls(q.rate)]}</span><span style="font-size:14px;color:var(--sub)">${q.pts}점 · ${q.unit} &gt; ${q.sub}${q.ev&&!s.tam?' · '+q.ev:''} · 회복 기대 ${expv(q)}점</span></div></div><div style="font-size:14px;margin-top:6px">${why(q)}${r&&cls(q.rate)<3?`<br>유사 기출: <b class="o">${r[2]}</b>`:''}</div><div class="steps">${steps(q).map(([k,t])=>`<span class="step ${RV[q.n+k]?'done':''}" data-rv="${q.n+k}"><span class="c"></span>${t}</span>`).join('')}</div></div>`}).join('');
  updRvPct(w,steps);
 }
 function updRvPct(w,steps){const s=cur();w=w||s.qs.filter(q=>!q.ok);let tot=0,done=0;
- w.forEach(q=>{const st=cls(q.rate)===3?['solve','d3']:['solve','exp','sim','d3','d7'];st.forEach(k=>{tot++;if(RV[q.n+k])done++})});
+ w.forEach(q=>{const st=cls(q.rate)===3?['exp','solve']:['solve','exp','sim'];st.forEach(k=>{tot++;if(RV[q.n+k])done++})});
  const p=tot?Math.round(done/tot*100):0;$('rvPct').textContent=`${done}/${tot} 단계 · ${p}%`;$('rvBar').style.width=p+'%'}
 
 function renderTrend(){
