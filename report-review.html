@@ -284,6 +284,8 @@ tr.wrong .ans{background:#FFD5DC}
 .qmore{display:flex;justify-content:center;margin-top:16px}
 .qmore .tbtn{height:40px;padding:0 20px;font-size:15px}
 .card>h2 .eb{display:block;font-size:11px;line-height:16px;letter-spacing:.14em;color:#2C5BF6;font-weight:700;margin-bottom:4px;opacity:.75}
+#cutTbl{table-layout:fixed}
+#cutTbl .gup{font-size:11px;padding:1px 6px}
 </style>
 </head>
 <body>
@@ -649,7 +651,7 @@ function renderCut(){
  h+=`<tr><td rowspan="2" class="lab">${s.area}</td><td rowspan="2" class="lab">${s.name}</td><td>구분점수</td>${[0,1,2,3,4,5,6,7,8].map(i=>`<td class="${i+1===s.grade?'on':''}">${rng2(i)}</td>`).join('')}</tr>`;
  h+=`<tr><td>본인위치</td>${[1,2,3,4,5,6,7,8,9].map(g=>`<td class="${g===s.grade?'on':''}">${g===s.grade?'▲'+v+(s.pct!=null?`<div class="pos">상위 ${100-s.pct}%</div>`:'')+(up?`<span class="gup">GRADE UP +${up}</span>`:''):''}</td>`).join('')}</tr>
  <tr class="cum"><td colspan="3" style="background:#FFFBEA">누적 비율 <span class="tagU">보강</span></td>${[4,11,23,40,60,77,89,96,100].map((c,i)=>`<td class="${i+1===s.grade?'on':''}" style="background:${i+1===s.grade?'':'#FFFDF3'}">상위 ${c}%</td>`).join('')}</tr></tbody>`;
- $('cutTbl').innerHTML=h;$('cutNote').innerHTML=(up?`<span style="color:var(--ink)"><b class="x">${s.grade-1}등급까지 ${s.basis==='std'?'표준점수 ':''}+${up}${s.basis==='std'?'':'점'}</b> · 원점수로 약 ${gap}점</span> <span class="tagU">보강</span><br>`:'')+'※ [국어·수학] 수능 예상 표준점수, [영어·탐구] 원점수 기준';
+ $('cutTbl').innerHTML='<colgroup><col style="width:7%"><col style="width:7.5%"><col style="width:8.5%">'+'<col style="width:8.55%">'.repeat(9)+'</colgroup>'+h;$('cutNote').innerHTML=(up?`<span style="color:var(--ink)"><b class="x">${s.grade-1}등급까지 ${s.basis==='std'?'표준점수 ':''}+${up}${s.basis==='std'?'':'점'}</b> · 원점수로 약 ${gap}점</span> <span class="tagU">보강</span><br>`:'')+'※ [국어·수학] 수능 예상 표준점수, [영어·탐구] 원점수 기준';
 
 }
 
@@ -764,7 +766,7 @@ function renderTrend(){
  const btns=s.eng?[['raw','원점수'],['grade','등급']]:[['raw','원점수'],['pct','백분위'],['grade','등급']];
  if(!btns.some(b=>b[0]===S.trend))S.trend='raw';
  $('trBtns').innerHTML=btns.map(b=>`<button class="tbtn ${S.trend===b[0]?'on':''}" data-tr="${b[0]}">${b[1]}</button>`).join('');
- $('lgAvg').classList.toggle('hide',S.trend!=='raw');
+ $('lgAvg').classList.remove('hide');
  const svg=$('trSvg');const W=svg.clientWidth||820,Hh=260,pl=44,pr=12,pt=34,pb=36,ph=Hh-pt-pb;const key=S.trend;
  const maxV=key==='grade'?9:key==='pct'?100:s.total;
  const val=v=>key==='grade'?(10-v)/9:v/maxV;const y=v=>pt+(1-val(v))*ph;
@@ -773,13 +775,19 @@ function renderTrend(){
  ticks.forEach(t=>{const yy=y(t);g+=`<line x1="${pl}" x2="${W-pr}" y1="${yy}" y2="${yy}" stroke="#E9ECF3"/><text x="${pl-8}" y="${yy+4}" text-anchor="end" font-size="12" fill="#8A90A0">${key==='grade'?t+'등급':t}</text>`});
  g+=`<rect x="${X(curR-1)-cw/2}" y="${pt}" width="${cw}" height="${ph}" fill="rgba(255,44,82,0.05)"/>`;
  for(let r=curR+1;r<=TOT;r++)g+=`<line x1="${X(r-1)}" x2="${X(r-1)}" y1="${pt}" y2="${pt+ph}" stroke="#E3E7F0" stroke-dasharray="4 4"/>`;
- const pts=[];
+ const pts=[];g+='<!--AREA-->';
  for(let r=1;r<=TOT;r++){const i=at(r),x=X(r-1),isCur=r===curR&&i>=0;
-  if(i>=0){const v=H[key][i],yy=y(v);pts.push({x,a:H.avg[i]});
-   g+=`<rect x="${x-bw/2}" y="${yy}" width="${bw}" height="${pt+ph-yy}" rx="6" fill="${isCur?'#2C5BF6':'rgba(44,91,246,.32)'}"/>`;
-   g+=isCur?`<text x="${x}" y="${yy-10}" text-anchor="middle" font-size="16" font-weight="600" fill="#2C5BF6">${key==='grade'?v:v}</text>`:`<text x="${x}" y="${yy-8}" text-anchor="middle" font-size="14" font-weight="600" fill="#2C5BF6">${v}</text>`}
+  if(i>=0){const v=H[key][i],yy=y(v);const ae=est(s,Math.round(H.avg[i]));const a=key==='raw'?H.avg[i]:key==='pct'?ae.pct:ae.grade;pts.push({x,a,v});
+   g+=`<rect x="${x-bw/2}" y="${yy}" width="${bw}" height="${pt+ph-yy}" rx="6" fill="${isCur?'#2C5BF6':'#B7C7FB'}"/>`;
+   }
   g+=isCur?`<text x="${x}" y="${Hh-9}" text-anchor="middle" font-size="14" font-weight="600" fill="#191F28">${r}회</text>`:`<text x="${x}" y="${Hh-9}" text-anchor="middle" font-size="13" fill="${r>curR?'#B8BCC6':i<0?'#B8BCC6':'#3d4250'}">${r}회</text>`}
- if(key==='raw'&&pts.length){if(pts.length>1)g+=`<polyline fill="none" stroke="#8B95A1" stroke-width="1.5" stroke-dasharray="4 3" points="${pts.map(p=>p.x+','+y(p.a)).join(' ')}"/>`;pts.forEach(p=>g+=`<circle cx="${p.x}" cy="${y(p.a)}" r="3" fill="#8B95A1"/><text x="${p.x+14}" y="${y(p.a)+4}" font-size="13" font-weight="600" fill="#4E5968">${p.a}</text>`)}
+ if(pts.length){const base=pt+ph;
+  if(pts.length>1){g+=`<defs><linearGradient id="tf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(44,91,246,0.22)"/><stop offset="1" stop-color="rgba(44,91,246,0.02)"/></linearGradient></defs>`;
+   const AR=`<polygon fill="url(#tf)" points="${pts[0].x},${base} ${pts.map(p=>p.x+','+y(p.v)).join(' ')} ${pts[pts.length-1].x},${base}"/><polyline fill="none" stroke="#9DB3F8" stroke-width="2" points="${pts.map(p=>p.x+','+y(p.v)).join(' ')}"/>`;g=g.replace('<!--AREA-->',AR);
+   g+=`<polyline fill="none" stroke="#7F9BF7" stroke-width="2" points="${pts.map(p=>p.x+','+y(p.v)).join(' ')}"/>`;pts.forEach(p=>g+=`<circle cx="${p.x}" cy="${y(p.v)}" r="3.5" fill="#2C5BF6" stroke="#fff" stroke-width="1.5"/>`);
+   g+=`<polyline fill="none" stroke="#8B95A1" stroke-width="1.5" stroke-dasharray="4 3" points="${pts.map(p=>p.x+','+y(p.a)).join(' ')}"/>`}
+  pts.forEach(p=>{g+=`<circle cx="${p.x}" cy="${y(p.a)}" r="3.5" fill="#fff" stroke="#8B95A1" stroke-width="1.5"/><text x="${p.x+14}" y="${y(p.a)+4}" font-size="13" font-weight="600" fill="#4E5968">${p.a}</text>`})}
+ pts.forEach(p=>{const yy=y(p.v);g+=`<text x="${p.x}" y="${yy-10}" text-anchor="middle" font-size="15" font-weight="700" fill="#2C5BF6" stroke="#fff" stroke-width="3" paint-order="stroke">${p.v}</text>`});
  svg.innerHTML=g;
  let t=`<thead><tr><th>응시회차</th><th>원점수</th>${s.eng?'':'<th>예상 표준점수</th><th>예상 백분위</th>'}<th>예상 등급</th>${'<th>응시생 평균</th>'}</tr></thead><tbody>`;
  att.forEach(i=>{const lastR=i===4;t+=`<tr${lastR?' style="background:#FFF1F3"':''}><td>${H.rounds[i]}회</td><td>${lastR?'<span class="ans" style="background:#FFD5DC">':''}${H.raw[i]}점${lastR?'</span>':''}</td>${s.eng?'':`<td>${H.std[i]}점</td><td>${H.pct[i]}</td>`}<td>${H.grade[i]}등급</td><td>${H.avg[i]}점</td></tr>`});
