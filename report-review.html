@@ -646,8 +646,7 @@ function renderCut(){
  const rng2=i=>i===0?`${s.cuts[0]} 이상`:i===8?`${s.cuts[7]-1} 이하`:`${s.cuts[i]}~${s.cuts[i-1]-1}`;
  const up=s.grade>1?s.cuts[s.grade-2]-v:null,gap=nextGap(s);
  h+=`<tr><td rowspan="2" class="lab">${s.area}</td><td rowspan="2" class="lab">${s.name}</td><td>구분점수</td>${[0,1,2,3,4,5,6,7,8].map(i=>`<td class="${i+1===s.grade?'on':''}">${rng2(i)}</td>`).join('')}</tr>`;
- h+=`<tr><td>본인위치</td>${[1,2,3,4,5,6,7,8,9].map(g=>`<td class="${g===s.grade?'on':''}">${g===s.grade?'▲'+v+(up?`<span class="gup">GRADE UP +${up}</span><div class="pos">원점수 약 ${gap}점</div>`:''):''}</td>`).join('')}</tr>
- <tr class="cum"><td colspan="3" style="background:#FFFBEA">등급별 누적 비율 <span class="tagU">보강</span></td>${[4,11,23,40,60,77,89,96,100].map((c,i)=>`<td class="${i+1===s.grade?'on':''}" style="background:${i+1===s.grade?'':'#FFFDF3'}">상위 ${c}%</td>`).join('')}</tr></tbody>`;
+ h+=`<tr><td>본인위치</td>${[1,2,3,4,5,6,7,8,9].map(g=>`<td class="${g===s.grade?'on':''}">${g===s.grade?'▲'+v+(up?`<span class="gup">GRADE UP +${up}</span><div class="pos">원점수 약 ${gap}점</div>`:''):''}</td>`).join('')}</tr></tbody>`;
  $('cutTbl').innerHTML='<colgroup><col style="width:7%"><col style="width:7.5%"><col style="width:8.5%">'+'<col style="width:8.55%">'.repeat(9)+'</colgroup>'+h;$('cutNote').innerHTML='※ [국어·수학] 수능 예상 표준점수, [영어·탐구] 원점수 기준';
 
 }
