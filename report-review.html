@@ -183,6 +183,8 @@ td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 .legend3{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--sub);margin-top:14px}
 .legend3 i{display:inline-block;margin-right:6px;vertical-align:1px}.legend3 .sq{width:12px;height:12px;border-radius:3px;background:#7F9BF7}.legend3 .dl{width:18px;border-top:2px dashed #8E97AB}
 @media(max-width:720px){.qcards{grid-template-columns:repeat(2,1fr)}}
+.cut td .pos{font-size:12px;color:#5B6170;margin-top:2px}
+.cut tr.cum td{font-size:12px;color:#5B6170}
 </style>
 </head>
 <body>
@@ -232,9 +234,7 @@ td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 <h2>등급 구분 점수</h2>
 <div class="tblwrap"><table class="cut" id="cutTbl"></table></div>
 <div class="note" id="cutNote"></div>
-<div class="upd"><b>등급 분포 속 내 위치</b> <span class="tagU">보강</span>
-<div class="dist" id="dist"></div><div class="distl" id="distl"></div>
-<div style="font-size:14px;margin-top:8px" id="distTxt"></div></div>
+
 </section>
 
 
@@ -547,12 +547,10 @@ function renderCut(){
  const rng2=i=>i===0?`${s.cuts[0]} 이상`:i===8?`${s.cuts[7]-1} 이하`:`${s.cuts[i]}~${s.cuts[i-1]-1}`;
  const up=s.grade>1?s.cuts[s.grade-2]-v:null,gap=nextGap(s);
  h+=`<tr><td rowspan="2" class="lab">${s.area}</td><td rowspan="2" class="lab">${s.name}</td><td>구분점수</td>${[0,1,2,3,4,5,6,7,8].map(i=>`<td class="${i+1===s.grade?'on':''}">${rng2(i)}</td>`).join('')}</tr>`;
- h+=`<tr><td>본인위치</td>${[1,2,3,4,5,6,7,8,9].map(g=>`<td class="${g===s.grade?'on':''}">${g===s.grade?'▲'+v+(up?`<br><span class="gup">GRADE UP +${up}</span>`:''):''}</td>`).join('')}</tr></tbody>`;
+ h+=`<tr><td>본인위치</td>${[1,2,3,4,5,6,7,8,9].map(g=>`<td class="${g===s.grade?'on':''}">${g===s.grade?'▲'+v+(s.pct!=null?`<div class="pos">상위 ${100-s.pct}%</div>`:'')+(up?`<span class="gup">GRADE UP +${up}</span>`:''):''}</td>`).join('')}</tr>
+ <tr class="cum"><td colspan="3" style="background:#FFFBEA">누적 비율 <span class="tagU">보강</span></td>${[4,11,23,40,60,77,89,96,100].map((c,i)=>`<td class="${i+1===s.grade?'on':''}" style="background:${i+1===s.grade?'':'#FFFDF3'}">상위 ${c}%</td>`).join('')}</tr></tbody>`;
  $('cutTbl').innerHTML=h;$('cutNote').innerHTML=(up?`<span style="color:var(--ink)"><b class="x">${s.grade-1}등급까지 ${s.basis==='std'?'표준점수 ':''}+${up}${s.basis==='std'?'':'점'}</b> · 원점수로 약 ${gap}점</span> <span class="tagU">보강</span><br>`:'')+'※ [국어·수학] 수능 예상 표준점수, [영어·탐구] 원점수 기준';
- $('dist').innerHTML=GR_PCT.map((p,i)=>`<div class="${i+1===s.grade?'on':''}" style="height:${p/20*100}%"></div>`).join('');
- $('distl').innerHTML=GR_PCT.map((p,i)=>`<div>${i+1}등급<br>${p}%</div>`).join('');
- const above=GR_PCT.slice(0,s.grade-1).reduce((a,b)=>a+b,0);
- $('distTxt').innerHTML=s.pct!=null?`백분위 <b class="o">${s.pct}</b> · 응시자 100명 중 약 <b class="o">${Math.max(1,100-s.pct)}등</b> 위치 (${s.grade}등급 구간 ${above}~${above+GR_PCT[s.grade-1]}%)`:`${s.grade}등급 구간 (상위 ${above}~${above+GR_PCT[s.grade-1]}%) · 영어는 절대평가로 백분위를 제공하지 않습니다.`;
+
 }
 
 function renderLost(){
