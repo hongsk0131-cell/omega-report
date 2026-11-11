@@ -278,6 +278,11 @@ tr.wrong .ans{background:#FFD5DC}
 .mlg.ng{background:#FFF1F3;color:#FF2C52;border-color:#FFD5DC}
 .gup{background:#FF2C52;border-radius:999px}
 .subhd{font-size:15px;font-weight:600}
+#unitTbl,#evalTbl{table-layout:fixed}
+#unitTbl td:first-child,#evalTbl td:first-child{word-break:keep-all;padding:8px 10px}
+#unitTbl td:nth-last-child(2),#evalTbl td:last-child{word-break:break-all;padding:8px 10px}
+.qmore{display:flex;justify-content:center;margin-top:16px}
+.qmore .tbtn{height:40px;padding:0 20px;font-size:15px}
 </style>
 </head>
 <body>
@@ -397,11 +402,12 @@ tr.wrong .ans{background:#FFD5DC}
 
 <section class="card">
 <h2>문항별 나의 점수 분석</h2>
-<div class="qhead upd" style="margin-top:0"><div class="qtop"><div><div class="qsub" id="qSubj"></div><div class="chips" id="qChips"></div></div><button class="tbtn dark" id="qToggle">문항 전체 보기 ▾</button></div>
+<div class="qhead upd" style="margin-top:0"><div class="qtop"><div><div class="qsub" id="qSubj"></div><div class="chips" id="qChips"></div></div></div>
 <div class="qcards" id="qCards"></div><div style="text-align:right;margin-top:6px"><span class="tagU">보강</span></div></div>
 <div class="concl" id="cQ"></div>
 <div class="mxrow"></div>
 <div id="mxBands"></div>
+<div class="qmore"><button class="tbtn" id="qToggle">문항별 상세 표 펼치기 (세부단원·최다 오답 선택지·등급별 정답률) ▾</button></div>
 <div id="qDetail" class="hide" style="margin-top:16px">
 <div class="fl"><span class="tagU">보강</span> 등급별 정답률 열 추가 · <span style="box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;padding:0 5px;border-radius:3px;font-weight:700">주황 테두리</span> = 내 오답이 최다 오답 선택지와 같음</div>
 <div class="tblwrap"><table id="qTbl"></table></div></div>
@@ -662,7 +668,7 @@ function renderUnit(){
  let h=`<thead><tr><th rowspan="${ga?2:1}">단원</th><th rowspan="${ga?2:1}">전체<br>문항수</th><th rowspan="${ga?2:1}">정답<br>문항수</th><th rowspan="${ga?2:1}">전체<br>배점</th><th rowspan="${ga?2:1}" class="me">나의<br>득점</th>${ga?'<th colspan="4">등급별 평균 득점</th>':''}<th rowspan="${ga?2:1}">문항번호</th><th rowspan="${ga?2:1}" style="background:var(--y);color:var(--yt)">진단</th></tr>${ga?'<tr><th>1%</th><th>1등급</th><th>2등급</th><th>3등급</th></tr>':''}</thead><tbody>`;
  du.forEach(x=>{const a=s.unitAvg[x.u];const tag=x.weak?'<span class="lbl r">보완</span>':x.onlyHard?'<span class="lbl k">고난도</span>':(x.gap>(isBlack()?1:0)&&x.n>=2)?'<span class="lbl g">강점</span>':'';
   h+=`<tr><td>${x.u}</td><td>${x.n}</td><td>${x.c}</td><td>${x.T}</td><td class="me">${x.M}</td>${ga?a.map(v=>`<td>${v}</td>`).join(''):''}<td>${x.nums}</td><td style="background:#FFFBEA">${tag}</td></tr>`});
- $('unitTbl').innerHTML=h+'</tbody>';
+ $('unitTbl').innerHTML=(ga?'<colgroup><col style="width:17%">'+'<col style="width:6.8%">'.repeat(8)+'<col style="width:17%"><col style="width:11.6%"></colgroup>':'<colgroup><col style="width:24%">'+'<col style="width:11%">'.repeat(4)+'<col style="width:22%"><col style="width:10%"></colgroup>')+h+'</tbody>';
  const neg=du.filter(x=>x.gap<0).sort((a,b)=>a.gap-b.gap);
  $('cUnit').innerHTML=ga?(neg.length?`1등급 평균까지 부족: ${neg.map(x=>`${x.u} ${x.gap}`).join(' · ')}<span class="s">부족분 합계 ${neg.reduce((a,x)=>a+x.gap,0)}점 · 진단 열의 '고난도'는 응시자 다수가 틀린 문항만 틀린 단원 (개인 취약 아님)</span>`:'모든 단원이 1등급 평균 이상입니다'):(neg.length?`응시자 평균 득점률보다 낮은 단원: ${neg.map(x=>`${x.u} ${Math.round(x.gap*10)}%p`).join(' · ')}<span class="s">OMEGA Black은 등급별 평균을 제공하지 않아 응시자 평균 득점률과 비교합니다</span>`:'모든 단원이 응시자 평균 득점률 이상입니다');
 }
@@ -670,7 +676,7 @@ function renderEval(){
  const s=cur();const show=hasEval(s);$('secEval').classList.toggle('hide',!show);if(!show)return;
  let h=`<thead><tr><th rowspan="2">평가요소</th><th rowspan="2">전체<br>문항수</th><th rowspan="2">정답<br>문항수</th><th rowspan="2">전체<br>배점</th><th rowspan="2" class="me">나의<br>득점</th><th colspan="4">등급별 평균 득점</th><th rowspan="2">문항번호</th></tr><tr><th>1%</th><th>1등급</th><th>2등급</th><th>3등급</th></tr></thead><tbody>`;
  stats(s,'ev',s.evalOrder).forEach(x=>{h+=`<tr><td>${x.u}</td><td>${x.n}</td><td>${x.c}</td><td>${x.T}</td><td class="me">${x.M}</td>${s.evalAvg[x.u].map(v=>`<td>${v}</td>`).join('')}<td>${x.nums}</td></tr>`});
- $('evalTbl').innerHTML=h+'</tbody>';
+ $('evalTbl').innerHTML='<colgroup><col style="width:15%">'+'<col style="width:7.5%">'.repeat(8)+'<col style="width:25%"></colgroup>'+h+'</tbody>';
 }
 const trap=q=>!q.ok&&q.my!=='-'&&q.mw!=='-'&&q.mw.split(',').includes(q.my);
 function renderQ(){
@@ -728,7 +734,7 @@ function renderSim(){
 function renderRec(){
  const s=cur();const w=s.qs.filter(q=>!q.ok);
  if(!w.length){$('recBox').innerHTML='<div style="grid-column:1/-1;color:var(--sub)">오답 문항이 없습니다. 현재 학습 방향을 유지해 보세요.</div>';return}
- $('recBox').innerHTML=s.recs.map((r,i)=>`<div class="rec"><span class="rank">${i+1}순위</span><div class="kv" style="grid-template-columns:62px 1fr">${s.tam?'':`<span>취약유형</span>${r[0]}`}<span>취약단원</span>${r[1]}</div><div class="recbox"><div style="color:var(--sub);font-size:13px;margin-bottom:4px">추천기출</div><a href="#" onclick="return false">${r[2]}</a><div style="color:var(--sub);font-size:13px;margin-top:4px">${r[3]}</div></div>${(()=>{const q=w.find(q=>r[3].includes(q.sub)||r[1].includes(q.unit));return q?`<span class="link">연결 오답 ${q.n}번 · 복습 순서에서 확인</span>`:''})()}</div>`).join('');
+ $('recBox').innerHTML=s.recs.map((r,i)=>`<div class="rec"><span class="rank">${i+1}순위</span><div class="kv" style="grid-template-columns:62px 1fr">${s.tam?'':`<span>취약유형</span>${r[0]}`}<span>취약단원</span>${r[1]}</div><div class="recbox"><div style="color:var(--sub);font-size:13px;margin-bottom:4px">추천기출</div><a href="#" onclick="return false">${r[2]}</a><div style="color:var(--sub);font-size:13px;margin-top:4px">${r[3]}</div></div></div>`).join('');
 }
 
 function stKey(){return 'omegaV5:'+S.mode+':'+S.sub}
@@ -809,8 +815,8 @@ document.addEventListener('click',e=>{
  if(t.dataset.opp){const k=S.mode+S.sub;const n=+t.dataset.opp;const set=SEL[k];
   if(set.has(n)){if(set.size===1){$('oppMsg').textContent='최소 1개 문항은 선택해 주세요.';return}set.delete(n)}else set.add(n);
   $('oppMsg').textContent='';t.classList.toggle('sel');renderSim();return}
- if(t.id==='qToggle'){const d=$('qDetail');d.classList.toggle('hide');t.textContent=d.classList.contains('hide')?'문항 전체 보기 ▾':'문항 전체 접기 ▴';return}
- if(t.classList&&t.classList.contains('qn')){$('qDetail').classList.remove('hide');$('qToggle').textContent='문항 전체 접기 ▴';t.dataset.q=t.textContent}
+ if(t.id==='qToggle'){const d=$('qDetail');d.classList.toggle('hide');t.textContent=d.classList.contains('hide')?'문항별 상세 표 펼치기 (세부단원·최다 오답 선택지·등급별 정답률) ▾':'문항별 상세 표 접기 ▴';if(!d.classList.contains('hide'))d.scrollIntoView({behavior:'smooth',block:'start'});return}
+ if(t.classList&&t.classList.contains('qn')){$('qDetail').classList.remove('hide');$('qToggle').textContent='문항별 상세 표 접기 ▴';t.dataset.q=t.textContent}
  if(t.dataset.q){const r=$('q'+t.dataset.q);r.scrollIntoView({behavior:'smooth',block:'center'});r.classList.add('flash');setTimeout(()=>r.classList.remove('flash'),1400);return}
  if(t.dataset.rv){RV[t.dataset.rv]=!RV[t.dataset.rv];saveRv(RV);t.classList.toggle('done');updRvPct();return}
  if(t.id==='pointBtn'){const b=$('pointBox');b.classList.toggle('open');t.textContent=b.classList.contains('open')?'접기':'… 더보기'}
