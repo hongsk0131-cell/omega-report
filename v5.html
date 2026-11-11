@@ -146,8 +146,9 @@ td.same{background:#FFE58A!important}
 <div class="hero" id="heroT">OMEGA 모의고사 성적 리포트</div>
 
 <div class="review">
-<b>V5 검토본</b> · 노란 테두리 = V5 신규 영역, 노란 점선 = 기존 영역 안 보강 항목, <span class="tagD">시연값</span> = 실서비스에서 서버 산출이 필요한 수치. 아래 전환 버튼은 검토용이며 학생 화면에는 없습니다.
+<b>V5 검토본 · 과목별 성적표</b> · 노란 테두리 = V5 신규 영역, 노란 점선 = 기존 영역 안 보강 항목, <span class="tagD">시연값</span> = 실서비스에서 서버 산출이 필요한 수치. 아래 전환 버튼은 검토용이며 학생 화면에는 없습니다.
 <div class="row"><span>시험 유형</span><button class="tbtn on" data-mode="OMEGA">OMEGA</button><button class="tbtn" data-mode="BLACK">OMEGA Black</button></div>
+<div class="row"><span>과목</span><div class="btnrow" id="subTabs"></div></div>
 <div class="row"><span>응시 이력</span><button class="tbtn on" data-hist="1">첫 응시 (1회)</button><button class="tbtn" data-hist="5">누적 5회</button></div>
 </div>
 
@@ -160,21 +161,9 @@ td.same{background:#FFE58A!important}
 </div>
 </section>
 
-<section class="card new" id="secTotal">
-<h2>회차 종합 <span class="tagN">V5 신규</span></h2>
-<div class="concl" id="cTotal"></div>
-<div class="tblwrap"><table id="totTbl"></table></div>
-<div class="subhd">과목 간 보완 우선순위</div>
-<div id="totPrio"></div>
-<div class="subhd">과목별 핵심 기회 문항을 모두 맞혔을 때 <span class="tagD">시연값</span></div>
-<div class="tblwrap"><table id="totSim"></table></div>
-<div class="subhd omOnly">반영 영역별 성적 <span class="tagD">서버 산출 필요</span></div>
-<div class="tblwrap omOnly"><table id="totArea"></table></div>
-<div class="subhd omOnly">선택과목 조합 응시 비율 <span class="tagD">서버 산출 필요</span></div>
-<div id="totCombo" class="omOnly"></div>
-</section>
 
-<div class="stabs"><div class="btnrow" id="subTabs"></div></div>
+
+
 
 <div class="stage"><b>1</b>결과<span>내 위치</span></div>
 
@@ -315,70 +304,70 @@ function rng(seed){let s=seed%2147483647;if(s<=0)s+=2147483646;return()=>(s=s*16
 
 const MATH_Q=[
 [1,'지수함수와 로그함수','지수와 로그','계산영역',2,1,100,'2','2','-'],
-[2,'다항함수의 미분법','미분계수와 도함수','계산영역',2,1,100,'5','5','-'],
+[2,'미분','미분계수와 도함수','계산영역',2,1,100,'5','5','-'],
 [3,'삼각함수','삼각함수','계산영역',3,1,100,'1','1','-'],
 [4,'함수의 극한과 연속','함수의 극한','계산영역',3,1,100,'1','1','-'],
-[5,'다항함수의 적분법','부정적분과 정적분','계산영역',3,1,100,'3','3','-'],
+[5,'적분','부정적분과 정적분','계산영역',3,1,100,'3','3','-'],
 [6,'수열','등차수열과 등비수열','계산영역',3,1,100,'2','2','-'],
-[7,'다항함수의 미분법','도함수의 활용','이해력',3,1,100,'4','4','-'],
+[7,'미분','도함수의 활용','이해력',3,1,100,'4','4','-'],
 [8,'지수함수와 로그함수','지수와 로그','이해력',3,1,100,'3','3','-'],
-[9,'다항함수의 적분법','정적분의 활용','이해력',4,1,100,'5','5','-'],
+[9,'적분','정적분의 활용','이해력',4,1,100,'5','5','-'],
 [10,'삼각함수','삼각함수의 활용','이해력',4,1,100,'4','4','-'],
 [11,'함수의 극한과 연속','함수의 연속','이해력',4,1,100,'1','1','-'],
 [12,'수열','등차수열과 등비수열','이해력',4,1,100,'3','3','-'],
-[13,'다항함수의 미분법','도함수의 활용','추론',4,1,70.8,'5','5','3'],
+[13,'미분','도함수의 활용','추론',4,1,70.8,'5','5','3'],
 [14,'삼각함수','삼각함수','이해력',4,0,75,'3','5','3'],
-[15,'다항함수의 적분법','부정적분과 정적분','문제해결',4,1,54.2,'2','2','3,4'],
+[15,'적분','부정적분과 정적분','문제해결',4,1,54.2,'2','2','3,4'],
 [16,'지수함수와 로그함수','지수함수와 로그함수','계산영역',3,1,100,'9','9','-'],
-[17,'다항함수의 미분법','미분계수와 도함수','계산영역',3,1,100,'13','13','-'],
+[17,'미분','미분계수와 도함수','계산영역',3,1,100,'13','13','-'],
 [18,'수열','수열의 합','이해력',3,1,95.8,'3','3','-'],
-[19,'다항함수의 적분법','부정적분과 정적분','이해력',3,1,95.8,'20','20','-'],
+[19,'적분','부정적분과 정적분','이해력',3,1,95.8,'20','20','-'],
 [20,'지수함수와 로그함수','지수함수와 로그함수','문제해결',4,1,95.8,'243','243','-'],
 [21,'함수의 극한과 연속','함수의 극한','문제해결',4,0,33.3,'-','45','-'],
 [22,'수열','수학적 귀납법','추론',4,0,33.3,'-','165','-'],
-[23,'미분법','여러 가지 함수의 미분','계산영역',2,1,100,'5','5','-'],
-[24,'적분법','여러 가지 적분법','계산영역',3,1,100,'3','3','-'],
-[25,'수열의 극한','수열의 극한','이해력',3,1,100,'4','4','-'],
-[26,'적분법','정적분의 활용','이해력',3,1,100,'1','1','-'],
-[27,'미분법','여러 가지 미분법','이해력',3,1,91.7,'1','1','2'],
-[28,'미분법','도함수의 활용','문제해결',4,0,66.7,'-','2','3'],
-[29,'수열의 극한','급수','이해력',4,1,54.2,'296','296','-'],
-[30,'적분법','여러 가지 적분법','이해력',4,1,16.7,'145','145','-']
+[23,'확률','확률의 뜻과 활용','계산영역',2,1,100,'5','5','-'],
+[24,'경우의 수','순열과 조합','계산영역',3,1,100,'3','3','-'],
+[25,'통계','확률분포','이해력',3,1,100,'4','4','-'],
+[26,'경우의 수','이항정리','이해력',3,1,100,'1','1','-'],
+[27,'확률','조건부확률','이해력',3,1,91.7,'1','1','2'],
+[28,'확률','확률의 곱셈정리','문제해결',4,0,66.7,'-','2','3'],
+[29,'통계','통계적 추정','이해력',4,1,54.2,'296','296','-'],
+[30,'경우의 수','중복조합','이해력',4,1,16.7,'145','145','-']
 ].map(a=>({n:a[0],unit:a[1],sub:a[2],ev:a[3],pts:a[4],ok:!!a[5],rate:a[6],my:a[7],ans:a[8],mw:a[9]}));
 
 const SUBJ={
-math:{name:'수학',sel:'미적분',raw:84,total:100,std:128,pct:95,grade:2,basis:'std',cuts:[131,123,117,110,96,78,72,69],
+math:{name:'수학',sel:'수학',area:'수학',raw:84,total:100,std:128,pct:95,grade:2,basis:'std',cuts:[131,123,117,110,96,78,72,69],
  prev:{raw:81,std:125,pct:92,grade:2},
  combos:{84:[128,95,2],88:[131,97,1],92:[134,98,1],96:[137,99,1]},
- big:{'지수함수와 로그함수':'수학I','삼각함수':'수학I','수열':'수학I','함수의 극한과 연속':'수학II','다항함수의 미분법':'수학II','다항함수의 적분법':'수학II','수열의 극한':'미적분','미분법':'미적분','적분법':'미적분'},
- unitOrder:['지수함수와 로그함수','삼각함수','수열','함수의 극한과 연속','다항함수의 미분법','다항함수의 적분법','수열의 극한','미분법','적분법'],
- unitAvg:{'지수함수와 로그함수':[12,12,12,10],'삼각함수':[11,10,10,8],'수열':[14,14,10,10],'함수의 극한과 연속':[7,9,7,8],'다항함수의 미분법':[12,10,11,9],'다항함수의 적분법':[14,13,11,11],'수열의 극한':[7,6,5,3],'미분법':[9,7,7,6],'적분법':[10,7,6,6]},
+ big:{'지수함수와 로그함수':'대수','삼각함수':'대수','수열':'대수','함수의 극한과 연속':'미적분Ⅰ','미분':'미적분Ⅰ','적분':'미적분Ⅰ','경우의 수':'확률과 통계','확률':'확률과 통계','통계':'확률과 통계'},
+ unitOrder:['지수함수와 로그함수','삼각함수','수열','함수의 극한과 연속','미분','적분','경우의 수','확률','통계'],
+ unitAvg:{'지수함수와 로그함수':[12,12,12,10],'삼각함수':[11,10,10,8],'수열':[14,14,10,10],'함수의 극한과 연속':[7,9,7,8],'미분':[12,10,11,9],'적분':[14,13,11,11],'통계':[7,6,5,3],'확률':[9,7,7,6],'경우의 수':[10,7,6,6]},
  evalOrder:['계산영역','이해력','문제해결','추론'],
  evalAvg:{'계산영역':[27,27,27,27],'이해력':[49,43,42,38],'문제해결':[12,13,8,6],'추론':[8,6,3,1]},
- recs:[['이해력','수학I - 삼각함수','2027학년도 6월 평가원 모의고사 미적분 14번','4점 | 삼각함수'],['문제해결','미적분 - 미분법','OMEGA black 수학 7회 미적분 28번','4점 | 도함수의 활용'],['추론','수학I - 수열','2027학년도 6월 평가원 모의고사 미적분 22번','4점 | 수학적 귀납법']],
- point:'[공통과목] 공통과목에서는 익숙한 유형의 문항을 바탕으로 조건 해석에 집중해야 하는 문항 위주로 구성하였다. 전반적으로 방향성 파악에 초점을 두고 계산 부담이 과하지 않도록 하여, 핵심 문항과 선택과목에 풀이 시간을 집중할 수 있도록 하고자 하였다. 특히, [수학I]에서는 그래프와 도형의 성질을 활용하는 문항을 배치하였다. [선택과목] 미적분에서는 도함수의 활용과 급수의 수렴 조건을 묻는 문항을 통해 개념의 정확한 적용을 확인하고자 하였다. [주목할 문항] 14번, 21번, 28번.',
+ recs:[['이해력','대수 - 삼각함수','2027학년도 6월 평가원 모의고사 수학 14번','4점 | 삼각함수'],['문제해결','확률과 통계 - 확률','OMEGA Black 수학 7회 28번','4점 | 확률의 곱셈정리'],['추론','대수 - 수열','2027학년도 6월 평가원 모의고사 수학 22번','4점 | 수학적 귀납법']],
+ point:'대수·미적분Ⅰ·확률과 통계 전 범위에서 출제하였다. 익숙한 유형의 문항을 바탕으로 조건 해석에 집중해야 하는 문항 위주로 구성하고, 계산 부담이 과하지 않도록 하여 핵심 문항에 풀이 시간을 집중할 수 있도록 하였다. 특히 [대수]에서는 그래프와 도형의 성질을 활용하는 문항을, [확률과 통계]에서는 조건부확률과 확률의 곱셈정리를 묻는 문항을 배치하였다. [주목할 문항] 14번, 21번, 28번.',
  hist:{rounds:[3,5,6,7,8],raw:[76,80,72,81,84],avg:[70.2,74.1,68.5,79,83.5],std:[119,124,117,125,128],pct:[86,91,83,92,95],grade:[3,2,3,2,2]},
  prevGoals:[{t:'miss',v:0,txt:'놓친 문항(정답률 70%↑) 오답 0개'},{t:'unit',u:'삼각함수',v:.9,txt:'삼각함수 단원 득점률 90% 이상'},{t:'eval',u:'문제해결',v:.5,txt:'문제해결 평가요소 득점률 50% 이상'}]
 },
-kor:{name:'국어',sel:'언어와매체',raw:82,total:100,basis:'std',cuts:[131,125,118,110,99,88,79,71],k:[60,17,'kor'],prev:{raw:78},seed:11,n:45,
- blocks:[['독서','인문·예술',1,4],['독서','사회·문화',5,9],['독서','과학·기술',10,13],['독서','주제 통합',14,17],['문학','현대시',18,21],['문학','고전시가',22,25],['문학','현대소설',26,30],['문학','고전산문',31,34],['언어','음운·단어',35,39],['언어','문장·담화',40,41],['매체','매체 자료',42,45]],
+kor:{name:'국어',sel:'국어',area:'국어',raw:82,total:100,basis:'std',cuts:[131,125,118,110,99,88,79,71],k:[60,17,'kor'],prev:{raw:78},seed:11,n:45,
+ blocks:[['화법과 언어','화법',1,3],['화법과 언어','음운·단어',4,6],['화법과 언어','문장·담화',7,8],['독서와 작문','작문',9,11],['독서와 작문','인문·예술',12,16],['독서와 작문','사회·문화',17,21],['독서와 작문','과학·기술',22,26],['문학','현대시',27,31],['문학','고전시가',32,35],['문학','현대소설',36,40],['문학','고전산문',41,45]],
  evs:['사실적이해','추론적이해','비판적이해','어휘/어법','창의적이해'],
- point:'독서는 주제 통합형 지문에서 두 관점의 공통점과 차이를 비교하도록 구성하였고, 문학은 현대시와 고전시가를 엮은 복합 지문을 배치하였다. [주목할 문항] 13번, 16번, 39번.',
+ point:'화법과 언어·독서와 작문·문학 공통 범위로 출제하였다. 독서는 주제 통합형 지문에서 두 관점의 공통점과 차이를 비교하도록 구성하였고, 문학은 현대시와 고전시가를 엮은 복합 지문을 배치하였다. [주목할 문항] 13번, 16번, 39번.',
  hist:{rounds:[3,5,6,7,8],raw:[74,79,70,78,82],avg:[68,71,66,72,73.4]}},
-eng:{name:'영어',sel:'영어',raw:88,total:100,basis:'raw',cuts:[90,80,70,60,50,40,30,20],prev:{raw:85},seed:23,n:45,eng:true,
+eng:{name:'영어',sel:'영어',area:'영어',raw:88,total:100,basis:'raw',cuts:[90,80,70,60,50,40,30,20],prev:{raw:85},seed:23,n:45,eng:true,
  blocks:[['듣기','대화·담화 이해',1,17],['중심 내용 파악','주제·요지·제목',18,24],['세부정보 파악','내용 일치',25,28],['어법·어휘','어법성 판단',29,30],['맥락 파악','빈칸 추론',31,34],['간접 쓰기','순서·삽입',35,39],['간접 쓰기','요약문',40,40],['세트형','장문 독해',41,45]],
  evs:['사실적이해','추론적이해','종합적이해','어법/어휘','적용'],
  point:'빈칸 추론은 다양한 표현으로 제시된 근거가 하나의 개념을 가리킨다는 점을 파악해야 해결되도록 구성하였다. [주목할 문항] 21번, 23번, 32번.',
  hist:{rounds:[3,5,6,7,8],raw:[80,84,79,85,88],avg:[72,75,70,74,76.2]}},
-bio:{name:'탐구',sel:'생명과학I',raw:44,total:50,basis:'raw',cuts:[47,43,39,33,26,20,15,12],k:[30,10,'tam'],prev:{raw:40},seed:37,n:20,tam:true,
- blocks:[['생명 과학의 이해','생명 현상의 특성',1,2],['사람의 물질대사','물질대사와 에너지',3,5],['항상성과 몸의 조절','신경계',6,9],['항상성과 몸의 조절','항상성 유지',10,12],['유전','유전 현상',13,17],['생태계와 상호 작용','생태계 구성',18,20]],
+soc:{name:'통합사회',sel:'통합사회',area:'사회탐구',raw:44,total:50,basis:'raw',cuts:[47,43,39,33,26,20,15,12],k:[30,10,'tam'],prev:{raw:40},seed:37,n:20,tam:true,
+ blocks:[['통합적 관점','시간·공간·사회·윤리적 관점',1,2],['인간, 사회, 환경과 행복','행복의 조건',3,4],['자연환경과 인간','기후와 생활',5,6],['문화와 다양성','문화 변동',7,8],['생활공간과 사회','도시화와 교통',9,10],['인권보장과 헌법','기본권과 헌법',11,12],['사회정의와 불평등','정의의 기준',13,14],['시장경제와 지속가능발전','시장 경제와 금융',15,16],['세계화와 평화','국제 사회와 분쟁',17,18],['미래와 지속가능한 삶','지속가능한 발전',19,20]],
  hist:{rounds:[3,5,6,7,8],raw:[38,41,36,40,44],avg:[31,33,30,32,32.8]}},
-earth:{name:'탐구',sel:'지구과학I',raw:38,total:50,basis:'raw',cuts:[46,42,37,31,25,19,14,11],k:[30,10,'tam'],prev:{raw:39},seed:53,n:20,tam:true,
- blocks:[['고체 지구','판 구조론',1,4],['고체 지구','지질 시대',5,8],['대기와 해양','날씨와 기후',9,12],['대기와 해양','해양 순환',13,15],['우주','별과 외계 행성',16,18],['우주','우주의 구조',19,20]],
+sci:{name:'통합과학',sel:'통합과학',area:'과학탐구',raw:38,total:50,basis:'raw',cuts:[46,42,37,31,25,19,14,11],k:[30,10,'tam'],prev:{raw:39},seed:53,n:20,tam:true,
+ blocks:[['과학의 기초','측정과 어림',1,2],['물질과 규칙성','원소와 주기율',3,6],['시스템과 상호작용','역학적 시스템',7,10],['시스템과 상호작용','생명 시스템',11,12],['변화와 다양성','산화와 환원',13,15],['환경과 에너지','생태계와 환경',16,18],['과학과 미래 사회','과학 기술과 사회',19,20]],
  hist:{rounds:[3,5,6,7,8],raw:[35,37,33,39,38],avg:[29,30,28,31,30.5]}}
 };
-const ORDER=['kor','math','eng','bio','earth'];
-const BLACK_SUBS=['math','bio'];
+const ORDER=['kor','math','eng','soc','sci'];
+const BLACK_SUBS=['math','sci'];
 
 function gradeOf(s,v){for(let i=0;i<8;i++)if(v>=s.cuts[i])return i+1;return 9}
 function pctOf(s,v){const anc=[96,89,77,60,40,23,11,4];if(v>=s.cuts[0]){const top=s.basis==='std'?s.cuts[0]+12:s.total;return Math.min(100,Math.round(96+(v-s.cuts[0])/Math.max(1,top-s.cuts[0])*4))}
@@ -412,7 +401,7 @@ function prep(){
    units.forEach(u=>{const T=s.qs.filter(q=>q.unit===u).reduce((a,q)=>a+q.pts,0);s.unitAvg[u]=[.97,.92,.85,.76].map(f=>Math.min(T,Math.round(T*(f+(r()-.5)*.08))))});
    if(s.evs){s.evalOrder=s.evs.filter(e=>s.qs.some(q=>q.ev===e));s.evalAvg={};s.evalOrder.forEach(e=>{const T=s.qs.filter(q=>q.ev===e).reduce((a,q)=>a+q.pts,0);s.evalAvg[e]=[.97,.92,.85,.76].map(f=>Math.min(T,Math.round(T*(f+(r()-.5)*.08))))})}
    const w=s.qs.filter(q=>!q.ok).sort((a,b)=>b.rate-a.rate);
-   s.recs=w.slice(0,3).map((q,i)=>[s.evs?q.ev:'',`${s.sel} - ${q.unit}`,['2027학년도 6월 평가원 모의고사','2026학년도 대학수학능력시험','2027학년도 9월 평가원 모의고사'][i]+` ${s.sel} ${5+((q.n*7)%(s.n-5))}번`,`${q.pts}점 | ${q.sub}`]);
+   s.recs=w.slice(0,3).map((q,i)=>[s.evs?q.ev:'',`${s.name} - ${q.unit}`,['2027학년도 6월 평가원 모의고사','2026학년도 대학수학능력시험','2027학년도 9월 평가원 모의고사'][i]+` ${s.name} ${5+((q.n*7)%(s.n-5))}번`,`${q.pts}점 | ${q.sub}`]);
    s.big={};units.forEach(u=>s.big[u]=s.sel);
    s.hist.std=s.hist.raw.map(v=>est(s,v).std);s.hist.pct=s.hist.raw.map(v=>est(s,v).pct);s.hist.grade=s.hist.raw.map(v=>est(s,v).grade);
    s.prevGoals=[{t:'miss',v:0,txt:'놓친 문항(정답률 70%↑) 오답 0개'},{t:'unit',u:units[1],v:.85,txt:`${units[1]} 단원 득점률 85% 이상`},{t:'unit',u:units[units.length-1],v:.8,txt:`${units[units.length-1]} 단원 득점률 80% 이상`}]}
@@ -434,7 +423,7 @@ function cls(rate){const t=TH[S.mode];return rate>=t.hi?1:rate>=t.lo?2:3}
 function stats(s,key,list){return list.map(u=>{const qs=s.qs.filter(q=>q[key]===u);const T=qs.reduce((a,q)=>a+q.pts,0);const M=qs.filter(q=>q.ok).reduce((a,q)=>a+q.pts,0);
  const avgRate=qs.reduce((a,q)=>a+q.rate*q.pts,0)/T;return{u,qs,n:qs.length,c:qs.filter(q=>q.ok).length,T,M,nums:qs.map(q=>q.n).join(','),avgRate,wrong:qs.filter(q=>!q.ok)}})}
 function top3(s){return s.qs.filter(q=>!q.ok).sort((a,b)=>b.rate-a.rate||b.pts-a.pts||a.n-b.n).slice(0,3)}
-function scoreName(s){return s.tam?s.sel:s.name==='수학'?`수학(${s.sel})`:s.name==='국어'?`국어(${s.sel})`:s.name}
+function scoreName(s){return s.name;return s.name}
 
 function diagUnits(s){
  const us=stats(s,'unit',s.unitOrder);
@@ -447,37 +436,11 @@ function render(){
  const s=cur();const black=isBlack();
  $('heroT').textContent=(black?'OMEGA Black':'OMEGA')+' 모의고사 성적 리포트';
  $('iType').textContent=black?'OMEGA Black':'OMEGA';$('iSubj').textContent=s.sel;
- renderTabs();renderTotal();
+ renderTabs();
  const showPoint=!(s.tam);$('pointBox').classList.toggle('hide',!showPoint);$('pointTxt').textContent=s.point||'';
  renderSummary();renderScore();renderCut();renderLost();renderUnit();renderEval();renderCross();renderQ();renderOpp();renderRec();renderReview();renderTrend();renderFeedback();
 }
 function renderTabs(){$('subTabs').innerHTML=subs().map(k=>`<button class="tbtn ${k===S.sub?'on':''}" data-sub="${k}">${scoreName(SUBJ[k])}</button>`).join('')}
-
-function renderTotal(){
- const list=subs();const show=list.length>=2;$('secTotal').classList.toggle('hide',!show);if(!show)return;
- const hasPrev=S.hist>1;document.querySelectorAll('.omOnly').forEach(e=>e.classList.toggle('hide',isBlack()));
- let h=`<thead><tr><th>과목</th><th>원점수</th><th>표준점수</th><th>백분위</th><th>등급</th><th>잃은 점수 중<br>놓친 문항</th><th>전 회차 대비</th></tr></thead><tbody>`;
- list.forEach(k=>{const s=SUBJ[k];const miss=s.qs.filter(q=>!q.ok&&cls(q.rate)===1).reduce((a,q)=>a+q.pts,0);
-  const d=hasPrev?s.raw-s.prev.raw:null;
-  h+=`<tr${k===S.sub?' style="font-weight:700"':''}><td>${scoreName(s)}</td><td>${s.raw}</td><td>${s.std??'-'}</td><td>${s.pct??'-'}</td><td>${s.grade}</td><td class="${miss?'me':''}">${miss}점</td><td>${d===null?'<span style="color:var(--mut)">첫 응시</span>':d>0?`<span class="o">▲ ${d}점</span>`:d<0?`<span class="x">▼ ${-d}점</span>`:'유지'}</td></tr>`});
- $('totTbl').innerHTML=h+'</tbody>';
- const pr=list.map(k=>{const s=SUBJ[k];const miss=s.qs.filter(q=>!q.ok&&cls(q.rate)===1).reduce((a,q)=>a+q.pts,0);const fix=s.qs.filter(q=>!q.ok&&cls(q.rate)<=2).reduce((a,q)=>a+q.pts,0);
-  let gapRaw=null;if(s.grade>1){for(let r=s.raw+1;r<=s.total;r++){if(est(s,r).grade<s.grade){gapRaw=r-s.raw;break}}}
-  const reach=gapRaw!==null&&fix>=gapRaw;return{s,miss,fix,gapRaw,reach,score:(reach?100:0)+fix*2+miss}}).sort((a,b)=>b.score-a.score);
- {const t=pr[0];$('cTotal').innerHTML=`가장 먼저 볼 과목: ${scoreName(t.s)}`+`<span class="s">${t.s.grade===1?'1등급 유지 구간 · 놓친 문항 정리':t.reach?`놓친·보완 문항 ${t.fix}점 중 ${t.gapRaw}점 회복 시 ${t.s.grade-1}등급 도달`:`다음 등급까지 원점수 ${t.gapRaw}점`}</span>`}
- $('totPrio').innerHTML=pr.map((p,i)=>`<div class="prio"><div class="pn">${i+1}</div><div><b>${scoreName(p.s)}</b> · 현재 ${p.s.grade}등급<br><span style="color:var(--sub);font-size:14px">${p.s.grade===1?'1등급 유지 · 놓친 문항 '+p.miss+'점 정리':p.reach?`놓친·보완 문항 ${p.fix}점 중 <b style="color:var(--red)">${p.gapRaw}점</b>만 회복해도 ${p.s.grade-1}등급 도달`:`다음 등급까지 원점수 ${p.gapRaw}점 필요 · 놓친·보완 문항 ${p.fix}점 우선 회복`}</span></div></div>`).join('');
- let sh=`<thead><tr><th>과목</th><th>선택 문항</th><th>원점수</th><th>백분위</th><th>등급</th></tr></thead><tbody>`;
- list.forEach(k=>{const s=SUBJ[k];const t=top3(s);const add=t.reduce((a,q)=>a+q.pts,0);const e=est(s,s.raw+add);
-  sh+=`<tr><td>${scoreName(s)}</td><td>${t.map(q=>q.n+'번').join(', ')||'-'}</td><td>${s.raw} → <b class="o">${e.raw}</b></td><td>${s.pct??'-'}${s.pct!=null?` → <b class="o">${e.pct}</b>`:''}</td><td>${s.grade} → <b class="o">${e.grade}</b></td></tr>`});
- $('totSim').innerHTML=sh+'</tbody>';
- const K=SUBJ.kor,M=SUBJ.math,B=SUBJ.bio,E=SUBJ.earth,EN=SUBJ.eng;
- if(isBlack()){$('totArea').innerHTML='<tbody><tr><td style="color:var(--mut)">OMEGA Black은 수학·탐구 시험으로 반영 영역 조합 분석을 제공하지 않습니다.</td></tr></tbody>';$('totCombo').innerHTML='<div style="color:var(--mut);font-size:14px">OMEGA Black은 제공하지 않습니다.</div>'}
- else{
- const areas=[['국수탐(2)',K.std+M.std+B.std+E.std,K.pct+M.pct+B.pct+E.pct,8.4],['국수탐(1)',K.std+M.std+Math.max(B.std,E.std),K.pct+M.pct+Math.max(B.pct,E.pct),6.1],['국수영',K.std+M.std,K.pct+M.pct,7.2],['국영탐',K.std+B.std+E.std,K.pct+B.pct+E.pct,12.8],['수영탐',M.std+B.std+E.std,M.pct+B.pct+E.pct,6.9]];
- $('totArea').innerHTML=`<thead><tr><th>반영 영역</th><th>표준점수 합</th><th>백분위 합</th><th>상위 누적</th></tr></thead><tbody>`+areas.map(a=>`<tr><td>${a[0]}</td><td>${a[1]}</td><td>${a[2]}</td><td>${a[3]}%</td></tr>`).join('')+`</tbody>`+'';
- const combos=[['언어와매체 · 미적분',41.2,true],['화법과작문 · 미적분',18.5],['언어와매체 · 확률과통계',14.3],['화법과작문 · 확률과통계',19.6],['언어와매체 · 기하',3.4],['화법과작문 · 기하',3.0]];
- $('totCombo').innerHTML=combos.map(c=>`<div class="hbar ${c[2]?'me':''}"><div>${c[0]}${c[2]?' (나)':''}</div><div class="tr"><i style="width:${c[1]/45*100}%"></i></div><div>${c[1]}%</div></div>`).join('')+'<div class="note">영어는 영역 조합 표준점수 합산에서 제외(절대평가), 상위 누적·응시 비율은 시연값입니다.</div>'}
-}
 
 const evs=q=>(q.ev&&!cur().tam)?`(${q.ev})`:'';
 function renderSummary(){
@@ -506,7 +469,7 @@ function renderSummary(){
 
 function renderScore(){
  const s=cur();const isMath=s.name==='수학';
- const raw=`<div class="score"><b>${s.raw}<small>점</small></b>${isMath?'<div class="s2">공통 62점+선택 22점</div>':''}</div>`;
+ const raw=`<div class="score"><b>${s.raw}<small>점</small></b></div>`;
  const cells=s.eng?[['원점수',raw],['등급',`<div class="score"><b>${s.grade}</b></div>`]]:[['원점수',raw],['표준점수',`<div class="score"><b>${s.std}<small>점</small></b></div>`],['백분위',`<div class="score"><b>${s.pct}</b></div>`],['등급',`<div class="score"><b>${s.grade}</b></div>`]];
  $('scoreBox').className='grid '+(s.eng?'g2':'g4');
  $('scoreBox').innerHTML=cells.map(c=>`<div><div class="fl">${c[0]}</div>${c[1]}</div>`).join('');
@@ -519,7 +482,7 @@ function renderScore(){
 function renderCut(){
  const s=cur();const v=s.basis==='std'?s.std:s.raw;
  let h=`<thead><tr><th colspan="2">구분</th><th>등급</th>${[1,2,3,4,5,6,7,8,9].map(g=>`<th${g===s.grade?' class="me"':''}>${g}</th>`).join('')}</tr></thead><tbody>`;
- h+=`<tr><td rowspan="2" class="lab">${s.tam?'탐구':s.name}</td><td rowspan="2" class="lab">${s.sel}</td><td>구분점수</td>${s.cuts.map((c,i)=>`<td class="${i+1===s.grade?'on':''}">${c}</td>`).join('')}<td class="${s.grade===9?'on':''}">${s.cuts[7]-1}이하</td></tr>`;
+ h+=`<tr><td rowspan="2" class="lab">${s.area}</td><td rowspan="2" class="lab">${s.name}</td><td>구분점수</td>${s.cuts.map((c,i)=>`<td class="${i+1===s.grade?'on':''}">${c}</td>`).join('')}<td class="${s.grade===9?'on':''}">${s.cuts[7]-1}이하</td></tr>`;
  h+=`<tr><td>본인위치</td>${[1,2,3,4,5,6,7,8,9].map(g=>`<td class="${g===s.grade?'on':''}">${g===s.grade?'▲'+v:''}</td>`).join('')}</tr></tbody>`;
  $('cutTbl').innerHTML=h;$('cutNote').textContent='※ [국어·수학] 수능 예상 표준점수, [영어·탐구] 원점수 기준';
  $('dist').innerHTML=GR_PCT.map((p,i)=>`<div class="${i+1===s.grade?'on':''}" style="height:${p/20*100}%"></div>`).join('');
