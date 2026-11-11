@@ -283,6 +283,7 @@ tr.wrong .ans{background:#FFD5DC}
 #unitTbl td:nth-last-child(2),#evalTbl td:last-child{word-break:break-all;padding:8px 10px}
 .qmore{display:flex;justify-content:center;margin-top:16px}
 .qmore .tbtn{height:40px;padding:0 20px;font-size:15px}
+.card>h2 .eb{display:block;font-size:11px;line-height:16px;letter-spacing:.14em;color:#2C5BF6;font-weight:700;margin-bottom:4px;opacity:.75}
 </style>
 </head>
 <body>
@@ -822,6 +823,8 @@ document.addEventListener('click',e=>{
  if(t.id==='pointBtn'){const b=$('pointBox');b.classList.toggle('open');t.textContent=b.classList.contains('open')?'접기':'… 더보기'}
 });
 window.addEventListener('resize',()=>renderTrend());
+const EB={'학생 기본 정보':'STUDENT PROFILE','응시 정보':'EXAM INFO','개인성적 분석':'SCORE','등급 구분 점수':'GRADE CUTOFF','전략 총평':'STRATEGY REVIEW','잃은 점수 진단':'LOST POINTS','한 문제로 바뀌는 성적':'SCORE IMPACT SIMULATION','맞춤 보완 문항':'RECOMMENDED QUESTIONS','복습 순서와 확인':'REVIEW PLAN','단원별 상세 분석':'UNIT ANALYSIS','평가요소별 상세 분석':'ASSESSMENT ANALYSIS','문항별 나의 점수 분석':'QUESTION ANALYSIS','회차별 나의 성적 추이':'SCORE TREND','누적 피드백과 다음 회차 목표':'FEEDBACK & GOALS'};
+document.querySelectorAll('.card>h2').forEach(h=>{const k=h.childNodes[0].textContent.trim();if(EB[k])h.insertAdjacentHTML('afterbegin',`<span class="eb">${EB[k]}</span>`)});
 render();
 </script>
 </body>
