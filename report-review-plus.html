@@ -352,6 +352,13 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 .rv2 .dist2{margin:0 4px 14px}
 @media(max-width:767px){.sim{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px 12px}.sim.eng{grid-template-columns:repeat(2,minmax(0,1fr))!important}.card{margin-bottom:16px;padding:16px;border-radius:10px}.grp{margin-top:28px}}
 @media(max-width:480px){.grp .h{display:none}}
+.mt td{font-size:14px}.mt td.sm,.mt td.ev{font-size:13px}.mt td.ng small{font-size:12px}
+.cut td{font-size:14px}#cutTbl .gup{font-size:12px}.cut td .pos{font-size:12px}
+.hardtag{font-size:13px;font-weight:600;color:var(--sub);background:#F2F4F6;border-radius:999px;padding:2px 10px}
+.rpw{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px}
+.rpill{display:inline-block;font-size:13px;font-weight:600;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.rpill.r{background:#FFF1F3;color:#FF2C52}.rpill.y{background:#FFF8EC;color:#B26B00}.rpill.g{background:#EBEEFF;color:#2C5BF6}
+.rpw .ra{color:#8B95A1;font-size:13px}.rpw .rd{font-size:13px;font-weight:600;color:#8B95A1;width:100%}.rpw .rd.dn{color:#FF2C52}.rpw .rd.up{color:#2C5BF6}
 .qt-top{margin:-8px 0 12px}
 .qt-chip{display:inline-block;font-size:14px;font-weight:600;color:var(--pri2);background:var(--pril);border-radius:999px;padding:3px 12px}
 .qt-sum{font-size:16px;line-height:24px;color:var(--sub);margin:0 0 16px}
@@ -388,7 +395,7 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div class="hero" id="heroT">OMEGA 모의고사 성적 리포트</div>
 
 <div class="review">
-<b>검토용 전환 · 비교안</b> (학생 화면에는 없음) · 노란 표시 = 운영 중인 성적표 대비 <span class="tagN">신규</span> 섹션 / <span class="tagU">보강</span> 변경 부분 · 영문 소제목과 섹션 번호는 전 섹션 공통 추가
+<b>검토용 전환 · 비교안</b> (학생 화면에는 없음) · 노란 표시 = 운영 중인 성적표 대비 <span class="tagN">신규</span> 섹션 / <span class="tagU">보강</span> 변경 부분 · 영문 소제목과 섹션 번호는 전 섹션 공통 추가 · meBOOK 버튼은 아이디어 제안(앱 연동 방식 확인 필요)
 <div class="row"><span>시험 유형</span><button class="tbtn on" data-mode="OMEGA">OMEGA</button><button class="tbtn" data-mode="BLACK">OMEGA Black</button></div>
 <div class="row"><span>과목</span><div class="btnrow" id="subTabs"></div></div>
 <div class="row"><span>응시 이력</span><button class="tbtn on" data-hist="1">첫 응시 (1회)</button><button class="tbtn" data-hist="5">누적 5회</button></div>
@@ -449,6 +456,7 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div class="qt-sum" id="qtSum"></div>
 <div id="qtBody"></div>
 <div class="note">검은 눈금 = 응시자 평균 정답률 · 평균보다 낮은 순 5개</div>
+<div class="note" id="qtNote"></div>
 </section>
 
 <section class="card new">
@@ -700,17 +708,17 @@ function renderSummary(){
  const ga=hasGradeAvg(),basis=ga?'1등급 평균':'응시자 평균 득점률',thr=isBlack()?1:0;
  const gtxt=x=>ga?`${x.gap>0?'+':''}${x.gap}점`:`${x.gap>0?'+':''}${Math.round(x.gap*10)}%p`;
  const weakU=du.filter(x=>x.weak).sort((a,b)=>a.gap-b.gap)[0];
- const QL=(S.sub==='math'||s.tam)?'단원':'유형',qw=(window.QT||[]).find(x=>x.d<0),qb=[...(window.QT||[])].sort((a,b)=>b.d-a.d)[0];let usedC1=false,usedQw=false;
+ const QL=(S.sub==='math'||s.tam)?'단원':'유형',qw=(window.QT||[]).find(x=>x.d<0),qb=[...(window.QT||[])].sort((a,b)=>b.d-a.d)[0];let usedC1=false,usedQw=false;const QR=S.hist>1?' (최근 3회)':'';
  let L=[`${s.name} <b>${s.raw}점 · ${s.grade}등급</b>${s.pct!=null?`(백분위 ${s.pct})`:''}, OMEGA 응시자 ${N.toLocaleString()}명 중 <b>상위 ${top}%</b>입니다.`];
  if(!w.length)L.push('오답 없이 만점입니다. 현재 학습 방향을 유지하세요.');
  else if(c1.length&&gap&&p1>=gap&&(usedC1=true))L.push(`응시자 대부분이 맞힌 ${c1.length}문항(${p1}점)만 회복해도 <b>${s.grade-1}등급</b>에 도달합니다. 이번 회차의 첫 과제는 <b>실수 관리</b>입니다.`);
- else if(qw&&(usedQw=true))L.push(`<b>${qw.g}</b> 정답률이 응시자 평균보다 ${-qw.d}%p 낮아, 가장 먼저 보완할 ${QL}입니다.`);
+ else if(qw&&(usedQw=true))L.push(`<b>${qw.g}</b> 정답률이${QR} 응시자 평균보다 ${-qw.d}%p 낮아, 가장 먼저 보완할 ${QL}입니다.`);
  else if(c3.length===w.length)L.push('오답이 모두 고난도 문항입니다. 상위권 문항의 풀이 흐름을 익히는 단계입니다.');
  else L.push(`오답 ${w.length}문항이 여러 단원에 흩어져 있어 문항별 복습이 효과적입니다.`);
  if(S.hist>1){const d=s.raw-s.prev.raw;L.push(`직전 회차보다 <b>${d>0?'+':''}${d}점</b> ${d>0?'상승':d<0?'하락':'유지'}했습니다.`)}
  $('sLead').innerHTML=L.join(' ');
  const st=[];
- if(qb&&qb.d>0)st.push(`<b>${qb.g}</b> 정답률 ${qb.me}% · 응시자 평균보다 +${qb.d}%p`);
+ if(qb&&qb.d>0)st.push(`<b>${qb.g}</b> 정답률 ${qb.me}%${QR} · 응시자 평균보다 +${qb.d}%p`);
  const hardOk=s.qs.filter(q=>q.ok&&q.rate<T.lo).sort((a,b)=>a.rate-b.rate)[0];
  if(hardOk)st.push(`정답률 ${fmt(hardOk.rate)}% <b>${hardOk.n}번</b> 정답 · 응시자 다수가 틀린 문항 해결`);
  if(st.length<2&&hasEvalCol(s)){const ev=(s.evalOrder||[]).map(e=>({e,qs:s.qs.filter(q=>q.ev===e)})).filter(x=>x.qs.length>=3&&x.qs.every(q=>q.ok)).sort((a,b)=>b.qs.length-a.qs.length)[0];if(ev)st.push(`<b>${ev.e}</b> 유형 ${ev.qs.length}문항 모두 정답`)}
@@ -722,7 +730,7 @@ function renderSummary(){
  const ce=hasEvalCol(s)?cnt('ev'):null,cu=cnt('unit');
  if(ce&&ce[1].length>=2)wk.push(`<b>${ce[0]}</b> 유형 ${ce[1].length}문항 오답 (${ce[1].map(q=>q.n+'번').join(', ')})`);
  else if(cu&&cu[1].length>=2)wk.push(`<b>${cu[0]}</b> 단원 ${cu[1].length}문항 오답 (${cu[1].map(q=>q.n+'번').join(', ')})`);
- if(wk.length<2&&qw&&!usedQw)wk.push(`<b>${qw.g}</b> 정답률 ${qw.me}% · 응시자 평균 대비 −${-qw.d}%p`);
+ if(wk.length<2&&qw&&!usedQw)wk.push(`<b>${qw.g}</b> 정답률 ${qw.me}%${QR} · 응시자 평균 대비 −${-qw.d}%p`);
  if(wk.length<2&&c2.length)wk.push(`<b>${c2[0].n}번</b>(${c2[0].unit}) · 정답률 ${fmt(c2[0].rate)}% 문항 오답`);
  if(!wk.length)wk.push('보완이 필요한 오답이 없습니다');
  $('sWeak').innerHTML=wk.slice(0,2).map(x=>`<li>${x}</li>`).join('');
@@ -738,7 +746,7 @@ function renderSummary(){
 function renderScore(){
  const s=cur();const isMath=s.name==='수학';
  const raw=`<div class="score"><b>${s.raw}<small>점</small></b></div>`;
- const cells=s.eng?[['원점수',raw],['등급',`<div class="score"><b>${s.grade}</b></div>`]]:[['원점수',raw],['표준점수',`<div class="score"><b>${s.std}<small>점</small></b></div>`],['백분위',`<div class="score"><b>${s.pct}</b></div>`],['등급',`<div class="score"><b>${s.grade}</b></div>`]];
+ const cells=s.eng?[['원점수',raw],['등급',`<div class="score"><b>${s.grade}</b></div>`]]:[['원점수',raw],['표준점수',`<div class="score"><b>${s.std}<small>점</small></b></div>`],['예상 백분위',`<div class="score"><b>${s.pct}</b></div>`],['등급',`<div class="score"><b>${s.grade}</b></div>`]];
  $('scoreBox').className='grid '+(s.eng?'g2':'g4');
  $('scoreBox').innerHTML=cells.map(c=>`<div><div class="fl">${c[0]}</div>${c[1]}</div>`).join('');
  $('scoreNote').classList.toggle('hide',!!s.eng);
@@ -857,10 +865,10 @@ function renderReview(){
  const OBJ=q=>s.key!=='math'||q.n<=15||(q.n>=23&&q.n<=28);const circ=v=>/^[1-5]$/.test(v)?'①②③④⑤'[v-1]:v;
  if(!w.length){$('rvList').innerHTML='<div style="color:var(--sub)">오답 문항이 없습니다.</div>';return}
  $('rvList').innerHTML=w.map(q=>{
-  const head=`<span class="rn">${q.n}번</span><span class="lbl ${lc[cls(q.rate)]}">${label[cls(q.rate)]}</span><span class="ru">${q.unit}</span>`;
+  const head=`<span class="rn">${q.n}번</span><span class="lbl ${lc[cls(q.rate)]}">${label[cls(q.rate)]}</span><span class="ru">${q.unit}</span>${cls(q.rate)===3?'<span class="hardtag">응시자 다수가 어려워한 문항</span>':''}`;
   if(!OBJ(q))return`<div class="rv2"><div class="rr">${head}<span class="ri">주관식 · 응시자 ${fmt(q.rate)}% 정답</span></div></div>`;
   const d=optDist(s,q),mine=q.my!=='-'?d[+q.my-1]:null;
-  const info=`<span class="ri">내 답 ${circ(q.my)} → 정답 ${circ(q.ans)}${mine!=null?` · <b>${circ(q.my)}을 고른 학생 ${mine}%</b>${trap(q)?' <em>대표 함정</em>':''}`:''}</span>`;
+  const info=`<span class="ri">내 답 ${q.my==='-'?'무응답':circ(q.my)} → 정답 ${circ(q.ans)}${mine!=null?` · <b>${circ(q.my)}을 고른 학생 ${mine}%</b>${trap(q)?' <em>대표 함정</em>':''}`:''}</span>`;
   const bars=d.map((v,k)=>`<div class="drow ${k+1===+q.ans?'ans':''} ${String(k+1)===q.my?'mine':''}"><span>${circ(String(k+1))}${k+1===+q.ans?' 정답':String(k+1)===q.my?' 내 답':''}</span><div class="dtr"><i style="width:${v}%"></i></div><b>${v}%</b></div>`).join('');
   return`<details class="rv2"><summary class="rr">${head}${info}<span class="rx">선지별 반응률</span></summary><div class="dist2">${bars}</div></details>`}).join('');
 }
@@ -963,8 +971,8 @@ function renderPlus2(){
  rows.forEach(x=>{x.rate=Math.round(x.C/x.N*100);const both=x.last[0]<x.last[1]&&x.cur[0]<x.cur[1];x.st=x.N<3?['표본 부족','k']:x.rate<50?['집중 보완','r']:both&&x.rate<75?['반복 확인','y']:x.rate<60?['점검 필요','y']:x.rate<80?['유지 관찰','b']:['안정','g']});
  const ord={r:0,y:1,b:2,g:3,k:4};rows.sort((a,b)=>ord[a.st[1]]-ord[b.st[1]]||a.rate-b.rate);
  const show=rows.slice(0,8);
- $('unitChg').innerHTML=`<div class="tblwrap"><table class="wmap"><colgroup><col style="width:20%"><col style="width:16%"><col style="width:12%"><col style="width:12%"><col style="width:20%"><col style="width:10%"><col style="width:10%"></colgroup><thead><tr><th>소분류</th><th>단원</th>${ev?'<th>평가요소</th>':'<th>-</th>'}<th>누적 정답/출제</th><th>누적 정답률</th><th>최근 2회</th><th>상태</th></tr></thead><tbody>${show.map(x=>`<tr><td><b>${x.sb}</b></td><td>${x.u}</td><td>${x.ev||'-'}</td><td>${x.C} / ${x.N}</td><td>${x.N<3?'<span style="color:#8B95A1">판정 보류</span>':`<div class="wbar"><div class="dtr"><i class="${rateCls(x.rate)}" style="width:${x.rate}%"></i></div><b>${x.rate}%</b></div>`}</td><td>${x.last[0]}/${x.last[1]} → ${x.cur[0]}/${x.cur[1]}</td><td><span class="st ${x.st[1]}">${x.st[0]}</span></td></tr>`).join('')}</tbody></table></div>
- <div class="caveat b">${s.hist.rounds[0]}~${s.hist.rounds[4]}회 누적 기준 · 누적 출제 3문항 미만 소분류는 정답률을 단정하지 않고 판정 보류로 표시합니다. 득점률이 낮은 순으로 최대 8개.</div>`;
+ $('unitChg').innerHTML=`<div class="tblwrap"><table class="wmap"><colgroup><col style="width:17%"><col style="width:13%"><col style="width:11%"><col style="width:10%"><col style="width:16%"><col style="width:23%"><col style="width:10%"></colgroup><thead><tr><th>소분류</th><th>단원</th>${ev?'<th>평가요소</th>':'<th>-</th>'}<th>누적 정답/출제</th><th>누적 정답률</th><th>회차별 정답률</th><th>상태</th></tr></thead><tbody>${show.map(x=>`<tr><td><b>${x.sb}</b></td><td>${x.u}</td><td>${x.ev||'-'}</td><td>${x.C} / ${x.N}</td><td>${x.N<3?'<span style="color:#8B95A1">판정 보류</span>':`<div class="wbar"><div class="dtr"><i class="${rateCls(x.rate)}" style="width:${x.rate}%"></i></div><b>${x.rate}%</b></div>`}</td><td>${(()=>{const a=Math.round(x.last[0]/x.last[1]*100),b=Math.round(x.cur[0]/x.cur[1]*100),d=b-a,pl=(r,v)=>`<span class="rpill ${v>=80?'g':v>=50?'y':'r'}">${r}회 ${v}%</span>`;return `<div class="rpw">${pl(s.hist.rounds[3],a)}<span class="ra">→</span>${pl(s.hist.rounds[4],b)}<span class="rd ${d<0?'dn':d>0?'up':''}">${d<0?'▼ '+(-d)+'%p':d>0?'▲ '+d+'%p':'유지'}</span></div>`})()}</td><td><span class="st ${x.st[1]}">${x.st[0]}</span></td></tr>`).join('')}</tbody></table></div>
+ <div class="caveat b">${s.hist.rounds[0]}~${s.hist.rounds[4]}회 누적 기준 · 누적 출제 3문항 미만 소분류는 정답률을 단정하지 않고 판정 보류로 표시합니다. 정답률이 낮은 순으로 최대 8개.</div>`;
 }
 function renderQType(){
  const s=cur(),many=S.hist>1,key=(S.sub==='math'||s.tam)?'unit':'sub';
@@ -982,7 +990,7 @@ function renderQType(){
   return{g,N,C,me,avg,d:me-avg,ch:tr[tr.length-1]-tr[0],per}});
  gs.sort((a,b)=>a.d-b.d||b.N-a.N);window.QT=gs;
  const weak=gs.filter(x=>x.d<0).slice(0,5),rest=gs.filter(x=>!weak.includes(x));
- $('qtChip').textContent=many?'최근 '+rds.length+'회 누적':'이번 회차';
+ $('qtChip').textContent=many?'최근 '+rds.length+'회 누적':'이번 회차';$('qtNote').textContent=s.tam?'※ 통합사회·통합과학은 2028 문항분류코드 확정 전으로, 샘플 단원 기준으로 표시합니다.':'';
  const nm=weak.slice(0,2).map(x=>x.g);
  $('qtSum').innerHTML=!nm.length?'모든 유형이 응시자 평균 이상이에요.':nm.length===1?`<b>${nm[0]}</b>에서 응시자 평균 대비 격차가 가장 커요.`:`<b>${nm[0]}</b>, <b>${nm[1]}</b>에서 응시자 평균 대비 격차가 가장 커요.`;
  const wrTxt=x=>{const p=x.per.filter(q=>q.wr.length);if(!p.length)return '–';return many?p.map(q=>`${q.rd}회 ${q.wr.join('·')}번`).join(' · '):p[0].wr.join('·')+'번'};
