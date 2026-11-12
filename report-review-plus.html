@@ -297,14 +297,14 @@ tr.wrong .ans{background:#FFD5DC}
 .drow.ans .dtr i{background:#3561FF}.drow.ans span{color:#3561FF;font-weight:600}
 .drow.mine .dtr i{background:#FF2C52}.drow.mine span{color:#FF2C52;font-weight:600}
 .plus{margin-top:10px;border:1px dashed var(--yl);background:#FFFDF3;border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
-.plus{position:relative}.plus>.tagN{position:absolute;top:4px;right:0}
+.plus>.tagN{align-self:flex-start}
 .retry{display:flex;gap:8px;align-items:center;font-size:14px}.retry input{width:110px;height:34px;border:1px solid #D1D6DB;border-radius:8px;padding:0 10px;font:inherit}
 .reres{font-size:14px;font-weight:600;padding:8px 12px;border-radius:8px;display:flex;justify-content:space-between;align-items:center}.reres.ok{background:#EBEEFF;color:#2C5BF6}.reres.ng{background:#FFF1F3;color:#FF2C52}
 .why{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:13px}.why>span{color:#4E5968;margin-right:4px}
 .wchip{border:1px solid #D1D6DB;background:#fff;border-radius:999px;padding:4px 12px;font-size:13px;color:#4E5968}.wchip.on{border-color:#2C5BF6;background:#2C5BF6;color:#fff}
 .verdict{font-size:14px;color:#191F28}.verdict b{color:#2C5BF6}
 .recline{margin-top:12px;background:#FFFBEA;border:1px dashed var(--yl);border-radius:10px;padding:10px 14px;font-size:15px}
-.zone2{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start;margin:-2px 0 14px}
+.zone2{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:start;margin:-2px 0 14px}
 .zt{border:1px solid #E5E8EB;border-radius:12px;padding:12px 16px;background:#fff}.zt .t{font-size:13px;color:#4E5968}.zt .v{font-size:18px;font-weight:700;margin-top:2px}.zt .v.g{color:#191F28}.zt .v.r{color:#FF2C52}
 .zg{align-self:end}
 .qf{margin:6px 0 10px;align-items:center}
@@ -321,38 +321,6 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 .st{font-weight:700;font-size:13px}.st.r{color:#D0283E}.st.y{color:#B26B00}.st.b{color:#4E5968}.st.g{color:#0F8A55}.st.k{color:#8B95A1}
 .card>h2 .eb .num{display:inline-block;background:#EBEEFF;color:#2C5BF6;border-radius:6px;padding:0 6px;margin-right:8px;letter-spacing:0;font-size:12px}
 @media(max-width:720px){.trk,.zone2{grid-template-columns:1fr}}
-.hcard .hrow{display:grid;grid-template-columns:repeat(7,1fr);gap:0;border:1px solid #E5E8EB;border-radius:12px;overflow:hidden}
-.hcard .hf{padding:12px 16px;border-left:1px solid #E5E8EB}.hcard .hf:first-child{border-left:0}
-.hcard .hf .fl{font-size:12px;color:#6B7684;margin-bottom:2px}.hcard .hf .fv{height:auto;border:0;box-shadow:none;padding:0;font-size:15px;font-weight:600;background:none}
-.two{display:grid;grid-template-columns:36% 1fr;gap:24px;align-items:start}
-.two #scoreBox{grid-template-columns:1fr 1fr;gap:12px}
-.sh{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600;color:#191F28;margin:0 0 12px}
-.sh::before{content:'';width:6px;height:6px;border-radius:50%;background:#3561FF}
-.keym{display:grid;grid-template-columns:repeat(4,1fr) auto;gap:0;border:1px solid #E5E8EB;border-radius:12px;margin-top:20px;overflow:hidden;border-left:4px solid var(--yl)}
-.km{padding:14px 18px;border-left:1px solid #E5E8EB}.km:first-child{border-left:0}.km .t{font-size:13px;color:#4E5968}.km .v{font-size:22px;font-weight:700;color:#191F28}.km .v small{font-size:13px;font-weight:500;color:#6B7684}.km .s{font-size:12px;color:#6B7684}
-.kmt{align-self:start;margin:10px}
-.utab{margin-bottom:14px}
-/* 상자 2종 통일 + 수정 표시는 왼쪽 선 */
-.card.new{outline:0;border-left:4px solid var(--yl)}
-.card.new>h2{background:none!important}
-.concl{background:#F9F9FB;border-left:3px solid var(--yl);border-radius:0 10px 10px 0}
-.upd{background:none!important;border:0!important;border-left:3px solid var(--yl)!important;border-radius:0!important;padding:4px 0 4px 14px!important}
-.qhead.upd{padding:4px 0 4px 14px!important}
-.lead{background:#F9F9FB;border-radius:12px}
-.box,.rv,.rec,.zt,.lk,.qc{background:#fff;border:1px solid #E5E8EB}
-.recov .rc1{outline:0;background:#F9F9FB;border-left:3px solid var(--yl);border-radius:0 12px 12px 0}
-.plus{background:none;border:0;border-left:3px solid var(--yl);border-radius:0;padding:4px 0 4px 12px}
-.recline{background:#F9F9FB;border:0;border-left:3px solid var(--yl);border-radius:0 10px 10px 0}
-.dist2{background:#F9F9FB}
-.trb{background:#F9F9FB}
-.caveat,.caveat.b{background:#F9F9FB;color:#4E5968;border-radius:10px}
-.zone2 .zt{background:#fff}
-/* 선지 반응률 한 줄 막대 */
-.sbar1{display:flex;height:26px;border-radius:6px;overflow:hidden;background:#E5E8EB}
-.sbar1>div{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;border-right:1px solid #fff}
-.sbar1 .sa{background:#3561FF;color:#fff}.sbar1 .sm{background:#FF2C52;color:#fff}.sbar1 .so{background:#C9D0DA;color:#4E5968}
-.lg{display:inline-block;font-size:11px;padding:0 6px;border-radius:4px;margin-left:4px;color:#fff}.lg.sa{background:#3561FF}.lg.sm{background:#FF2C52}
-@media(max-width:900px){.hcard .hrow{grid-template-columns:repeat(4,1fr)}.two{grid-template-columns:1fr}.keym{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -366,26 +334,46 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div class="row"><span>응시 이력</span><button class="tbtn on" data-hist="1">첫 응시 (1회)</button><button class="tbtn" data-hist="5">누적 5회</button></div>
 </div>
 
-<section class="card hcard">
-<h2>학생·응시 정보</h2>
-<div class="hrow"><div class="hf"><div class="fl">소속학원</div><div class="fv">러셀 강남</div></div><div class="hf"><div class="fl">학번</div><div class="fv">511618</div></div><div class="hf"><div class="fl">이름</div><div class="fv">TEST15</div></div><div class="hf"><div class="fl">시행 연도</div><div class="fv">2026년</div></div><div class="hf"><div class="fl">유형</div><div class="fv" id="iType">OMEGA</div></div><div class="hf"><div class="fl">회차</div><div class="fv">8</div></div><div class="hf"><div class="fl">과목</div><div class="fv" id="iSubj"></div></div></div>
-<div class="point" id="pointBox"><div><b>✓ 출제 Point</b></div><div class="txt" id="pointTxt"></div><button class="lnk" id="pointBtn">… 더보기</button></div>
+<section class="card">
+<h2>학생 기본 정보</h2>
+<div class="grid g3">
+<div><div class="fl">소속학원</div><div class="fv">러셀 강남</div></div>
+<div><div class="fl">학번</div><div class="fv">511618</div></div>
+<div><div class="fl">이름</div><div class="fv">TEST15</div></div>
+</div>
+</section>
 
+
+
+
+
+
+
+<section class="card">
+<h2>응시 정보</h2>
+<div class="grid g4">
+<div><div class="fl">시행 연도</div><div class="fv">2026년</div></div>
+<div><div class="fl">유형</div><div class="fv" id="iType">OMEGA</div></div>
+<div><div class="fl">회차</div><div class="fv">8</div></div>
+<div><div class="fl">과목</div><div class="fv" id="iSubj"></div></div>
+</div>
+<div class="point" id="pointBox"><div><b>✓ 출제 Point</b></div><div class="txt" id="pointTxt"></div><button class="lnk" id="pointBtn">… 더보기</button></div>
 </section>
 
 <section class="card">
 <h2>개인성적 분석</h2>
-<div class="two">
-<div><div class="sh">개인성적</div><div class="grid g4" id="scoreBox"></div>
+<div class="grid g4" id="scoreBox"></div>
 <div class="note" id="scoreNote">※ 표준점수/백분위/등급은 자사 재원생의 성적과 수능 DB를 매칭·분석한 결과로 실제 수능 점수와 다를 수 있습니다.</div>
-</div>
-<div><div class="sh">등급 구분 점수</div><div class="tblwrap"><table class="cut" id="cutTbl"></table></div>
+</section>
+
+<section class="card">
+<h2>등급 구분 점수</h2>
+<div class="tblwrap"><table class="cut" id="cutTbl"></table></div>
 <div class="note" id="cutNote"></div>
 
-</div>
-</div>
-<div class="keym" id="keyM"></div>
 </section>
+
+
 
 <section class="card new" id="secSummary">
 <h2>전략 총평 <span class="tagN">신규</span></h2>
@@ -401,14 +389,15 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 </section>
 
 <section class="card new">
-<h2>점수 회복 기회 <span class="tagN">신규</span></h2>
-<div class="sh">잃은 점수 진단 <span class="tagN">신규</span></div>
+<h2>잃은 점수 진단 <span class="tagN">신규</span></h2>
 <div class="concl" id="cLost"></div><div class="fl" id="lostDesc"></div>
 <div class="lost" id="lostBar"></div>
 <div class="lostk" id="lostKeys"></div>
 
+</section>
 
-<div class="sh" style="margin-top:28px">한 문제로 바뀌는 성적</div>
+<section class="card">
+<h2>한 문제로 바뀌는 성적</h2>
 <p class="desc" style="margin-top:0">나의 오답 문항 중 정답률이 높은 문항을 더 맞혔을 경우 예상 성적 변화를 제공합니다.<br>문항을 선택한 뒤, 결과를 확인해 보세요.</p>
 <div><span class="dot"></span>핵심 기회 문항 TOP 3</div>
 <div class="grid g3" id="oppBox" style="margin-top:12px"></div>
@@ -418,33 +407,37 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div class="sim" id="sim"></div>
 <div class="note" id="simNote"></div>
 </div>
-
 </section>
 
-<section class="card new">
-<h2>학습 처방 <span class="tagN">신규</span></h2>
-<div class="sh">맞춤 보완 문항</div>
+
+
+<section class="card">
+<h2>맞춤 보완 문항</h2>
 <p class="desc" style="margin-top:0">취약 유형과 단원을 분석하여 점수 향상에 효과적인 기출 문항을 추천합니다.</p>
 <div class="grid g3" id="recBox"></div>
 <div class="note">※ OMEGA 시험 결과 및 기출 문항 정보를 기반으로 제공합니다.</div>
+</section>
 
-<div class="sh" style="margin-top:28px">복습 순서와 확인 <span class="tagN">신규</span></div>
+<section class="card new">
+<h2>복습 순서와 확인 <span class="tagN">신규</span></h2>
 <div class="concl" id="cRv"></div>
 <div class="recov" id="recov"></div>
 <div style="display:flex;justify-content:space-between;font-size:14px"><b>복습 진행률</b><span id="rvPct"></span></div>
 <div class="prog"><i id="rvBar" style="width:0"></i></div>
 <div id="rvList"></div>
 
-
 </section>
 
+
+
 <section class="card" id="secUnit">
-<h2>단원·평가요소 분석</h2>
-<div class="btnrow utab"><button class="tbtn on" data-ut="u">단원별 상세 분석</button><button class="tbtn" data-ut="e" id="tabEval">평가요소별 상세 분석</button></div>
-<div id="paneU"><div class="concl" id="cUnit"></div><div class="tblwrap"><table id="unitTbl"></table></div>
-</div>
-<div id="secEval" class="hide"><div class="tblwrap"><table id="evalTbl"></table></div>
-</div>
+<h2>단원별 상세 분석</h2>
+<div class="concl" id="cUnit"></div><div class="tblwrap"><table id="unitTbl"></table></div>
+</section>
+
+<section class="card" id="secEval">
+<h2>평가요소별 상세 분석</h2>
+<div class="tblwrap"><table id="evalTbl"></table></div>
 </section>
 
 <section class="card">
@@ -461,17 +454,20 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div class="tblwrap"><table id="qTbl"></table></div></div>
 </section>
 
+
+
 <section class="card">
-<h2>누적 분석</h2>
-<div class="sh">회차별 나의 성적 추이</div>
+<h2>회차별 나의 성적 추이</h2>
 <div class="btnrow" id="trBtns"></div>
 <div class="legend3"><span><i class="sq"></i>나의 점수</span><span id="lgAvg"><i class="dl"></i>응시생 평균</span><span class="tagU" style="margin-left:auto">보강</span></div>
 <div class="trend" style="height:260px"><svg id="trSvg" width="100%" height="260"></svg></div>
 <div class="note" id="trNote" style="margin:-8px 0 10px"></div>
 <div class="tblwrap"><table id="trTbl"></table></div>
 <div id="evChg" class="hist2"></div>
+</section>
 
-<div class="sh" style="margin-top:28px">누적 피드백과 다음 회차 목표 <span class="tagN">신규</span></div>
+<section class="card new">
+<h2>누적 피드백과 다음 회차 목표 <span class="tagN">신규</span></h2>
 <div class="subhd hist2" style="margin-top:0">이전 처방 이후 성취 변화 <span class="tagU">보강</span></div>
 <div id="prevGoals" class="hist2"></div>
 <div class="subhd hist2">누적 약점 지도 <span class="tagU">보강</span></div>
@@ -479,7 +475,6 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div class="subhd">다음 회차에서 확인할 목표</div>
 <div id="nextGoals"></div>
 <div class="note">다음 회차 성적표에서 이 목표의 달성 여부를 자동으로 확인합니다. 해당 단원이 출제되지 않으면 판정하지 않습니다.</div>
-
 </section>
 </div>
 
@@ -716,7 +711,7 @@ function renderUnit(){
  $('cUnit').innerHTML=ga?(neg.length?`1등급 평균까지 부족: ${neg.map(x=>`${x.u} ${x.gap}`).join(' · ')}<span class="s">부족분 합계 ${neg.reduce((a,x)=>a+x.gap,0)}점 · 진단 열의 '고난도'는 응시자 다수가 틀린 문항만 틀린 단원 (개인 취약 아님)</span>`:'모든 단원이 1등급 평균 이상입니다'):(neg.length?`응시자 평균 득점률보다 낮은 단원: ${neg.map(x=>`${x.u} ${Math.round(x.gap*10)}%p`).join(' · ')}<span class="s">OMEGA Black은 등급별 평균을 제공하지 않아 응시자 평균 득점률과 비교합니다</span>`:'모든 단원이 응시자 평균 득점률 이상입니다');
 }
 function renderEval(){
- const s=cur();const show=hasEval(s);$('tabEval').classList.toggle('hide',!show);if(!show)UT='u';applyUT();if(!show)return;
+ const s=cur();const show=hasEval(s);$('secEval').classList.toggle('hide',!show);if(!show)return;
  let h=`<thead><tr><th rowspan="2">평가요소</th><th rowspan="2">전체<br>문항수</th><th rowspan="2">정답<br>문항수</th><th rowspan="2">전체<br>배점</th><th rowspan="2" class="me">나의<br>득점</th><th colspan="4">등급별 평균 득점</th><th rowspan="2">문항번호</th></tr><tr><th>1%</th><th>1등급</th><th>2등급</th><th>3등급</th></tr></thead><tbody>`;
  stats(s,'ev',s.evalOrder).forEach(x=>{h+=`<tr><td>${x.u}</td><td>${x.n}</td><td>${x.c}</td><td>${x.T}</td><td class="me">${x.M}</td>${s.evalAvg[x.u].map(v=>`<td>${v}</td>`).join('')}<td>${x.nums}</td></tr>`});
  $('evalTbl').innerHTML='<colgroup><col style="width:15%">'+'<col style="width:7.5%">'.repeat(8)+'<col style="width:25%"></colgroup>'+h+'</tbody>';
@@ -797,8 +792,7 @@ function renderReview(){
  const OBJ=q=>s.key!=='math'||q.n<=15||(q.n>=23&&q.n<=28);const circ=v=>/^[1-5]$/.test(v)?'①②③④⑤'[v-1]:v;
  if(!w.length){$('rvList').innerHTML='<div style="color:var(--sub)">오답 문항이 없습니다.</div>';$('rvPct').textContent='-';$('rvBar').style.width='0';$('recov').innerHTML='';return}
  $('rvList').innerHTML=w.map((q,i)=>{const r=rec(q),re=RV[q.n+'re'],wy=RV[q.n+'why'];
-  let dist='';if(OBJ(q)){const d=optDist(s,q);const cls2=k=>k+1===+q.ans?'sa':String(k+1)===q.my?'sm':'so';
-   dist=`<div class="dist2"><div class="dh">선지별 반응률 <span class="tagU">신규</span> · <span class="lg sa">정답</span><span class="lg sm">내 답</span>${q.my!=='-'?` · <b>${circ(q.my)}을 고른 학생 ${d[+q.my-1]}%</b>${trap(q)?' — 이 문항의 대표 함정':''}`:''}</div><div class="sbar1">${d.map((v,k)=>`<div class="${cls2(k)}" style="width:${v}%" title="${circ(String(k+1))} ${v}%">${v>=7?`${circ(String(k+1))} ${v}%`:''}</div>`).join('')}</div></div>`}
+  let dist='';if(OBJ(q)){const d=optDist(s,q);dist=`<div class="dist2"><div class="dh">선지별 반응률 <span class="tagU">신규</span>${q.my!=='-'?` · <b>${circ(q.my)}을 고른 학생 ${d[+q.my-1]}%</b>${trap(q)?' — 이 문항의 대표 함정':''}`:''}</div>${d.map((v,k)=>`<div class="drow ${k+1===+q.ans?'ans':''} ${String(k+1)===q.my?'mine':''}"><span>${circ(String(k+1))}${k+1===+q.ans?' 정답':String(k+1)===q.my?' 내 답':''}</span><div class="dtr"><i style="width:${v}%"></i></div><b>${v}%</b></div>`).join('')}</div>`}
   else dist=`<div class="dist2"><div class="dh">주관식 문항 · 응시자 ${fmt(q.rate)}% 정답</div></div>`;
   const reBox=re?`<div class="reres ${re.ok?'ok':'ng'}">${re.ok?'다시 풀어서 정답! +'+q.pts+'점 회복':'아직 오답 — 해설 확인 후 다시 도전'}<button class="lnk" data-reset="${q.n}">다시 입력</button></div>`:`<div class="retry"><span>다시 푼 답</span><input id="in${q.n}" inputmode="numeric" placeholder="${OBJ(q)?'1~5':'답 입력'}"><button class="tbtn on" data-retry="${q.n}">채점</button></div>`;
   const whyBox=re?`<div class="why"><span>오답 원인</span>${WHY.map((x,k)=>`<button class="wchip ${wy===k?'on':''}" data-why="${q.n}:${k}">${x}</button>`).join('')}</div>`:'';
@@ -875,7 +869,7 @@ function renderFeedback(){
 
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id&&e.target.id.startsWith('in')){const b=document.querySelector(`[data-retry="${e.target.id.slice(2)}"]`);if(b)b.click()}});
 document.addEventListener('click',e=>{
- const t=e.target.closest('[data-mode],[data-hist],[data-sub],[data-opp],[data-tr],[data-q],[data-rv],[data-retry],[data-reset],[data-why],[data-qf],[data-ut],#pointBtn,#qToggle,td.qn');if(!t)return;
+ const t=e.target.closest('[data-mode],[data-hist],[data-sub],[data-opp],[data-tr],[data-q],[data-rv],[data-retry],[data-reset],[data-why],[data-qf],#pointBtn,#qToggle,td.qn');if(!t)return;
  if(t.dataset.mode){S.mode=t.dataset.mode;document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('on',b===t));if(!subs().includes(S.sub))S.sub='math';render();return}
  if(t.dataset.hist){S.hist=+t.dataset.hist;document.querySelectorAll('[data-hist]').forEach(b=>b.classList.toggle('on',b===t));render();return}
  if(t.dataset.sub){S.sub=t.dataset.sub;render();return}
@@ -886,7 +880,6 @@ document.addEventListener('click',e=>{
  if(t.id==='qToggle'){const d=$('qDetail');d.classList.toggle('hide');t.textContent=d.classList.contains('hide')?'문항별 상세 표 펼치기 (세부단원·최다 오답 선택지·등급별 정답률) ▾':'문항별 상세 표 접기 ▴';if(!d.classList.contains('hide'))d.scrollIntoView({behavior:'smooth',block:'start'});return}
  if(t.classList&&t.classList.contains('qn')){$('qDetail').classList.remove('hide');$('qToggle').textContent='문항별 상세 표 접기 ▴';t.dataset.q=t.textContent}
  if(t.dataset.q){const r=$('q'+t.dataset.q);r.scrollIntoView({behavior:'smooth',block:'center'});r.classList.add('flash');setTimeout(()=>r.classList.remove('flash'),1400);return}
- if(t.dataset.ut){UT=t.dataset.ut;applyUT();return}
  if(t.dataset.qf){QF=t.dataset.qf;applyQF();return}
  if(t.dataset.retry){const n=t.dataset.retry,q=cur().qs.find(x=>x.n==n),v=($('in'+n).value||'').trim().replace(/[①②③④⑤]/g,c=>'①②③④⑤'.indexOf(c)+1);if(!v){$('in'+n).focus();return}RV[n+'re']={ans:v,ok:v===String(q.ans)};saveRv(RV);renderReview();return}
  if(t.dataset.reset){delete RV[t.dataset.reset+'re'];delete RV[t.dataset.reset+'why'];saveRv(RV);renderReview();return}
@@ -901,11 +894,7 @@ function renderPlus2(){
  /* ④ 안정·보완 영역 */
  const groups=(ev?s.evalOrder.map(e=>({k:e,qs:s.qs.filter(q=>q.ev===e)})):s.unitOrder.map(u=>({k:u,qs:s.qs.filter(q=>q.unit===u)}))).filter(x=>x.qs.length>=2).map(x=>{const T=x.qs.reduce((a,q)=>a+q.pts,0),M=x.qs.filter(q=>q.ok).reduce((a,q)=>a+q.pts,0);return{...x,r:Math.round(M/T*100)}}).sort((a,b)=>b.r-a.r||b.qs.length-a.qs.length);
  const hi=groups[0],lo=[...groups].sort((a,b)=>a.r-b.r||b.qs.length-a.qs.length)[0];
- $('sZone').innerHTML=`<div class="zt"><div class="t">가장 안정적인 ${ev?'평가요소':'단원'}</div><div class="v g">${hi.k} · ${hi.r}%</div></div><div class="zt"><div class="t">우선 보완 ${ev?'평가요소':'단원'}</div><div class="v r">${lo.r<100?lo.k+' · '+lo.r+'%':'없음'}</div></div>`;
- /* 핵심 수치 (첫 화면) */
- {const w=s.qs.filter(q=>!q.ok),N=POP[S.mode],ap=actualPct(s),rank=Math.max(1,Math.round(N*(100-ap)/100)),fix=w.filter(q=>cls(q.rate)<3).reduce((a,q)=>a+q.pts,0);
- $('keyM').innerHTML=`<div class="km"><div class="t">OMEGA 응시자 중 석차</div><div class="v">${rank.toLocaleString()}<small> / ${N.toLocaleString()}명</small></div><div class="s">상위 ${Math.round(rank/N*1000)/10}%</div></div><div class="km"><div class="t">실제 백분위</div><div class="v">${ap}</div><div class="s">이번 회차 응시자 기준 · 예상 백분위 ${s.pct??'-'}</div></div><div class="km"><div class="t">회복 가능 점수</div><div class="v" style="color:#2C5BF6">+${fix}<small>점</small></div><div class="s">놓친·보완 문항 ${w.filter(q=>cls(q.rate)<3).length}개 기준</div></div><div class="km"><div class="t">오답</div><div class="v" style="color:#FF2C52">${w.length}<small>문항</small></div><div class="s">${w.map(q=>q.n+'번').join(', ')||'없음'}</div></div><span class="tagU kmt">보강</span>`;
- $('qCards').innerHTML='';$('qChips').insertAdjacentHTML('beforeend',`<span class="chip">취약 문항<b>${w.map(q=>q.n).join(', ')||'없음'}</b></span>`)}
+ $('sZone').innerHTML=`<div class="zt"><div class="t">가장 안정적인 ${ev?'평가요소':'단원'}</div><div class="v g">${hi.k} · ${hi.r}%</div></div><div class="zt"><div class="t">우선 보완 ${ev?'평가요소':'단원'}</div><div class="v r">${lo.r<100?lo.k+' · '+lo.r+'%':'없음'}</div></div><span class="tagU zg">보강</span>`;
  /* ③ 필터 상태 유지 */
  applyQF();
  /* ⑤ 평가요소별 득점률 변화 */
@@ -930,10 +919,9 @@ function renderPlus2(){
  $('unitChg').innerHTML=`<div class="tblwrap"><table class="wmap"><colgroup><col style="width:20%"><col style="width:16%"><col style="width:12%"><col style="width:12%"><col style="width:20%"><col style="width:10%"><col style="width:10%"></colgroup><thead><tr><th>소분류</th><th>단원</th>${ev?'<th>평가요소</th>':'<th>-</th>'}<th>누적 정답/출제</th><th>누적 득점률</th><th>최근 2회</th><th>상태</th></tr></thead><tbody>${show.map(x=>`<tr><td><b>${x.sb}</b></td><td>${x.u}</td><td>${x.ev||'-'}</td><td>${x.C} / ${x.N}</td><td>${x.N<3?'<span style="color:#8B95A1">판정 보류</span>':`<div class="wbar"><div class="dtr"><i class="${rateCls(x.rate)}" style="width:${x.rate}%"></i></div><b>${x.rate}%</b></div>`}</td><td>${x.last[0]}/${x.last[1]} → ${x.cur[0]}/${x.cur[1]}</td><td><span class="st ${x.st[1]}">${x.st[0]}</span></td></tr>`).join('')}</tbody></table></div>
  <div class="caveat b">${s.hist.rounds[0]}~${s.hist.rounds[4]}회 누적 기준 · 누적 출제 3문항 미만 소분류는 득점률을 단정하지 않고 판정 보류로 표시합니다. 득점률이 낮은 순으로 최대 8개.</div>`;
 }
-let UT='u';function applyUT(){const e=UT==='e'&&!$('tabEval').classList.contains('hide');$('paneU').classList.toggle('hide',e);$('secEval').classList.toggle('hide',!e);document.querySelectorAll('[data-ut]').forEach(b=>b.classList.toggle('on',(b.dataset.ut==='e')===e))}
 let QF='all';function applyQF(){document.querySelectorAll('#qTbl tbody tr').forEach(tr=>{const ng=tr.classList.contains('wrong');tr.classList.toggle('hide',QF==='ng'&&!ng||QF==='ok'&&ng)});document.querySelectorAll('[data-qf]').forEach(b=>b.classList.toggle('on',b.dataset.qf===QF))}
 function numberSections(){let i=0;document.querySelectorAll('section.card').forEach(sec=>{const eb=sec.querySelector('h2 .eb');if(!eb)return;if(!eb.dataset.t)eb.dataset.t=eb.textContent;if(sec.classList.contains('hide')){eb.textContent=eb.dataset.t;return}i++;eb.innerHTML=`<span class="num">${String(i).padStart(2,'0')}</span>${eb.dataset.t}`})}
-const EB={'학생·응시 정보':'STUDENT · EXAM','점수 회복 기회':'SCORE RECOVERY','학습 처방':'STUDY PRESCRIPTION','단원·평가요소 분석':'UNIT & SKILL ANALYSIS','누적 분석':'PROGRESS','학생 기본 정보':'STUDENT PROFILE','응시 정보':'EXAM INFO','개인성적 분석':'SCORE SUMMARY','등급 구분 점수':'GRADE CUTOFF','전략 총평':'STRATEGY SUMMARY','잃은 점수 진단':'MISSED POINTS','한 문제로 바뀌는 성적':'SCORE IMPACT SIMULATION','맞춤 보완 문항':'RECOMMENDED PRACTICE','복습 순서와 확인':'REVIEW PLAN','단원별 상세 분석':'UNIT ANALYSIS','평가요소별 상세 분석':'SKILL ANALYSIS','문항별 나의 점수 분석':'QUESTION ANALYSIS','회차별 나의 성적 추이':'SCORE TREND','누적 피드백과 다음 회차 목표':'PROGRESS & NEXT GOALS'};
+const EB={'학생 기본 정보':'STUDENT PROFILE','응시 정보':'EXAM INFO','개인성적 분석':'SCORE SUMMARY','등급 구분 점수':'GRADE CUTOFF','전략 총평':'STRATEGY SUMMARY','잃은 점수 진단':'MISSED POINTS','한 문제로 바뀌는 성적':'SCORE IMPACT SIMULATION','맞춤 보완 문항':'RECOMMENDED PRACTICE','복습 순서와 확인':'REVIEW PLAN','단원별 상세 분석':'UNIT ANALYSIS','평가요소별 상세 분석':'SKILL ANALYSIS','문항별 나의 점수 분석':'QUESTION ANALYSIS','회차별 나의 성적 추이':'SCORE TREND','누적 피드백과 다음 회차 목표':'PROGRESS & NEXT GOALS'};
 document.querySelectorAll('.card>h2').forEach(h=>{const k=h.childNodes[0].textContent.trim();if(EB[k])h.insertAdjacentHTML('afterbegin',`<span class="eb">${EB[k]}</span>`)});
 render();numberSections();
 </script>
