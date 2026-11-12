@@ -321,6 +321,11 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 .st{font-weight:700;font-size:13px}.st.r{color:#D0283E}.st.y{color:#B26B00}.st.b{color:#4E5968}.st.g{color:#0F8A55}.st.k{color:#8B95A1}
 .card>h2 .eb .num{display:inline-block;background:#EBEEFF;color:#2C5BF6;border-radius:6px;padding:0 6px;margin-right:8px;letter-spacing:0;font-size:12px}
 @media(max-width:720px){.trk,.zone2{grid-template-columns:1fr}}
+.fold>summary{cursor:pointer;list-style:none;font-size:15px;font-weight:600;color:var(--pri2);background:var(--pril);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fold>summary::-webkit-details-marker{display:none}
+.fold>summary::after{content:'펼치기 ▾';font-size:14px;white-space:nowrap}
+.fold[open]>summary::after{content:'접기 ▴'}
+.fold>:not(summary){margin-top:16px}
 .qt-top{margin:-8px 0 12px}
 .qt-chip{display:inline-block;font-size:14px;font-weight:600;color:var(--pri2);background:var(--pril);border-radius:999px;padding:3px 12px}
 .qt-sum{font-size:16px;line-height:24px;color:var(--sub);margin:0 0 16px}
@@ -469,8 +474,10 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 </section>
 
 <section class="card" id="secUnit">
-<h2>단원별 상세 분석</h2>
+<h2>단원별 상세 분석 <span class="tagU">보강</span></h2>
+<details class="fold"><summary>단원별 정답률과 취약 단원 상세 보기</summary>
 <div class="concl" id="cUnit"></div><div class="tblwrap"><table id="unitTbl"></table></div>
+</details>
 </section>
 
 <section class="card" id="secEval">
@@ -508,8 +515,9 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <h2>누적 피드백과 다음 회차 목표 <span class="tagN">신규</span></h2>
 <div class="subhd hist2" style="margin-top:0">이전 처방 이후 성취 변화 <span class="tagU">보강</span></div>
 <div id="prevGoals" class="hist2"></div>
-<div class="subhd hist2">누적 약점 지도 <span class="tagU">보강</span></div>
-<div id="unitChg" class="hist2"></div>
+<details class="fold hist2"><summary>누적 약점 지도 · 회차별 약점 변화와 반복 취약점 상세 보기 <span class="tagU">보강</span></summary>
+<div id="unitChg"></div>
+</details>
 <div class="subhd">다음 회차에서 확인할 목표</div>
 <div id="nextGoals"></div>
 <div class="note">다음 회차 성적표에서 이 목표의 달성 여부를 자동으로 확인합니다. 해당 단원이 출제되지 않으면 판정하지 않습니다.</div>
