@@ -331,6 +331,11 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 .grp .t{font-size:22px;font-weight:700;color:#191F28;letter-spacing:-.4px}
 .grp .h{font-size:15px;color:var(--mut)}
 .grp .tagN{margin-left:auto;align-self:center}
+.srank{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:16px;color:var(--sub)}
+.srank b{font-size:20px;font-weight:700;color:var(--ink)}.srank small{font-size:14px;color:var(--mut2)}.srank .tagU{margin-left:auto}
+#secSummary .box{border:0;padding:0;border-radius:0}
+#secSummary .sum3{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+#secSummary .sum3+.box{margin-top:18px!important;padding-top:18px;border-top:1px solid var(--line)}
 .qt-top{margin:-8px 0 12px}
 .qt-chip{display:inline-block;font-size:14px;font-weight:600;color:var(--pri2);background:var(--pril);border-radius:999px;padding:3px 12px}
 .qt-sum{font-size:16px;line-height:24px;color:var(--sub);margin:0 0 16px}
@@ -398,6 +403,7 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <section class="card">
 <h2>개인성적 분석</h2>
 <div class="grid g4" id="scoreBox"></div>
+<div class="srank" id="scoreRank"></div>
 <div class="note" id="scoreNote">※ 표준점수/백분위/등급은 자사 재원생의 성적과 수능 DB를 매칭·분석한 결과로 실제 수능 점수와 다를 수 있습니다.</div>
 </section>
 
@@ -413,7 +419,6 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <section class="card new" id="secSummary">
 <h2>전략 총평 <span class="tagN">신규</span></h2>
 <div class="lead" id="sLead"></div>
-<div class="zone2" id="sZone"></div>
 <div class="sum3">
 <div class="box"><h3><span class="lbl g">강점 분석</span></h3><ul class="bl" id="sStr"></ul></div>
 <div class="box"><h3><span class="lbl r">보완 포인트</span></h3><ul class="bl" id="sWeak"></ul></div>
@@ -428,8 +433,7 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div class="qt-top"><span class="qt-chip" id="qtChip"></span></div>
 <div class="qt-sum" id="qtSum"></div>
 <div id="qtBody"></div>
-<div class="qt-foot">복습 순서 <b>해설 확인 → 유사 기출 풀기</b></div>
-<div class="note">응시자 평균은 같은 유형 문항의 응시자 정답률 평균이며, 막대 위 검은 눈금이 평균 위치입니다. 응시자 평균보다 낮은 유형 중 차이가 큰 5개를 먼저 보여줍니다.</div>
+<div class="note">검은 눈금 = 응시자 평균 정답률 · 평균보다 낮은 순 5개</div>
 </section>
 
 <section class="card new">
@@ -455,13 +459,6 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 </div>
 </section>
 
-<section class="card">
-<h2>맞춤 보완 문항</h2>
-<p class="desc" style="margin-top:0">취약 유형과 단원을 분석하여 점수 향상에 효과적인 기출 문항을 추천합니다.</p>
-<div class="grid g3" id="recBox"></div>
-<div class="note">※ OMEGA 시험 결과 및 기출 문항 정보를 기반으로 제공합니다.</div>
-</section>
-
 <section class="card new">
 <h2>복습 순서와 확인 <span class="tagN">신규</span></h2>
 <div class="concl" id="cRv"></div>
@@ -472,12 +469,19 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 
 </section>
 
+<section class="card">
+<h2>맞춤 보완 문항</h2>
+<p class="desc" style="margin-top:0">취약 유형과 단원을 분석하여 점수 향상에 효과적인 기출 문항을 추천합니다.</p>
+<div class="grid g3" id="recBox"></div>
+<div class="note">※ OMEGA 시험 결과 및 기출 문항 정보를 기반으로 제공합니다.</div>
+</section>
+
 <div class="grp"><span class="t">상세 분석</span><span class="h">필요한 항목만 펼쳐서 확인</span><span class="tagN">신규</span></div>
 
 <section class="card">
 <h2>문항별 나의 점수 분석</h2>
 <div class="qhead upd" style="margin-top:0"><div class="qtop"><div><div class="qsub" id="qSubj"></div><div class="chips" id="qChips"></div></div></div>
-<div class="qcards" id="qCards"></div><div style="text-align:right;margin-top:6px"><span class="tagU">보강</span></div></div>
+</div>
 <div class="concl" id="cQ"></div>
 <div class="mxrow"></div>
 <div id="mxBands"></div>
@@ -496,8 +500,10 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 </section>
 
 <section class="card" id="secEval">
-<h2>평가요소별 상세 분석</h2>
+<h2>평가요소별 상세 분석 <span class="tagU">보강</span></h2>
+<details class="fold"><summary>평가요소별 정답 문항과 등급별 평균 상세 보기</summary>
 <div class="tblwrap"><table id="evalTbl"></table></div>
+</details>
 </section>
 
 <div class="grp"><span class="t">누적 성장</span><span class="h">회차별 변화와 다음 목표</span><span class="tagN">신규</span></div>
@@ -509,12 +515,11 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div class="trend" style="height:260px"><svg id="trSvg" width="100%" height="260"></svg></div>
 <div class="note" id="trNote" style="margin:-8px 0 10px"></div>
 <div class="tblwrap"><table id="trTbl"></table></div>
-<div id="evChg" class="hist2"></div>
 </section>
 
 <section class="card new">
 <h2>누적 피드백과 다음 회차 목표 <span class="tagN">신규</span></h2>
-<div class="subhd hist2" style="margin-top:0">이전 처방 이후 성취 변화 <span class="tagU">보강</span></div>
+<div class="subhd hist2" style="margin-top:0">지난 회차 복습 추천 이후 변화 <span class="tagU">보강</span></div>
 <div id="prevGoals" class="hist2"></div>
 <details class="fold hist2"><summary>누적 약점 지도 · 회차별 약점 변화와 반복 취약점 상세 보기 <span class="tagU">보강</span></summary>
 <div id="unitChg"></div>
@@ -577,7 +582,7 @@ math:{name:'수학',sel:'수학',area:'수학',raw:84,total:100,std:128,pct:95,g
  recs:[['이해력','대수 - 삼각함수','2027학년도 6월 평가원 모의고사 수학 14번','4점 | 삼각함수'],['문제해결','확률과 통계 - 확률','OMEGA Black 수학 7회 28번','4점 | 확률의 곱셈정리'],['추론','대수 - 수열','2027학년도 6월 평가원 모의고사 수학 22번','4점 | 수학적 귀납법']],
  point:'대수·미적분Ⅰ·확률과 통계 전 범위에서 출제하였다. 익숙한 유형의 문항을 바탕으로 조건 해석에 집중해야 하는 문항 위주로 구성하고, 계산 부담이 과하지 않도록 하여 핵심 문항에 풀이 시간을 집중할 수 있도록 하였다. 특히 [대수]에서는 그래프와 도형의 성질을 활용하는 문항을, [확률과 통계]에서는 조건부확률과 확률의 곱셈정리를 묻는 문항을 배치하였다. [주목할 문항] 14번, 21번, 28번.',
  hist:{rounds:[3,5,6,7,8],raw:[76,80,72,81,84],avg:[70.2,74.1,68.5,79,83.5],std:[119,124,117,125,128],pct:[86,91,83,92,95],grade:[3,2,3,2,2]},
- prevGoals:[{t:'miss',v:0,txt:'놓친 문항(정답률 70%↑) 오답 0개'},{t:'unit',u:'삼각함수',v:.9,txt:'삼각함수 단원 득점률 90% 이상'},{t:'eval',u:'문제해결',v:.5,txt:'문제해결 평가요소 득점률 50% 이상'}]
+ prevGoals:[{t:'miss',v:0,txt:'놓친 문항(정답률 70%↑) 오답 0개'},{t:'unit',u:'삼각함수',v:.9,txt:'삼각함수 단원 정답률 90% 이상'},{t:'eval',u:'문제해결',v:.5,txt:'문제해결 평가요소 정답률 50% 이상'}]
 },
 kor:{name:'국어',sel:'국어',area:'국어',raw:82,total:100,basis:'std',cuts:[131,125,118,110,99,88,79,71],k:[60,17,'kor'],prev:{raw:78},seed:11,n:45,
  blocks:[['화법과 언어','화법',1,3],['화법과 언어','음운·단어',4,6],['화법과 언어','문장·담화',7,8],['독서와 작문','작문',9,11],['독서와 작문','인문·예술',12,16],['독서와 작문','사회·문화',17,21],['독서와 작문','과학·기술',22,26],['문학','현대시',27,31],['문학','고전시가',32,35],['문학','현대소설',36,40],['문학','고전산문',41,45]],
@@ -634,7 +639,7 @@ function prep(){
    s.recs=w.slice(0,3).map((q,i)=>[s.evs?q.ev:'',`${s.name} - ${q.unit}`,['2027학년도 6월 평가원 모의고사','2026학년도 대학수학능력시험','2027학년도 9월 평가원 모의고사'][i]+` ${s.name} ${5+((q.n*7)%(s.n-5))}번`,`${q.pts}점 | ${q.sub}`]);
    s.big={};units.forEach(u=>s.big[u]=s.sel);
    s.hist.std=s.hist.raw.map(v=>est(s,v).std);s.hist.pct=s.hist.raw.map(v=>est(s,v).pct);s.hist.grade=s.hist.raw.map(v=>est(s,v).grade);
-   s.prevGoals=[{t:'miss',v:0,txt:'놓친 문항(정답률 70%↑) 오답 0개'},{t:'unit',u:units[1],v:.85,txt:`${units[1]} 단원 득점률 85% 이상`},{t:'unit',u:units[units.length-1],v:.8,txt:`${units[units.length-1]} 단원 득점률 80% 이상`}]}
+   s.prevGoals=[{t:'miss',v:0,txt:'놓친 문항(정답률 70%↑) 오답 0개'},{t:'unit',u:units[1],v:.85,txt:`${units[1]} 단원 정답률 85% 이상`},{t:'unit',u:units[units.length-1],v:.8,txt:`${units[units.length-1]} 단원 정답률 80% 이상`}]}
  }}
 prep();
 for(const k of ORDER){const s=SUBJ[k];const r=rng((s.seed||3)*31+7);s.qs.forEach(q=>{q.g=[.8,.55,.32].map(a=>q.rate>=99.9?100:Math.min(100,Math.round(q.rate+(100-q.rate)*(a+(r()-.5)*.12)*(q.rate/100+.3))))})}
@@ -671,7 +676,7 @@ function render(){
  $('iType').textContent=black?'OMEGA Black':'OMEGA';$('iSubj').textContent=s.sel;
  renderTabs();
  const showPoint=!(s.tam);$('pointBox').classList.toggle('hide',!showPoint);$('pointTxt').textContent=s.point||'';
- renderSummary();renderScore();renderCut();renderLost();renderUnit();renderEval();renderQ();renderOpp();renderRec();renderReview();renderTrend();renderFeedback();renderPlus2();renderQType();numberSections();
+ renderQType();renderSummary();renderScore();renderCut();renderLost();renderUnit();renderEval();renderQ();renderOpp();renderRec();renderReview();renderTrend();renderFeedback();renderPlus2();numberSections();
 }
 function renderTabs(){$('subTabs').innerHTML=subs().map(k=>`<button class="tbtn ${k===S.sub?'on':''}" data-sub="${k}">${scoreName(SUBJ[k])}</button>`).join('')}
 
@@ -683,36 +688,37 @@ function renderSummary(){
  const ga=hasGradeAvg(),basis=ga?'1등급 평균':'응시자 평균 득점률',thr=isBlack()?1:0;
  const gtxt=x=>ga?`${x.gap>0?'+':''}${x.gap}점`:`${x.gap>0?'+':''}${Math.round(x.gap*10)}%p`;
  const weakU=du.filter(x=>x.weak).sort((a,b)=>a.gap-b.gap)[0];
+ const QL=(S.sub==='math'||s.tam)?'단원':'유형',qw=(window.QT||[]).find(x=>x.d<0),qb=[...(window.QT||[])].sort((a,b)=>b.d-a.d)[0];let usedC1=false,usedQw=false;
  let L=[`${s.name} <b>${s.raw}점 · ${s.grade}등급</b>${s.pct!=null?`(백분위 ${s.pct})`:''}, OMEGA 응시자 ${N.toLocaleString()}명 중 <b>상위 ${top}%</b>입니다.`];
  if(!w.length)L.push('오답 없이 만점입니다. 현재 학습 방향을 유지하세요.');
- else if(c1.length&&gap&&p1>=gap)L.push(`응시자 대부분이 맞힌 ${c1.length}문항(${p1}점)만 회복해도 <b>${s.grade-1}등급</b>에 도달합니다. 이번 회차의 첫 과제는 <b>실수 관리</b>입니다.`);
- else if(weakU)L.push(`<b>${weakU.u}</b> 단원이 ${basis} 대비 ${gtxt(weakU)}로, 등급을 가르는 구간입니다.`);
+ else if(c1.length&&gap&&p1>=gap&&(usedC1=true))L.push(`응시자 대부분이 맞힌 ${c1.length}문항(${p1}점)만 회복해도 <b>${s.grade-1}등급</b>에 도달합니다. 이번 회차의 첫 과제는 <b>실수 관리</b>입니다.`);
+ else if(qw&&(usedQw=true))L.push(`<b>${qw.g}</b> 정답률이 응시자 평균보다 ${-qw.d}%p 낮아, 가장 먼저 보완할 ${QL}입니다.`);
  else if(c3.length===w.length)L.push('오답이 모두 고난도 문항입니다. 상위권 문항의 풀이 흐름을 익히는 단계입니다.');
  else L.push(`오답 ${w.length}문항이 여러 단원에 흩어져 있어 문항별 복습이 효과적입니다.`);
  if(S.hist>1){const d=s.raw-s.prev.raw;L.push(`직전 회차보다 <b>${d>0?'+':''}${d}점</b> ${d>0?'상승':d<0?'하락':'유지'}했습니다.`)}
  $('sLead').innerHTML=L.join(' ');
  const st=[];
- du.filter(x=>x.n>=2&&x.gap>thr).sort((a,b)=>b.gap-a.gap).slice(0,1).forEach(x=>st.push(`<b>${x.u}</b> ${x.M}/${x.T}점 · ${basis}보다 ${gtxt(x)}`));
+ if(qb&&qb.d>0)st.push(`<b>${qb.g}</b> 정답률 ${qb.me}% · 응시자 평균보다 +${qb.d}%p`);
  const hardOk=s.qs.filter(q=>q.ok&&q.rate<T.lo).sort((a,b)=>a.rate-b.rate)[0];
  if(hardOk)st.push(`정답률 ${fmt(hardOk.rate)}% <b>${hardOk.n}번</b> 정답 · 응시자 다수가 틀린 문항 해결`);
  if(st.length<2&&hasEvalCol(s)){const ev=(s.evalOrder||[]).map(e=>({e,qs:s.qs.filter(q=>q.ev===e)})).filter(x=>x.qs.length>=3&&x.qs.every(q=>q.ok)).sort((a,b)=>b.qs.length-a.qs.length)[0];if(ev)st.push(`<b>${ev.e}</b> 유형 ${ev.qs.length}문항 모두 정답`)}
  if(!st.length)st.push(w.length?'정답률이 높은 기본 문항을 안정적으로 득점했습니다':'전 문항 정답');
  $('sStr').innerHTML=st.slice(0,2).map(x=>`<li>${x}</li>`).join('');
  const wk=[];
- c1.slice(0,1).forEach(q=>wk.push(`<b>${q.n}번</b>(${q.unit}) · 응시자 ${fmt(q.rate)}%가 맞힌 문항 오답${trap(q)?' · 최다 오답 선택지와 같은 답':''}`));
+ if(!usedC1)c1.slice(0,1).forEach(q=>wk.push(`<b>${q.n}번</b>(${q.unit}) · 응시자 ${fmt(q.rate)}%가 맞힌 문항 오답${trap(q)?' · 최다 오답 선택지와 같은 답':''}`));
  const cnt=k=>{const m={};w.forEach(q=>{if(q[k])(m[q[k]]=m[q[k]]||[]).push(q)});return Object.entries(m).sort((a,b)=>b[1].length-a[1].length)[0]};
  const ce=hasEvalCol(s)?cnt('ev'):null,cu=cnt('unit');
  if(ce&&ce[1].length>=2)wk.push(`<b>${ce[0]}</b> 유형 ${ce[1].length}문항 오답 (${ce[1].map(q=>q.n+'번').join(', ')})`);
  else if(cu&&cu[1].length>=2)wk.push(`<b>${cu[0]}</b> 단원 ${cu[1].length}문항 오답 (${cu[1].map(q=>q.n+'번').join(', ')})`);
- if(wk.length<2&&weakU)wk.push(`<b>${weakU.u}</b> 단원 ${basis} 대비 ${gtxt(weakU)}`);
+ if(wk.length<2&&qw&&!usedQw)wk.push(`<b>${qw.g}</b> 정답률 ${qw.me}% · 응시자 평균 대비 −${-qw.d}%p`);
  if(wk.length<2&&c2.length)wk.push(`<b>${c2[0].n}번</b>(${c2[0].unit}) · 정답률 ${fmt(c2[0].rate)}% 문항 오답`);
  if(!wk.length)wk.push('보완이 필요한 오답이 없습니다');
  $('sWeak').innerHTML=wk.slice(0,2).map(x=>`<li>${x}</li>`).join('');
  const rx=[];const recOf=q=>s.recs.find(r=>r[3].includes(q.sub)||r[1].includes(q.unit));
- if(c1.length)rx.push(['①',`<b>${c1.map(q=>q.n+'번').join(', ')}</b> 다시 풀기 → 해설로 ${[...new Set(c1.map(q=>q.ev||q.unit))].join('·')} 확인${gap&&p1>=gap?` · 회복 시 ${s.grade-1}등급`:''}`]);
- const fq=c2[0]||c1[0];if(fq){const r=recOf(fq);rx.push([rx.length?'②':'①',`<b>${fq.unit}</b> 개념 정리 → ${r?`추천 기출 <b>${r[2]}</b> 풀기`:'같은 유형 문항 1개 더 풀기'}`])}
+ if(c1.length)rx.push(['①',`<b>${c1.map(q=>q.n+'번').join(', ')}</b> 다시 풀기 → 해설로 ${[...new Set(c1.map(q=>q.ev||q.unit))].join('·')} 확인`]);
+ const fq=c2[0]||c1[0];if(fq){const r=recOf(fq);rx.push([rx.length?'②':'①',`<b>${fq.unit}</b> 개념 정리 → 유사 기출 풀기`])}
  if(c3.length)rx.push([['①','②','③'][rx.length],`<b>${c3.map(q=>q.n+'번').join(', ')}</b> 해설로 풀이 흐름만 확인 · 고난도 문항`]);
- const g0=c1.length?`놓친 문항 오답 0개`:(weakU?`${weakU.u} 단원 ${ga?'1등급 평균':'90%'} 이상`:`원점수 ${s.raw}점 이상 유지`);
+ const g0=c1.length?`놓친 문항 오답 0개`:(qw?`${qw.g} 정답률 ${qw.avg}% 이상`:`원점수 ${s.raw}점 이상 유지`);
  if(rx.length<3)rx.push([['①','②','③'][rx.length],`다음 회차 목표: <b>${g0}</b>`]);
  $('sRx').innerHTML=rx.slice(0,3).map(x=>`<li><span class="k">${x[0]}</span><span>${x[1]}</span></li>`).join('');
 }
@@ -724,6 +730,8 @@ function renderScore(){
  $('scoreBox').className='grid '+(s.eng?'g2':'g4');
  $('scoreBox').innerHTML=cells.map(c=>`<div><div class="fl">${c[0]}</div>${c[1]}</div>`).join('');
  $('scoreNote').classList.toggle('hide',!!s.eng);
+ const N=POP[S.mode],ap=actualPct(s),rank=Math.max(1,Math.round(N*(100-ap)/100));
+ $('scoreRank').innerHTML=`<span>실제 백분위 <b>${ap}</b> <small>이번 회차 응시자 기준</small></span><span>${isBlack()?'OMEGA Black':'OMEGA'} 응시자 중 <b>${rank.toLocaleString()}등</b> <small>/ ${N.toLocaleString()}명 · 상위 ${Math.round(rank/N*1000)/10}%</small></span><span class="tagU">보강</span>`;
 }
 
 function renderCut(){
@@ -741,7 +749,7 @@ function renderLost(){
  const s=cur();const t=TH[S.mode];const lost=s.total-s.raw;const w=s.qs.filter(q=>!q.ok);
  const g=[1,2,3].map(c=>w.filter(q=>cls(q.rate)===c));const p=g.map(x=>x.reduce((a,q)=>a+q.pts,0));
  const gap=nextGap(s);const ex=w.filter(q=>cls(q.rate)<3).reduce((a,q)=>a+expv(q),0);
- $('cLost').innerHTML=p[0]?`잃은 ${lost}점 중 ${p[0]}점은 응시자 대부분이 맞힌 문항${gap&&p[0]>=gap?` → 이것만 회복해도 ${s.grade-1}등급`:''}<span class="s">놓친·보완 문항의 회복 기대 점수 ${Math.round(ex*10)/10}점 (배점 × 정답률 합)</span>`:`잃은 ${lost}점은 모두 보완·고난도 구간입니다<span class="s">놓친 문항 없음 · 회복 기대 점수 ${Math.round(ex*10)/10}점</span>`;
+ $('cLost').innerHTML=p[0]?`잃은 ${lost}점 중 ${p[0]}점은 응시자 대부분이 맞힌 문항입니다<span class="s">놓친·보완 문항을 다시 맞히면 기대할 수 있는 점수 ${Math.round(ex*10)/10}점</span>`:`잃은 ${lost}점은 모두 보완·고난도 구간입니다<span class="s">놓친 문항 없음 · 회복 기대 점수 ${Math.round(ex*10)/10}점</span>`;
  $('lostDesc').innerHTML=`구간 기준 (${S.mode==='BLACK'?'OMEGA Black':'OMEGA'}): 전체 정답률 ${t.hi}% 이상 / ${t.lo}~${t.hi}% / ${t.lo}% 미만`;
  $('lostBar').innerHTML=`<div class="c0" style="width:${s.raw/s.total*100}%">득점 ${s.raw}</div>`+['c1','c2','c3'].map((c,i)=>p[i]?`<div class="${c}" style="width:${p[i]/s.total*100}%">${p[i]}</div>`:'').join('');
  const meta=[['놓친 문항','c1',`응시자 ${t.hi}% 이상이 맞힘 · 가장 먼저 회복`],['보완 문항','c2',`정답률 ${t.lo}~${t.hi}% · 개념 확인 필요`],['고난도 문항','c3',g[2].length?g[2].map(q=>`${q.n}번 1등급 정답률 ${q.g[0]}% · ${q.g[0]>=60?'상위권 도약 문항':'변별 문항'}`).join('<br>'):`정답률 ${t.lo}% 미만 · 개인 약점과 구분`]];
@@ -769,7 +777,7 @@ function renderQ(){
  {const ev=hasEvalCol(s),lo=TH[S.mode].lo,w=s.qs.filter(q=>!q.ok),N=POP[S.mode],ap=actualPct(s),rank=Math.max(1,Math.round(N*(100-ap)/100));
   $('qSubj').textContent=s.name;
   $('qChips').innerHTML=`<span class="chip">총 문항<b>${s.qs.length}문항</b></span><span class="chip">정답<b>${s.qs.length-w.length}문항</b></span><span class="chip">오답<b>${w.length}문항</b></span>`;
-  $('qCards').innerHTML=[['원점수',`${s.raw}<small>점</small>`,''],['실제 백분위',ap,'이번 회차 응시자 기준'],['예상 백분위',s.pct??'-',s.pct!=null?'수능 환산':'영어 미제공'],['OMEGA 응시자 중 석차',`${rank.toLocaleString()}<small> / ${N.toLocaleString()}명</small>`,`상위 ${Math.round(rank/N*1000)/10}%`],['취약 문항',w.map(q=>q.n).join(', ')||'없음','']].map(c=>`<div class="qc"><div class="t">${c[0]}</div><div class="v"${c[0]==='예상 백분위'?' style="color:#2443C8"':''}>${c[1]}</div>${c[2]?`<div class="s">${c[2]}</div>`:''}</div>`).join('');
+
   const OBJ=q=>s.key!=='math'||q.n<=15||(q.n>=23&&q.n<=28);const circ=(q,v)=>OBJ(q)&&/^[1-5]$/.test(v)?'①②③④⑤'[v-1]:v;
   const SU={'화법과 언어':'화법·언어','독서와 작문':'독서·작문'};const su=q=>s.key==='math'?s.big[q.unit]:(SU[q.unit]||q.unit);
   let mh='';
@@ -898,7 +906,7 @@ function renderTrend(){
 function evalGoal(s,g){
  if(g.t==='miss'){const m=s.qs.filter(q=>!q.ok&&cls(q.rate)===1);return{ok:m.length<=g.v,val:`놓친 문항 ${m.length}개${m.length?' ('+m.map(q=>q.n+'번').join(', ')+')':''}`}}
  const key=g.t==='unit'?'unit':'ev';const qs=s.qs.filter(q=>q[key]===g.u);if(!qs.length)return{ok:null,val:'이번 회차 미출제'};
- const T=qs.reduce((a,q)=>a+q.pts,0),M=qs.filter(q=>q.ok).reduce((a,q)=>a+q.pts,0);return{ok:M/T>=g.v,val:`${M}/${T}점 · ${Math.round(M/T*100)}%`}}
+ const c=qs.filter(q=>q.ok).length;return{ok:c/qs.length>=g.v,val:`${c}/${qs.length}문항 · 정답률 ${Math.round(c/qs.length*100)}%`}}
 function renderFeedback(){
  const s=cur();const many=S.hist>1;document.querySelectorAll('.hist2').forEach(e=>e.classList.toggle('hide',!many));
  if(!many){$('prevGoals').innerHTML='<div class="box" style="color:var(--sub);font-size:14px">첫 응시입니다. 이번 결과로 아래 <b style="color:var(--ink)">다음 회차 확인 목표</b>를 만들었고, 다음 성적표에서 달성 여부를 보여드립니다.</div>'}
@@ -907,10 +915,9 @@ function renderFeedback(){
  else{const H=s.hist;const du=stats(s,'unit',s.unitOrder);const r=rng(s.seed||7);
   const rows=du.map(x=>{const now=Math.round(x.M/x.T*100);const seq=H.rounds.slice(1).map((_,j)=>j===3?now:Math.max(20,Math.min(100,Math.round(now+(r()-.45)*40))));const d=seq[3]-seq[2];return{u:x.u,seq,d}}).sort((a,b)=>a.d-b.d);
   $('unitChg').innerHTML=`<div class="tblwrap"><table class="chg"><thead><tr><th>단원</th>${H.rounds.slice(1).map(v=>`<th>${v}회</th>`).join('')}<th>직전 대비</th><th style="background:var(--y)">반복 오답</th></tr></thead><tbody>`+rows.map(x=>{let run=0,mx=0;x.seq.forEach(v=>{run=v<100?run+1:0;mx=Math.max(mx,run)});const rep=x.seq[3]<100&&x.seq[2]<100;return`<tr><td>${x.u}</td>${x.seq.map(v=>`<td>${v}%</td>`).join('')}<td class="${x.d<0?'dn':x.d>0?'up':''}">${x.d<0?'▼ '+(-x.d)+'%p':x.d>0?'▲ '+x.d+'%p':'유지'}</td><td style="background:#FFFBEA">${rep?`<span class="lbl r">${mx}회 연속</span>`:''}</td></tr>`}).join('')+'</tbody></table></div><div class="note">하락 단원 우선 정렬 · 반복 오답 = 직전 회차와 이번 회차 모두 오답</div>'}
- const du=diagUnits(s).filter(x=>x.weak).sort((a,b)=>a.gap-b.gap);const miss=s.qs.filter(q=>!q.ok&&cls(q.rate)===1);
+ const miss=s.qs.filter(q=>!q.ok&&cls(q.rate)===1);
  const goals=[];goals.push(miss.length?`놓친 문항(정답률 ${TH[S.mode].hi}%↑) 오답 0개 — 이번 ${miss.length}개 (${miss.map(q=>q.n+'번').join(', ')})`:'놓친 문항 오답 0개 유지');
- du.slice(0,1).forEach(x=>goals.push(`${x.u} 단원 득점률 ${Math.round(x.M/x.T*100)}% → ${hasGradeAvg()?Math.round(s.unitAvg[x.u][1]/x.T*100)+'% (1등급 평균 수준)':'90% 이상'}`));
- if(hasEval(s)){const we=stats(s,'ev',s.evalOrder).map(x=>({...x,gap:x.M-s.evalAvg[x.u][1]})).sort((a,b)=>a.gap-b.gap)[0];if(we.gap<0)goals.push(`${we.u} 평가요소 득점률 ${Math.round(we.M/we.T*100)}% → ${Math.round(s.evalAvg[we.u][1]/we.T*100)}% (1등급 평균 수준)`)}
+ (window.QT||[]).filter(x=>x.d<0).slice(0,2).forEach(x=>goals.push(`${x.g} 정답률 ${x.me}% → 응시자 평균 ${x.avg}% 이상`));
  if(goals.length<3)goals.push(`원점수 ${s.raw}점 이상 유지 (이번 회차 기준)`);
  $('nextGoals').innerHTML=goals.slice(0,3).map((g,i)=>`<div class="goal"><div class="gn">${i+1}</div><div><b>${g}</b></div><span class="res na">다음 회차 확인</span></div>`).join('');
 }
@@ -942,30 +949,26 @@ function renderPlus2(){
  /* ④ 안정·보완 영역 */
  const groups=(ev?s.evalOrder.map(e=>({k:e,qs:s.qs.filter(q=>q.ev===e)})):s.unitOrder.map(u=>({k:u,qs:s.qs.filter(q=>q.unit===u)}))).filter(x=>x.qs.length>=2).map(x=>{const T=x.qs.reduce((a,q)=>a+q.pts,0),M=x.qs.filter(q=>q.ok).reduce((a,q)=>a+q.pts,0);return{...x,r:Math.round(M/T*100)}}).sort((a,b)=>b.r-a.r||b.qs.length-a.qs.length);
  const hi=groups[0],lo=[...groups].sort((a,b)=>a.r-b.r||b.qs.length-a.qs.length)[0];
- $('sZone').innerHTML=`<div class="zt"><div class="t">가장 안정적인 ${ev?'평가요소':'단원'}</div><div class="v g">${hi.k} · ${hi.r}%</div></div><div class="zt"><div class="t">우선 보완 ${ev?'평가요소':'단원'}</div><div class="v r">${lo.r<100?lo.k+' · '+lo.r+'%':'없음'}</div></div><span class="tagU zg">보강</span>`;
+
  /* ③ 필터 상태 유지 */
  applyQF();
- /* ⑤ 평가요소별 득점률 변화 */
- if(many&&ev){const r=rng((s.seed||5)*17+3);const rows=s.evalOrder.map(e=>{const qs=s.qs.filter(q=>q.ev===e),T=qs.reduce((a,q)=>a+q.pts,0),M=qs.filter(q=>q.ok).reduce((a,q)=>a+q.pts,0),now=Math.round(M/T*100),prev=Math.max(0,Math.min(100,Math.round(now+(r()-.5)*40)));return{e,prev,now,d:now-prev}});
-  $('evChg').innerHTML=`<div class="subhd">평가요소별 득점률 변화 <span class="tagU">보강</span></div><div class="tblwrap"><table><thead><tr><th>평가요소</th><th>${s.hist.rounds[3]}회</th><th>${s.hist.rounds[4]}회</th><th>변화</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${x.e}</td><td>${x.prev}%</td><td>${x.now}%</td><td class="${x.d>0?'up':x.d<0?'dn':''}">${x.d>0?'+':''}${x.d}%p</td></tr>`).join('')}</tbody></table></div>`}
- else $('evChg').innerHTML='';
  if(!many)return;
- /* ① 이전 처방 이후 성취 변화 */
+ /* ① 지난 회차 복습 추천 이후 변화 */
  const r=rng((s.seed||7)*29+11);const subs=[...new Set(s.qs.map(q=>q.sub))];
  const wsubs=[...new Set(s.qs.filter(q=>!q.ok).map(q=>q.sub))];const pres=[...wsubs.slice(0,2),...subs.filter(x=>!wsubs.includes(x)&&s.qs.filter(q=>q.sub===x).length>=2).slice(0,1)].slice(0,3);
  const pr=pres.map(sb=>{const qs=s.qs.filter(q=>q.sub===sb),n=qs.length,now=qs.filter(q=>q.ok).length;let prev=Math.max(0,Math.min(n,now+[-1,0,1][Math.floor(r()*3)]));if(prev===now&&now<n)prev=Math.max(0,now-1);return{sb,n,prev,now}});
  const P=pr.reduce((a,x)=>a+x.prev,0),N=pr.reduce((a,x)=>a+x.now,0),T=pr.reduce((a,x)=>a+x.n,0),pr1=s.hist.rounds[3],pr2=s.hist.rounds[4];
- $('prevGoals').innerHTML=`<div class="trk"><div class="trb"><div class="t">${pr1}회 처방 소분류 정답 문항</div><div class="bb"><div><div class="b1" style="height:${P/T*90+10}px"></div><b>${P} / ${T}</b><span>${pr1}회</span></div><div><div class="b2" style="height:${N/T*90+10}px"></div><b>${N} / ${T}</b><span>${pr2}회</span></div></div><div class="s">처방 소분류 합계 · ${N-P>=0?'+':''}${N-P}문항</div></div>
- <div class="tblwrap"><table><thead><tr><th>${pr1}회 처방 소분류</th><th>${pr1}회</th><th>${pr2}회</th><th>변화</th></tr></thead><tbody>${pr.map(x=>`<tr><td>${x.sb}</td><td>${x.prev}/${x.n}</td><td>${x.now}/${x.n}</td><td class="${x.now>x.prev?'up':x.now<x.prev?'dn':''}">${x.now>x.prev?'+':''}${x.now-x.prev}</td></tr>`).join('')}</tbody></table></div></div>
- <div class="caveat">직전 회차에 안내한 처방 소분류가 이번 시험에서 어떻게 나타났는지 보여줍니다. 추천 학습의 실제 수행 여부는 확인되지 않으므로 처방 효과로 단정하지 않습니다.</div>`;
+ $('prevGoals').innerHTML=`<div class="trk"><div class="trb"><div class="t">${pr1}회 복습 추천 단원 정답 문항</div><div class="bb"><div><div class="b1" style="height:${P/T*90+10}px"></div><b>${P} / ${T}</b><span>${pr1}회</span></div><div><div class="b2" style="height:${N/T*90+10}px"></div><b>${N} / ${T}</b><span>${pr2}회</span></div></div><div class="s">복습 추천 단원 합계 · ${N-P>=0?'+':''}${N-P}문항</div></div>
+ <div class="tblwrap"><table><thead><tr><th>${pr1}회 복습 추천 단원</th><th>${pr1}회</th><th>${pr2}회</th><th>변화</th></tr></thead><tbody>${pr.map(x=>`<tr><td>${x.sb}</td><td>${x.prev}/${x.n}</td><td>${x.now}/${x.n}</td><td class="${x.now>x.prev?'up':x.now<x.prev?'dn':''}">${x.now>x.prev?'+':''}${x.now-x.prev}</td></tr>`).join('')}</tbody></table></div></div>
+ <div class="caveat">직전 회차에 안내한 복습 추천 단원이 이번 시험에서 어떻게 나타났는지 보여줍니다. 추천 학습의 실제 수행 여부는 확인되지 않으므로 복습 효과로 단정하지 않습니다.</div>`;
  /* ② 누적 약점 지도 */
  const r2=rng((s.seed||7)*41+5);
  const rows=subs.map(sb=>{const qs=s.qs.filter(q=>q.sub===sb),n=qs.length,c=qs.filter(q=>q.ok).length;const pn=Math.round(n*(1+r2()*2.5)),pc=Math.min(pn,Math.round(pn*(.45+r2()*.5)));const ln=Math.max(1,Math.round(pn/3)),lc=Math.min(ln,Math.round(ln*(.3+r2()*.7)));return{sb,u:qs[0].unit,ev:[...new Set(qs.map(q=>q.ev).filter(Boolean))].join('·'),N:n+pn,C:c+pc,last:[lc,ln],cur:[c,n]}});
  rows.forEach(x=>{x.rate=Math.round(x.C/x.N*100);const both=x.last[0]<x.last[1]&&x.cur[0]<x.cur[1];x.st=x.N<3?['표본 부족','k']:x.rate<50?['집중 보완','r']:both&&x.rate<75?['반복 확인','y']:x.rate<60?['점검 필요','y']:x.rate<80?['유지 관찰','b']:['안정','g']});
  const ord={r:0,y:1,b:2,g:3,k:4};rows.sort((a,b)=>ord[a.st[1]]-ord[b.st[1]]||a.rate-b.rate);
  const show=rows.slice(0,8);
- $('unitChg').innerHTML=`<div class="tblwrap"><table class="wmap"><colgroup><col style="width:20%"><col style="width:16%"><col style="width:12%"><col style="width:12%"><col style="width:20%"><col style="width:10%"><col style="width:10%"></colgroup><thead><tr><th>소분류</th><th>단원</th>${ev?'<th>평가요소</th>':'<th>-</th>'}<th>누적 정답/출제</th><th>누적 득점률</th><th>최근 2회</th><th>상태</th></tr></thead><tbody>${show.map(x=>`<tr><td><b>${x.sb}</b></td><td>${x.u}</td><td>${x.ev||'-'}</td><td>${x.C} / ${x.N}</td><td>${x.N<3?'<span style="color:#8B95A1">판정 보류</span>':`<div class="wbar"><div class="dtr"><i class="${rateCls(x.rate)}" style="width:${x.rate}%"></i></div><b>${x.rate}%</b></div>`}</td><td>${x.last[0]}/${x.last[1]} → ${x.cur[0]}/${x.cur[1]}</td><td><span class="st ${x.st[1]}">${x.st[0]}</span></td></tr>`).join('')}</tbody></table></div>
- <div class="caveat b">${s.hist.rounds[0]}~${s.hist.rounds[4]}회 누적 기준 · 누적 출제 3문항 미만 소분류는 득점률을 단정하지 않고 판정 보류로 표시합니다. 득점률이 낮은 순으로 최대 8개.</div>`;
+ $('unitChg').innerHTML=`<div class="tblwrap"><table class="wmap"><colgroup><col style="width:20%"><col style="width:16%"><col style="width:12%"><col style="width:12%"><col style="width:20%"><col style="width:10%"><col style="width:10%"></colgroup><thead><tr><th>소분류</th><th>단원</th>${ev?'<th>평가요소</th>':'<th>-</th>'}<th>누적 정답/출제</th><th>누적 정답률</th><th>최근 2회</th><th>상태</th></tr></thead><tbody>${show.map(x=>`<tr><td><b>${x.sb}</b></td><td>${x.u}</td><td>${x.ev||'-'}</td><td>${x.C} / ${x.N}</td><td>${x.N<3?'<span style="color:#8B95A1">판정 보류</span>':`<div class="wbar"><div class="dtr"><i class="${rateCls(x.rate)}" style="width:${x.rate}%"></i></div><b>${x.rate}%</b></div>`}</td><td>${x.last[0]}/${x.last[1]} → ${x.cur[0]}/${x.cur[1]}</td><td><span class="st ${x.st[1]}">${x.st[0]}</span></td></tr>`).join('')}</tbody></table></div>
+ <div class="caveat b">${s.hist.rounds[0]}~${s.hist.rounds[4]}회 누적 기준 · 누적 출제 3문항 미만 소분류는 정답률을 단정하지 않고 판정 보류로 표시합니다. 득점률이 낮은 순으로 최대 8개.</div>`;
 }
 function renderQType(){
  const s=cur(),many=S.hist>1,key=(S.sub==='math'||s.tam)?'unit':'sub';
@@ -981,7 +984,7 @@ function renderQType(){
   const N=per.reduce((a,p)=>a+p.n,0),C=per.reduce((a,p)=>a+p.c,0),avg=Math.round(per.reduce((a,p)=>a+p.avg*p.n,0)/N),me=Math.round(C/N*100);
   const tr=per.map(p=>Math.round(p.c/p.n*100));
   return{g,N,C,me,avg,d:me-avg,ch:tr[tr.length-1]-tr[0],per}});
- gs.sort((a,b)=>a.d-b.d||b.N-a.N);
+ gs.sort((a,b)=>a.d-b.d||b.N-a.N);window.QT=gs;
  const weak=gs.filter(x=>x.d<0).slice(0,5),rest=gs.filter(x=>!weak.includes(x));
  $('qtChip').textContent=many?'최근 '+rds.length+'회 누적':'이번 회차';
  const nm=weak.slice(0,2).map(x=>x.g);
