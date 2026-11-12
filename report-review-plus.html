@@ -772,7 +772,7 @@ function renderLost(){
  $('cLost').innerHTML=p[0]?`잃은 ${lost}점 중 ${p[0]}점은 응시자 대부분이 맞힌 문항입니다<span class="s">놓친·보완 문항을 다시 맞히면 기대할 수 있는 점수 ${Math.round(ex*10)/10}점</span>`:`잃은 ${lost}점은 모두 보완·고난도 구간입니다<span class="s">놓친 문항 없음 · 회복 기대 점수 ${Math.round(ex*10)/10}점</span>`;
  $('lostDesc').innerHTML=`구간 기준 (${S.mode==='BLACK'?'OMEGA Black':'OMEGA'}): 전체 정답률 ${t.hi}% 이상 / ${t.lo}~${t.hi}% / ${t.lo}% 미만`;
  $('lostBar').innerHTML=`<div class="c0" style="width:${s.raw/s.total*100}%">득점 ${s.raw}</div>`+['c1','c2','c3'].map((c,i)=>p[i]?`<div class="${c}" style="width:${p[i]/s.total*100}%">${p[i]}</div>`:'').join('');
- const meta=[['놓친 문항','c1',`응시자 ${t.hi}% 이상이 맞힘 · 가장 먼저 회복`],['보완 문항','c2',`정답률 ${t.lo}~${t.hi}% · 개념 확인 필요`],['고난도 문항','c3',g[2].length?g[2].map(q=>`${q.n}번 1등급 정답률 ${q.g[0]}% · ${q.g[0]>=60?'상위권 도약 문항':'변별 문항'}`).join('<br>'):`정답률 ${t.lo}% 미만 · 개인 약점과 구분`]];
+ const meta=[['놓친 문항','c1',`응시자 ${t.hi}% 이상이 맞힘 · 가장 먼저 회복`],['보완 문항','c2',`정답률 ${t.lo}~${t.hi}% · 개념 확인 필요`],['고난도 문항','c3',g[2].length?g[2].map(q=>`${q.n}번 1등급 정답률 ${q.g[0]}% · ${q.g[0]>=60?'상위권 도약 문항':'변별 문항'}`).join('<br>'):`정답률 ${t.lo}% 미만 · 응시자 대부분이 어려워한 문항`]];
  $('lostKeys').innerHTML=meta.map((m,i)=>`<div class="lk"><div class="h"><i class="${m[1]}"></i>${m[0]}</div><div class="n">${p[i]}점 <span style="font-size:14px;color:var(--sub);font-weight:500">${g[i].length}문항</span></div><div class="q">${g[i].map(q=>q.n+'번').join(', ')||'없음'}</div><div class="q">${m[2]}</div></div>`).join('');
 }
 
@@ -783,7 +783,7 @@ function renderUnit(){
   h+=`<tr><td>${x.u}</td><td>${x.n}</td><td>${x.c}</td><td>${x.T}</td><td class="me">${x.M}</td>${ga?a.map(v=>`<td>${v}</td>`).join(''):''}<td>${x.nums}</td><td style="background:#FFFBEA">${tag}</td></tr>`});
  $('unitTbl').innerHTML=(ga?'<colgroup><col style="width:17%">'+'<col style="width:6.8%">'.repeat(8)+'<col style="width:17%"><col style="width:11.6%"></colgroup>':'<colgroup><col style="width:24%">'+'<col style="width:11%">'.repeat(4)+'<col style="width:22%"><col style="width:10%"></colgroup>')+h+'</tbody>';
  const neg=du.filter(x=>x.gap<0).sort((a,b)=>a.gap-b.gap);
- $('cUnit').innerHTML=ga?(neg.length?`1등급 평균까지 부족: ${neg.map(x=>`${x.u} ${x.gap}`).join(' · ')}<span class="s">부족분 합계 ${neg.reduce((a,x)=>a+x.gap,0)}점 · 진단 열의 '고난도'는 응시자 다수가 틀린 문항만 틀린 단원 (개인 취약 아님)</span>`:'모든 단원이 1등급 평균 이상입니다'):(neg.length?`응시자 평균 득점률보다 낮은 단원: ${neg.map(x=>`${x.u} ${Math.round(x.gap*10)}%p`).join(' · ')}<span class="s">OMEGA Black은 등급별 평균을 제공하지 않아 응시자 평균 득점률과 비교합니다</span>`:'모든 단원이 응시자 평균 득점률 이상입니다');
+ $('cUnit').innerHTML=ga?(neg.length?`1등급 평균까지 부족: ${neg.map(x=>`${x.u} ${x.gap}`).join(' · ')}<span class="s">부족분 합계 ${neg.reduce((a,x)=>a+x.gap,0)}점 · 진단 열의 '고난도'는 응시자 대부분이 어려워한 문항만 틀린 단원</span>`:'모든 단원이 1등급 평균 이상입니다'):(neg.length?`응시자 평균 득점률보다 낮은 단원: ${neg.map(x=>`${x.u} ${Math.round(x.gap*10)}%p`).join(' · ')}<span class="s">OMEGA Black은 등급별 평균을 제공하지 않아 응시자 평균 득점률과 비교합니다</span>`:'모든 단원이 응시자 평균 득점률 이상입니다');
 }
 function renderEval(){
  const s=cur();const show=hasEval(s);$('secEval').classList.toggle('hide',!show);if(!show)return;
@@ -865,7 +865,7 @@ function renderReview(){
  const OBJ=q=>s.key!=='math'||q.n<=15||(q.n>=23&&q.n<=28);const circ=v=>/^[1-5]$/.test(v)?'①②③④⑤'[v-1]:v;
  if(!w.length){$('rvList').innerHTML='<div style="color:var(--sub)">오답 문항이 없습니다.</div>';return}
  $('rvList').innerHTML=w.map(q=>{
-  const head=`<span class="rn">${q.n}번</span><span class="lbl ${lc[cls(q.rate)]}">${label[cls(q.rate)]}</span><span class="ru">${q.unit}</span>${cls(q.rate)===3?'<span class="hardtag">응시자 다수가 어려워한 문항</span>':''}`;
+  const head=`<span class="rn">${q.n}번</span><span class="lbl ${lc[cls(q.rate)]}">${label[cls(q.rate)]}</span><span class="ru">${q.unit}</span>${cls(q.rate)===3?'<span class="hardtag">응시자 대부분이 어려워한 문항</span>':''}`;
   if(!OBJ(q))return`<div class="rv2"><div class="rr">${head}<span class="ri">주관식 · 응시자 ${fmt(q.rate)}% 정답</span></div></div>`;
   const d=optDist(s,q),mine=q.my!=='-'?d[+q.my-1]:null;
   const info=`<span class="ri">내 답 ${q.my==='-'?'무응답':circ(q.my)} → 정답 ${circ(q.ans)}${mine!=null?` · <b>${circ(q.my)}을 고른 학생 ${mine}%</b>${trap(q)?' <em>대표 함정</em>':''}`:''}</span>`;
