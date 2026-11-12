@@ -131,7 +131,7 @@ tr.wrong .ans{background:#FFD5DC}
 .pn{width:36px;height:36px;border-radius:10px;background:var(--pri);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:17px}
 .hide{display:none!important}
 .subhd{font-weight:700;margin:22px 0 10px;font-size:16px}
-@media(max-width:720px){.g4,.prof,.sim{grid-template-columns:repeat(2,1fr)}.g3,.lostk,.sum3,.g2{grid-template-columns:1fr}.hbar{grid-template-columns:110px 1fr 50px}.card{padding:22px 16px}}
+@media(max-width:767px){.g4,.prof,.sim{grid-template-columns:repeat(2,1fr)}.g3,.lostk,.sum3,.g2{grid-template-columns:1fr}.hbar{grid-template-columns:110px 1fr 50px}.card{padding:22px 16px}}
 .concl{background:var(--y);border-left:4px solid var(--yl);padding:12px 16px;font-size:16px;font-weight:600;margin:-4px 0 18px;line-height:1.55}
 .concl .s{display:block;font-size:14px;font-weight:400;color:var(--sub);margin-top:2px}
 .stage{display:flex;align-items:center;gap:10px;margin:40px 0 -6px;font-size:18px;font-weight:700;color:#24339a}
@@ -182,7 +182,7 @@ td.same{box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;font-weight:700}
 .mlg{border-radius:6px;padding:2px 8px;font-size:13px}.mlg.ng{background:#FFF0F2;color:#C62842;border:1px solid #F5C2CB}.mlg.lo{background:#FFF4E6;color:#B04A00;border:1px solid #F2C79A}
 .legend3{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--sub);margin-top:14px}
 .legend3 i{display:inline-block;margin-right:6px;vertical-align:1px}.legend3 .sq{width:12px;height:12px;border-radius:3px;background:#7F9BF7}.legend3 .dl{width:18px;border-top:2px dashed #8E97AB}
-@media(max-width:720px){.qcards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:767px){.qcards{grid-template-columns:repeat(2,1fr)}}
 .cut td .pos{font-size:11px;color:#4E5968;margin-top:3px}
 .cut td .gup{display:inline-block;margin-top:4px}
 .cut tr.cum td{font-size:12px;color:#5B6170}
@@ -193,7 +193,7 @@ body{background:#F9F9FB;color:#191F28;font-family:Pretendard,'Pretendard Variabl
 .wrap{max-width:1180px;padding:48px 20px 40px}
 .hero{height:80px;display:flex;align-items:center;justify-content:center;border-radius:16px;background:linear-gradient(270deg,#72A1FF 0%,#2C5BF6 50%);font-size:24px;font-weight:700;letter-spacing:-.48px;padding:0;margin-bottom:24px}
 .review{margin:0 0 16px;border-radius:12px}
-.card{margin:0 0 16px;padding:24px;border-radius:16px;background:#fff;border:0;overflow:hidden}
+.card{margin:0 0 24px;padding:24px;border-radius:16px;background:#fff;border:0;overflow:hidden}
 .card>h2{display:block;margin:0 0 20px;padding:0;background:none!important;border:0;color:#000;font-size:18px;line-height:26px;font-weight:600;letter-spacing:-.36px}
 .card.new>h2{background:none!important}
 .card>h2 .tagN,.card>h2 .tagU{vertical-align:2px}
@@ -320,15 +320,15 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 .dtr i.r{background:#C8656F}.dtr i.y{background:#E0A13A}.dtr i.b{background:#5B7BE0}.dtr i.g{background:#3E9C74}
 .st{font-weight:700;font-size:13px}.st.r{color:#D0283E}.st.y{color:#B26B00}.st.b{color:#4E5968}.st.g{color:#0F8A55}.st.k{color:#8B95A1}
 .card>h2 .eb .num{display:inline-block;background:#EBEEFF;color:#2C5BF6;border-radius:6px;padding:0 6px;margin-right:8px;letter-spacing:0;font-size:12px}
-@media(max-width:720px){.trk,.zone2{grid-template-columns:1fr}}
+@media(max-width:767px){.trk,.zone2{grid-template-columns:1fr}}
 .fold>summary{cursor:pointer;list-style:none;font-size:15px;font-weight:600;color:var(--pri2);background:var(--pril);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .fold>summary::-webkit-details-marker{display:none}
 .fold>summary::after{content:'펼치기 ▾';font-size:14px;white-space:nowrap}
 .fold[open]>summary::after{content:'접기 ▴'}
 .fold>:not(summary){margin-top:16px}
-.grp{display:flex;align-items:baseline;gap:12px;margin:40px 0 14px;padding:0 4px 10px;border-bottom:2px solid #191F28}
+.grp{display:flex;align-items:baseline;gap:12px;margin:40px 0 16px;padding:0 4px 12px;border-bottom:1px solid #E5E8EB}
 .grp:first-of-type{margin-top:8px}
-.grp .t{font-size:22px;font-weight:700;color:#191F28;letter-spacing:-.4px}
+.grp .t{font-size:20px;font-weight:700;color:#191F28;letter-spacing:-.4px}
 .grp .h{font-size:15px;color:var(--mut)}
 .grp .tagN{margin-left:auto;align-self:center}
 .srank{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:16px;color:var(--sub)}
@@ -350,6 +350,8 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 .rv2 .rx{margin-left:auto;font-size:14px;font-weight:600;color:var(--pri2);white-space:nowrap}
 .rv2 .rx::after{content:' ▾'}.rv2[open] .rx::after{content:' ▴'}
 .rv2 .dist2{margin:0 4px 14px}
+@media(max-width:767px){.sim{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px 12px}.sim.eng{grid-template-columns:repeat(2,minmax(0,1fr))!important}.card{margin-bottom:16px;padding:16px;border-radius:10px}.grp{margin-top:28px}}
+@media(max-width:480px){.grp .h{display:none}}
 .qt-top{margin:-8px 0 12px}
 .qt-chip{display:inline-block;font-size:14px;font-weight:600;color:var(--pri2);background:var(--pril);border-radius:999px;padding:3px 12px}
 .qt-sum{font-size:16px;line-height:24px;color:var(--sub);margin:0 0 16px}
@@ -378,7 +380,7 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 .qt-foot{font-size:15px;color:var(--mut);margin:12px 0 10px;padding-top:12px;border-top:1px solid var(--line)}
 .qt-foot b{font-weight:600;color:#15237A}
 .qt-av::before,.qt-wr::before{display:none}
-@media(max-width:720px){.qt-head{display:none}.qt-row{grid-template-columns:28px 1fr auto;gap:8px 10px}.qt-row>div:nth-child(1){grid-row:1;grid-column:1}.qt-row .qt-nm{grid-row:1;grid-column:2}.qt-row .qt-df{grid-row:1;grid-column:3}.qt-row .qt-bar{grid-row:2;grid-column:2/4}.qt-row .qt-av{grid-row:3;grid-column:2/4;text-align:left}.qt-row .qt-wr{grid-row:4;grid-column:2/4}.qt-av::before{display:inline;content:'응시자 평균 '}.qt-wr::before{display:inline;content:'오답 ';color:var(--mut2)}}
+@media(max-width:767px){.qt-head{display:none}.qt-row{grid-template-columns:28px 1fr auto;gap:8px 10px}.qt-row>div:nth-child(1){grid-row:1;grid-column:1}.qt-row .qt-nm{grid-row:1;grid-column:2}.qt-row .qt-df{grid-row:1;grid-column:3}.qt-row .qt-bar{grid-row:2;grid-column:2/4}.qt-row .qt-av{grid-row:3;grid-column:2/4;text-align:left}.qt-row .qt-wr{grid-row:4;grid-column:2/4}.qt-av::before{display:inline;content:'응시자 평균 '}.qt-wr::before{display:inline;content:'오답 ';color:var(--mut2)}}
 </style>
 </head>
 <body>
@@ -386,7 +388,7 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div class="hero" id="heroT">OMEGA 모의고사 성적 리포트</div>
 
 <div class="review">
-<b>검토용 전환 · 비교안 (회복 점수·오답 패턴·선지 반응률)</b> (학생 화면에는 없음) · 노란 표시 = 이번 개선으로 추가된 부분
+<b>검토용 전환 · 비교안</b> (학생 화면에는 없음) · 노란 표시 = 운영 중인 성적표 대비 <span class="tagN">신규</span> 섹션 / <span class="tagU">보강</span> 변경 부분 · 영문 소제목과 섹션 번호는 전 섹션 공통 추가
 <div class="row"><span>시험 유형</span><button class="tbtn on" data-mode="OMEGA">OMEGA</button><button class="tbtn" data-mode="BLACK">OMEGA Black</button></div>
 <div class="row"><span>과목</span><div class="btnrow" id="subTabs"></div></div>
 <div class="row"><span>응시 이력</span><button class="tbtn on" data-hist="1">첫 응시 (1회)</button><button class="tbtn" data-hist="5">누적 5회</button></div>
@@ -457,10 +459,10 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 
 </section>
 
-<div class="grp"><span class="t">점수 향상 전략</span><span class="h">실행할 문항과 복습 순서</span><span class="tagN">신규</span></div>
+<div class="grp"><span class="t">점수 향상 전략</span><span class="h">실행할 문항과 오답 확인</span><span class="tagN">신규</span></div>
 
 <section class="card">
-<h2>한 문제로 바뀌는 성적</h2>
+<h2>한 문제로 바뀌는 성적 <span class="tagU">위치 이동</span></h2>
 <p class="desc" style="margin-top:0">나의 오답 문항 중 정답률이 높은 문항을 더 맞혔을 경우 예상 성적 변화를 제공합니다.<br>문항을 선택한 뒤, 결과를 확인해 보세요.</p>
 <div><span class="dot"></span>핵심 기회 문항 TOP 3</div>
 <div class="grid g3" id="oppBox" style="margin-top:12px"></div>
@@ -480,27 +482,13 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 </section>
 
 <section class="card">
-<h2>맞춤 보완 문항</h2>
+<h2>맞춤 보완 문항 <span class="tagU">위치 이동</span></h2>
 <p class="desc" style="margin-top:0">취약 유형과 단원을 분석하여 점수 향상에 효과적인 기출 문항을 추천합니다.</p>
 <div class="grid g3" id="recBox"></div>
 <div class="note">※ OMEGA 시험 결과 및 기출 문항 정보를 기반으로 제공합니다.</div>
 </section>
 
 <div class="grp"><span class="t">상세 분석</span><span class="h">필요한 항목만 펼쳐서 확인</span><span class="tagN">신규</span></div>
-
-<section class="card">
-<h2>문항별 나의 점수 분석</h2>
-<div class="qhead upd" style="margin-top:0"><div class="qtop"><div><div class="qsub" id="qSubj"></div><div class="chips" id="qChips"></div></div></div>
-</div>
-<div class="concl" id="cQ"></div>
-<div class="mxrow"></div>
-<div id="mxBands"></div>
-<div class="qmore"><button class="tbtn" id="qToggle">문항별 상세 표 펼치기 (세부단원·최다 오답 선택지·등급별 정답률) ▾</button></div>
-<div id="qDetail" class="hide" style="margin-top:16px">
-<div class="fl"><span class="tagU">보강</span> 등급별 정답률 열 추가 · <span style="box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;padding:0 5px;border-radius:3px;font-weight:700">주황 테두리</span> = 내 오답이 최다 오답 선택지와 같음</div>
-<div class="btnrow qf" id="qFilter"><span class="tagU">보강</span><button class="tbtn on" data-qf="all">전체</button><button class="tbtn" data-qf="ng">오답만</button><button class="tbtn" data-qf="ok">정답만</button></div>
-<div class="tblwrap"><table id="qTbl"></table></div></div>
-</section>
 
 <section class="card" id="secUnit">
 <h2>단원별 상세 분석 <span class="tagU">보강</span></h2>
@@ -514,6 +502,20 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <details class="fold"><summary>평가요소별 정답 문항과 등급별 평균 상세 보기</summary>
 <div class="tblwrap"><table id="evalTbl"></table></div>
 </details>
+</section>
+
+<section class="card">
+<h2>문항별 나의 점수 분석 <span class="tagU">보강</span></h2>
+<div class="qhead upd" style="margin-top:0"><div class="qtop"><div><div class="qsub" id="qSubj"></div><div class="chips" id="qChips"></div></div></div>
+</div>
+<div class="concl" id="cQ"></div>
+<div class="mxrow"></div>
+<div id="mxBands"></div>
+<div class="qmore"><button class="tbtn" id="qToggle">문항별 상세 표 펼치기 (세부단원·최다 오답 선택지·등급별 정답률) ▾</button></div>
+<div id="qDetail" class="hide" style="margin-top:16px">
+<div class="fl"><span class="tagU">보강</span> 등급별 정답률 열 추가 · <span style="box-shadow:inset 0 0 0 2px #F26300;color:#C24E00;padding:0 5px;border-radius:3px;font-weight:700">주황 테두리</span> = 내 오답이 최다 오답 선택지와 같음</div>
+<div class="btnrow qf" id="qFilter"><span class="tagU">보강</span><button class="tbtn on" data-qf="all">전체</button><button class="tbtn" data-qf="ng">오답만</button><button class="tbtn" data-qf="ok">정답만</button></div>
+<div class="tblwrap"><table id="qTbl"></table></div></div>
 </section>
 
 <div class="grp"><span class="t">누적 성장</span><span class="h">회차별 변화와 다음 목표</span><span class="tagN">신규</span></div>
@@ -751,7 +753,7 @@ function renderCut(){
  const up=s.grade>1?s.cuts[s.grade-2]-v:null,gap=nextGap(s);
  h+=`<tr><td rowspan="2" class="lab">${s.area}</td><td rowspan="2" class="lab">${s.name}</td><td>구분점수</td>${[0,1,2,3,4,5,6,7,8].map(i=>`<td class="${i+1===s.grade?'on':''}">${rng2(i)}</td>`).join('')}</tr>`;
  h+=`<tr><td>본인위치</td>${[1,2,3,4,5,6,7,8,9].map(g=>`<td class="${g===s.grade?'on':''}">${g===s.grade?'▲'+v+(up?`<span class="gup">GRADE UP +${up}</span><div class="pos">원점수 약 ${gap}점</div>`:''):''}</td>`).join('')}</tr></tbody>`;
- $('cutTbl').innerHTML='<colgroup><col style="width:7%"><col style="width:7.5%"><col style="width:8.5%">'+'<col style="width:8.55%">'.repeat(9)+'</colgroup>'+h;$('cutNote').innerHTML='※ [국어·수학] 수능 예상 표준점수, [영어·탐구] 원점수 기준';
+ $('cutTbl').innerHTML='<colgroup><col style="width:7%"><col style="width:7.5%"><col style="width:8.5%">'+'<col style="width:8.55%">'.repeat(9)+'</colgroup>'+h;$('cutNote').innerHTML='※ [국어·수학] 수능 예상 표준점수, [영어·탐구] 원점수 기준 <span class="tagU">보강</span> 본인 위치에 다음 등급까지 점수(GRADE UP) 추가';
 
 }
 
