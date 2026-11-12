@@ -336,6 +336,10 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 #secSummary .box{border:0;padding:0;border-radius:0}
 #secSummary .sum3{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
 #secSummary .sum3+.box{margin-top:18px!important;padding-top:18px;border-top:1px solid var(--line)}
+.mebook{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;background:var(--pril);border-radius:12px;padding:16px 18px;margin:0 0 18px}
+.mebook .mbt{font-size:16px;line-height:24px;color:var(--sub)}.mebook .mbt b{color:var(--ink);font-weight:600}
+.mebook .mbtn{display:flex;gap:8px}.mebook .mbtn a{display:inline-block;background:var(--pri2);color:#fff;font-size:15px;font-weight:600;border-radius:10px;padding:10px 16px;text-decoration:none;white-space:nowrap}
+.mebook .mbtn a+a{background:#fff;color:var(--pri2);box-shadow:inset 0 0 0 1px #90A1FF}
 .qt-top{margin:-8px 0 12px}
 .qt-chip{display:inline-block;font-size:14px;font-weight:600;color:var(--pri2);background:var(--pril);border-radius:999px;padding:3px 12px}
 .qt-sum{font-size:16px;line-height:24px;color:var(--sub);margin:0 0 16px}
@@ -424,7 +428,6 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div class="box"><h3><span class="lbl r">보완 포인트</span></h3><ul class="bl" id="sWeak"></ul></div>
 </div>
 <div class="box" style="margin-top:14px"><h3><span class="lbl b">다음 학습 전략</span></h3><ol class="rx" id="sRx"></ol></div>
-<div class="recline hide" id="sRecov"></div>
 
 </section>
 
@@ -462,7 +465,7 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <section class="card new">
 <h2>복습 순서와 확인 <span class="tagN">신규</span></h2>
 <div class="concl" id="cRv"></div>
-<div class="recov" id="recov"></div>
+<div class="mebook"><div class="mbt"><b>meBOOK 앱</b>에서 틀린 문제와 해설을 오답노트로 모으고, 같은 시험을 다시 풀 수 있어요. <span class="tagN">신규</span></div><div class="mbtn"><a href="#" onclick="return false">오답노트 만들기</a><a href="#" onclick="return false">다시 풀기</a></div></div>
 <div style="display:flex;justify-content:space-between;font-size:14px"><b>복습 진행률</b><span id="rvPct"></span></div>
 <div class="prog"><i id="rvBar" style="width:0"></i></div>
 <div id="rvList"></div>
@@ -841,31 +844,23 @@ function optDist(s,q){const r=rng(q.n*131+(s.seed||9));const ans=+q.ans,mw=+q.mw
 function renderReview(){
  const s=cur();RV=loadRv();
  const w=s.qs.filter(q=>!q.ok).sort((a,b)=>cls(a.rate)-cls(b.rate)||expv(b)-expv(a));
- $('cRv').innerHTML=w.length?`1순위 ${w[0].n}번부터 · 회복 기대 점수가 큰 순서<span class="s">각 문항을 다시 풀어 답을 입력하면 바로 채점되고, 맞힌 만큼 「회복 점수」가 쌓입니다</span>`:'복습할 오답이 없습니다';
+ $('cRv').innerHTML=w.length?`1순위 ${w[0].n}번부터 · 회복 기대 점수가 큰 순서<span class="s">문항마다 해설 확인 → 유사 기출 풀기 순서로 복습하세요</span>`:'복습할 오답이 없습니다';
  const label=['','놓친 문항','보완 문항','고난도 문항'],lc=['','r','b','k'];
  const rec=q=>s.recs.find(r=>r[3].includes(q.sub)||r[1].includes(q.unit));
  const OBJ=q=>s.key!=='math'||q.n<=15||(q.n>=23&&q.n<=28);const circ=v=>/^[1-5]$/.test(v)?'①②③④⑤'[v-1]:v;
- if(!w.length){$('rvList').innerHTML='<div style="color:var(--sub)">오답 문항이 없습니다.</div>';$('rvPct').textContent='-';$('rvBar').style.width='0';$('recov').innerHTML='';return}
+ if(!w.length){$('rvList').innerHTML='<div style="color:var(--sub)">오답 문항이 없습니다.</div>';$('rvPct').textContent='-';$('rvBar').style.width='0';return}
  const rvCard=(q,i)=>{const r=rec(q),re=RV[q.n+'re'],wy=RV[q.n+'why'];
   let dist='';if(OBJ(q)){const d=optDist(s,q);dist=`<div class="dist2"><div class="dh">선지별 반응률 <span class="tagU">신규</span>${q.my!=='-'?` · <b>${circ(q.my)}을 고른 학생 ${d[+q.my-1]}%</b>${trap(q)?' — 이 문항의 대표 함정':''}`:''}</div>${d.map((v,k)=>`<div class="drow ${k+1===+q.ans?'ans':''} ${String(k+1)===q.my?'mine':''}"><span>${circ(String(k+1))}${k+1===+q.ans?' 정답':String(k+1)===q.my?' 내 답':''}</span><div class="dtr"><i style="width:${v}%"></i></div><b>${v}%</b></div>`).join('')}</div>`}
   else dist=`<div class="dist2"><div class="dh">주관식 문항 · 응시자 ${fmt(q.rate)}% 정답</div></div>`;
-  const reBox=re?`<div class="reres ${re.ok?'ok':'ng'}">${re.ok?'다시 풀어서 정답! +'+q.pts+'점 회복':'아직 오답 — 해설 확인 후 다시 도전'}<button class="lnk" data-reset="${q.n}">다시 입력</button></div>`:`<div class="retry"><span>다시 푼 답</span><input id="in${q.n}" inputmode="numeric" placeholder="${OBJ(q)?'1~5':'답 입력'}"><button class="tbtn on" data-retry="${q.n}">채점</button></div>`;
-  const whyBox=re?`<div class="why"><span>오답 원인</span>${WHY.map((x,k)=>`<button class="wchip ${wy===k?'on':''}" data-why="${q.n}:${k}">${x}</button>`).join('')}</div>`:'';
-  let verdict='';if(re&&wy!=null){verdict=re.ok?(wy===0?'개념을 다시 잡고 해결 — 유사 기출로 확인':'<b>실수형 확정</b> — 개념은 알고 있음, '+WHY[wy]+' 습관 점검'):'<b>개념형</b> — 해설 확인 후 유사 기출로 다시 확인'}
   return`<div class="rv"><div class="top"><div><span class="qn">${i+1}. ${q.n}번</span> <span class="lbl ${lc[cls(q.rate)]}">${label[cls(q.rate)]}</span><span style="font-size:14px;color:var(--sub)">${q.pts}점 · ${q.unit} &gt; ${q.sub}${q.ev&&!s.tam?' · '+q.ev:''} · 회복 기대 ${expv(q)}점</span></div></div>
-  ${dist}<div class="plus"><span class="tagN">신규</span>${reBox}${whyBox}${verdict?`<div class="verdict">${verdict}</div>`:''}</div>
+  ${dist}
   <div class="steps">${[['exp','해설 확인'],...(cls(q.rate)<3?[['sim','유사 기출 풀기']]:[])].map(([k,t])=>`<span class="step ${RV[q.n+k]?'done':''}" data-rv="${q.n+k}"><span class="c"></span>${t}</span>`).join('')}${r&&cls(q.rate)<3?`<span style="font-size:13px;color:var(--sub);align-self:center">유사 기출: <b class="o">${r[2]}</b></span>`:''}</div></div>`};
  $('rvList').innerHTML=w.slice(0,3).map(rvCard).join('')+(w.length>3?`<details class="fold"><summary>나머지 오답 ${w.length-3}문항 복습 카드 보기 <span class="tagU">보강</span></summary>${w.slice(3).map((q,i)=>rvCard(q,i+3)).join('')}</details>`:'');
  updRvPct();
 }
 function updRvPct(){const s=cur();const w=s.qs.filter(q=>!q.ok);let tot=0,done=0;
- w.forEach(q=>{tot+=2;if(RV[q.n+'re'])done++;if(RV[q.n+'why']!=null)done++;(cls(q.rate)===3?['exp']:['exp','sim']).forEach(k=>{tot++;if(RV[q.n+k])done++})});
+ w.forEach(q=>{(cls(q.rate)===3?['exp']:['exp','sim']).forEach(k=>{tot++;if(RV[q.n+k])done++})});
  const p=tot?Math.round(done/tot*100):0;$('rvPct').textContent=`${done}/${tot} 단계 · ${p}%`;$('rvBar').style.width=p+'%';
- const got=w.filter(q=>RV[q.n+'re']&&RV[q.n+'re'].ok),add=got.reduce((a,q)=>a+q.pts,0),tried=w.filter(q=>RV[q.n+'re']).length;
- const e=est(s,s.raw+add);const cnt=[0,0,0,0];w.forEach(q=>{if(RV[q.n+'why']!=null)cnt[RV[q.n+'why']]++});const tw=cnt.reduce((a,b)=>a+b,0);
- $('recov').innerHTML=`<div class="rc1"><div><div class="t">회복 점수 <span class="tagN">신규</span></div><div class="big">${s.raw}점 → <b>${s.raw+add}점</b> <em>+${add}</em></div><div class="s">다시 풀어서 맞힌 문항 ${got.length}/${w.length} · 채점 ${tried}문항${add&&e.grade<s.grade?` · <b class="x">실력으로는 ${e.grade}등급 구간</b>`:''}</div></div>
- <div class="pat"><div class="t">나의 오답 패턴</div>${tw?WHY.map((x,k)=>`<div class="prow"><span>${x}</span><div class="dtr"><i style="width:${cnt[k]/tw*100}%"></i></div><b>${cnt[k]}</b></div>`).join(''):'<div class="s">문항을 다시 풀고 오답 원인을 고르면 패턴이 쌓입니다</div>'}</div></div>`;
- const sr=$('sRecov');if(sr){sr.classList.toggle('hide',!tried);sr.innerHTML=`<span class="tagN">신규</span> 다시 풀기 결과: <b>${s.raw}점 → ${s.raw+add}점 (회복 점수 +${add})</b>${add&&e.grade<s.grade?` · 실력으로는 ${e.grade}등급 구간`:''}`}
 }
 
 function renderTrend(){
