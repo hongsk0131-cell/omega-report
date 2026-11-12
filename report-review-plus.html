@@ -326,6 +326,11 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 .fold>summary::after{content:'펼치기 ▾';font-size:14px;white-space:nowrap}
 .fold[open]>summary::after{content:'접기 ▴'}
 .fold>:not(summary){margin-top:16px}
+.grp{display:flex;align-items:baseline;gap:12px;margin:40px 0 14px;padding:0 4px 10px;border-bottom:2px solid #191F28}
+.grp:first-of-type{margin-top:8px}
+.grp .t{font-size:22px;font-weight:700;color:#191F28;letter-spacing:-.4px}
+.grp .h{font-size:15px;color:var(--mut)}
+.grp .tagN{margin-left:auto;align-self:center}
 .qt-top{margin:-8px 0 12px}
 .qt-chip{display:inline-block;font-size:14px;font-weight:600;color:var(--pri2);background:var(--pril);border-radius:999px;padding:3px 12px}
 .qt-sum{font-size:16px;line-height:24px;color:var(--sub);margin:0 0 16px}
@@ -368,6 +373,8 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div class="row"><span>응시 이력</span><button class="tbtn on" data-hist="1">첫 응시 (1회)</button><button class="tbtn" data-hist="5">누적 5회</button></div>
 </div>
 
+<div class="grp"><span class="t">성적 요약</span><span class="h">핵심 결과 먼저 확인</span><span class="tagN">신규</span></div>
+
 <section class="card">
 <h2>학생 기본 정보</h2>
 <div class="grid g3">
@@ -376,12 +383,6 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div><div class="fl">이름</div><div class="fv">TEST15</div></div>
 </div>
 </section>
-
-
-
-
-
-
 
 <section class="card">
 <h2>응시 정보</h2>
@@ -407,7 +408,7 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 
 </section>
 
-
+<div class="grp"><span class="t">성적 진단</span><span class="h">취약 유형 확인 → 상세 근거</span><span class="tagN">신규</span></div>
 
 <section class="card new" id="secSummary">
 <h2>전략 총평 <span class="tagN">신규</span></h2>
@@ -422,6 +423,15 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 
 </section>
 
+<section class="card new" id="secQType">
+<h2>문항 유형별 분석 <span class="tagN">신규</span></h2>
+<div class="qt-top"><span class="qt-chip" id="qtChip"></span></div>
+<div class="qt-sum" id="qtSum"></div>
+<div id="qtBody"></div>
+<div class="qt-foot">복습 순서 <b>해설 확인 → 유사 기출 풀기</b></div>
+<div class="note">응시자 평균은 같은 유형 문항의 응시자 정답률 평균이며, 막대 위 검은 눈금이 평균 위치입니다. 응시자 평균보다 낮은 유형 중 차이가 큰 5개를 먼저 보여줍니다.</div>
+</section>
+
 <section class="card new">
 <h2>잃은 점수 진단 <span class="tagN">신규</span></h2>
 <div class="concl" id="cLost"></div><div class="fl" id="lostDesc"></div>
@@ -429,6 +439,8 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div class="lostk" id="lostKeys"></div>
 
 </section>
+
+<div class="grp"><span class="t">점수 향상 전략</span><span class="h">실행할 문항과 복습 순서</span><span class="tagN">신규</span></div>
 
 <section class="card">
 <h2>한 문제로 바뀌는 성적</h2>
@@ -442,8 +454,6 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div class="note" id="simNote"></div>
 </div>
 </section>
-
-
 
 <section class="card">
 <h2>맞춤 보완 문항</h2>
@@ -462,28 +472,7 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 
 </section>
 
-
-
-<section class="card new" id="secQType">
-<h2>문항 유형별 분석 <span class="tagN">신규</span></h2>
-<div class="qt-top"><span class="qt-chip" id="qtChip"></span></div>
-<div class="qt-sum" id="qtSum"></div>
-<div id="qtBody"></div>
-<div class="qt-foot">복습 순서 <b>해설 확인 → 유사 기출 풀기</b></div>
-<div class="note">응시자 평균은 같은 유형 문항의 응시자 정답률 평균이며, 막대 위 검은 눈금이 평균 위치입니다. 응시자 평균보다 낮은 유형 중 차이가 큰 5개를 먼저 보여줍니다.</div>
-</section>
-
-<section class="card" id="secUnit">
-<h2>단원별 상세 분석 <span class="tagU">보강</span></h2>
-<details class="fold"><summary>단원별 정답률과 취약 단원 상세 보기</summary>
-<div class="concl" id="cUnit"></div><div class="tblwrap"><table id="unitTbl"></table></div>
-</details>
-</section>
-
-<section class="card" id="secEval">
-<h2>평가요소별 상세 분석</h2>
-<div class="tblwrap"><table id="evalTbl"></table></div>
-</section>
+<div class="grp"><span class="t">상세 분석</span><span class="h">필요한 항목만 펼쳐서 확인</span><span class="tagN">신규</span></div>
 
 <section class="card">
 <h2>문항별 나의 점수 분석</h2>
@@ -499,7 +488,19 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 <div class="tblwrap"><table id="qTbl"></table></div></div>
 </section>
 
+<section class="card" id="secUnit">
+<h2>단원별 상세 분석 <span class="tagU">보강</span></h2>
+<details class="fold"><summary>단원별 정답률과 취약 단원 상세 보기</summary>
+<div class="concl" id="cUnit"></div><div class="tblwrap"><table id="unitTbl"></table></div>
+</details>
+</section>
 
+<section class="card" id="secEval">
+<h2>평가요소별 상세 분석</h2>
+<div class="tblwrap"><table id="evalTbl"></table></div>
+</section>
+
+<div class="grp"><span class="t">누적 성장</span><span class="h">회차별 변화와 다음 목표</span><span class="tagN">신규</span></div>
 
 <section class="card">
 <h2>회차별 나의 성적 추이</h2>
@@ -837,7 +838,7 @@ function renderReview(){
  const rec=q=>s.recs.find(r=>r[3].includes(q.sub)||r[1].includes(q.unit));
  const OBJ=q=>s.key!=='math'||q.n<=15||(q.n>=23&&q.n<=28);const circ=v=>/^[1-5]$/.test(v)?'①②③④⑤'[v-1]:v;
  if(!w.length){$('rvList').innerHTML='<div style="color:var(--sub)">오답 문항이 없습니다.</div>';$('rvPct').textContent='-';$('rvBar').style.width='0';$('recov').innerHTML='';return}
- $('rvList').innerHTML=w.map((q,i)=>{const r=rec(q),re=RV[q.n+'re'],wy=RV[q.n+'why'];
+ const rvCard=(q,i)=>{const r=rec(q),re=RV[q.n+'re'],wy=RV[q.n+'why'];
   let dist='';if(OBJ(q)){const d=optDist(s,q);dist=`<div class="dist2"><div class="dh">선지별 반응률 <span class="tagU">신규</span>${q.my!=='-'?` · <b>${circ(q.my)}을 고른 학생 ${d[+q.my-1]}%</b>${trap(q)?' — 이 문항의 대표 함정':''}`:''}</div>${d.map((v,k)=>`<div class="drow ${k+1===+q.ans?'ans':''} ${String(k+1)===q.my?'mine':''}"><span>${circ(String(k+1))}${k+1===+q.ans?' 정답':String(k+1)===q.my?' 내 답':''}</span><div class="dtr"><i style="width:${v}%"></i></div><b>${v}%</b></div>`).join('')}</div>`}
   else dist=`<div class="dist2"><div class="dh">주관식 문항 · 응시자 ${fmt(q.rate)}% 정답</div></div>`;
   const reBox=re?`<div class="reres ${re.ok?'ok':'ng'}">${re.ok?'다시 풀어서 정답! +'+q.pts+'점 회복':'아직 오답 — 해설 확인 후 다시 도전'}<button class="lnk" data-reset="${q.n}">다시 입력</button></div>`:`<div class="retry"><span>다시 푼 답</span><input id="in${q.n}" inputmode="numeric" placeholder="${OBJ(q)?'1~5':'답 입력'}"><button class="tbtn on" data-retry="${q.n}">채점</button></div>`;
@@ -845,7 +846,8 @@ function renderReview(){
   let verdict='';if(re&&wy!=null){verdict=re.ok?(wy===0?'개념을 다시 잡고 해결 — 유사 기출로 확인':'<b>실수형 확정</b> — 개념은 알고 있음, '+WHY[wy]+' 습관 점검'):'<b>개념형</b> — 해설 확인 후 유사 기출로 다시 확인'}
   return`<div class="rv"><div class="top"><div><span class="qn">${i+1}. ${q.n}번</span> <span class="lbl ${lc[cls(q.rate)]}">${label[cls(q.rate)]}</span><span style="font-size:14px;color:var(--sub)">${q.pts}점 · ${q.unit} &gt; ${q.sub}${q.ev&&!s.tam?' · '+q.ev:''} · 회복 기대 ${expv(q)}점</span></div></div>
   ${dist}<div class="plus"><span class="tagN">신규</span>${reBox}${whyBox}${verdict?`<div class="verdict">${verdict}</div>`:''}</div>
-  <div class="steps">${[['exp','해설 확인'],...(cls(q.rate)<3?[['sim','유사 기출 풀기']]:[])].map(([k,t])=>`<span class="step ${RV[q.n+k]?'done':''}" data-rv="${q.n+k}"><span class="c"></span>${t}</span>`).join('')}${r&&cls(q.rate)<3?`<span style="font-size:13px;color:var(--sub);align-self:center">유사 기출: <b class="o">${r[2]}</b></span>`:''}</div></div>`}).join('');
+  <div class="steps">${[['exp','해설 확인'],...(cls(q.rate)<3?[['sim','유사 기출 풀기']]:[])].map(([k,t])=>`<span class="step ${RV[q.n+k]?'done':''}" data-rv="${q.n+k}"><span class="c"></span>${t}</span>`).join('')}${r&&cls(q.rate)<3?`<span style="font-size:13px;color:var(--sub);align-self:center">유사 기출: <b class="o">${r[2]}</b></span>`:''}</div></div>`};
+ $('rvList').innerHTML=w.slice(0,3).map(rvCard).join('')+(w.length>3?`<details class="fold"><summary>나머지 오답 ${w.length-3}문항 복습 카드 보기 <span class="tagU">보강</span></summary>${w.slice(3).map((q,i)=>rvCard(q,i+3)).join('')}</details>`:'');
  updRvPct();
 }
 function updRvPct(){const s=cur();const w=s.qs.filter(q=>!q.ok);let tot=0,done=0;
