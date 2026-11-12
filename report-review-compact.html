@@ -1031,7 +1031,7 @@ render();numberSections();
 (function buildCompactReview(){
  const wrap=document.querySelector('.wrap');
  const all=Array.from(wrap.querySelectorAll(':scope > section.card'));
- function find(title){return all.find(e=>{const h=e.querySelector(':scope > h2');return h&&h.textContent.trim().startsWith(title)})}
+ function find(title){return all.find(e=>{const h=e.querySelector(':scope > h2');return h&&Array.from(h.childNodes).some(n=>n.nodeType===3&&n.textContent.trim().startsWith(title))})}
  const groups=[
   ['성적 요약','핵심 결과 먼저 확인',['학생 기본 정보','응시 정보','개인성적 분석','등급 구분 점수']],
   ['성적 진단','취약 유형 확인 → 상세 근거',['전략 총평','문항 유형별 분석','잃은 점수 진단']],
