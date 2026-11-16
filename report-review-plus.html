@@ -557,7 +557,7 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 </div>
 
 <script>
-const TH={OMEGA:{hi:70,lo:40},BLACK:{hi:60,lo:30}};
+const TH={OMEGA:{hi:70,lo:40},BLACK:{hi:70,lo:40}};
 const GR_PCT=[4,7,12,17,20,17,12,7,4];
 const S={mode:'OMEGA',hist:1,sub:'math',trend:'raw'};
 
@@ -628,7 +628,7 @@ sci:{name:'통합과학',sel:'통합과학',area:'과학탐구',raw:38,total:50,
  hist:{rounds:[3,5,6,7,8],raw:[35,37,33,39,38],avg:[29,30,28,31,30.5]}}
 };
 const ORDER=['kor','math','eng','soc','sci'];
-const BLACK_SUBS=['math','sci'];
+const BLACK_SUBS=ORDER;
 
 function gradeOf(s,v){for(let i=0;i<8;i++)if(v>=s.cuts[i])return i+1;return 9}
 function pctOf(s,v){const anc=[96,89,77,60,40,23,11,4];if(v>=s.cuts[0]){const top=s.basis==='std'?s.cuts[0]+12:s.total;return Math.min(100,Math.round(96+(v-s.cuts[0])/Math.max(1,top-s.cuts[0])*4))}
@@ -680,9 +680,9 @@ const fmt=v=>Number.isInteger(v)?v:(+v).toFixed(1);
 function subs(){return S.mode==='BLACK'?BLACK_SUBS:ORDER}
 function cur(){return SUBJ[S.sub]}
 function isBlack(){return S.mode==='BLACK'}
-function hasEval(s){return !!s.evalOrder&&!s.tam&&!(isBlack())}
+function hasEval(s){return !!s.evalOrder&&!s.tam}
 function hasEvalCol(s){return !!s.evalOrder&&!s.tam}
-function hasGradeAvg(){return !isBlack()}
+function hasGradeAvg(){return true}
 function cls(rate){const t=TH[S.mode];return rate>=t.hi?1:rate>=t.lo?2:3}
 function stats(s,key,list){return list.map(u=>{const qs=s.qs.filter(q=>q[key]===u);const T=qs.reduce((a,q)=>a+q.pts,0);const M=qs.filter(q=>q.ok).reduce((a,q)=>a+q.pts,0);
  const avgRate=qs.reduce((a,q)=>a+q.rate*q.pts,0)/T;return{u,qs,n:qs.length,c:qs.filter(q=>q.ok).length,T,M,nums:qs.map(q=>q.n).join(','),avgRate,wrong:qs.filter(q=>!q.ok)}})}
@@ -711,11 +711,11 @@ function renderSummary(){
  const s=cur(),T=TH[S.mode],du=diagUnits(s),w=s.qs.filter(q=>!q.ok);
  const c1=w.filter(q=>cls(q.rate)===1),c2=w.filter(q=>cls(q.rate)===2),c3=w.filter(q=>cls(q.rate)===3);
  const p1=c1.reduce((a,q)=>a+q.pts,0),gap=nextGap(s),N=POP[S.mode],ap=actualPct(s),rank=Math.max(1,Math.round(N*(100-ap)/100)),top=Math.round(rank/N*1000)/10;
- const ga=hasGradeAvg(),basis=ga?'1등급 평균':'응시자 평균 득점률',thr=isBlack()?1:0;
+ const ga=hasGradeAvg(),basis=ga?'1등급 평균':'응시자 평균 득점률',thr=0;
  const gtxt=x=>ga?`${x.gap>0?'+':''}${x.gap}점`:`${x.gap>0?'+':''}${Math.round(x.gap*10)}%p`;
  const weakU=du.filter(x=>x.weak).sort((a,b)=>a.gap-b.gap)[0];
  const QL=(S.sub==='math'||s.tam)?'단원':'유형',qw=(window.QT||[]).find(x=>x.d<0),qb=[...(window.QT||[])].sort((a,b)=>b.d-a.d)[0];let usedC1=false,usedQw=false;const QR=S.hist>1?' (최근 3회)':'';
- let L=[`${s.name} <b>${s.raw}점 · ${s.grade}등급</b>${s.pct!=null?`(백분위 ${s.pct})`:''}, OMEGA 응시자 ${N.toLocaleString()}명 중 <b>상위 ${top}%</b>예요.`];
+ let L=[`${s.name} <b>${s.raw}점 · ${s.grade}등급</b>${s.pct!=null?`(백분위 ${s.pct})`:''}, ${isBlack()?'OMEGA Black':'OMEGA'} 응시자 ${N.toLocaleString()}명 중 <b>상위 ${top}%</b>예요.`];
  if(!w.length)L.push('모든 문제를 맞혔어요. 지금처럼 이어가면 돼요.');
  else if(c1.length&&gap&&p1>=gap&&(usedC1=true))L.push(`다른 학생 대부분이 맞힌 ${c1.length}문제(${p1}점)가 <b>${s.grade-1}등급까지 남은 거리</b>예요. 이 문제만 지키면 ${s.grade-1}등급이 보여요.`);
  else if(qw&&(usedQw=true))L.push(`<b>${qw.g}</b> 정답률이${QR} 응시자 평균보다 ${-qw.d}%p 낮아요. 가장 먼저 다지면 좋은 ${QL}이에요.`);
@@ -785,7 +785,7 @@ function renderLost(){
 function renderUnit(){
  const s=cur();const ga=hasGradeAvg();const du=diagUnits(s);
  let h=`<thead><tr><th rowspan="${ga?2:1}">단원</th><th rowspan="${ga?2:1}">전체<br>문항수</th><th rowspan="${ga?2:1}">정답<br>문항수</th><th rowspan="${ga?2:1}">전체<br>배점</th><th rowspan="${ga?2:1}" class="me">나의<br>득점</th>${ga?'<th colspan="4">등급별 평균 득점</th>':''}<th rowspan="${ga?2:1}">문항번호</th><th rowspan="${ga?2:1}" style="background:var(--y);color:var(--yt)">진단</th></tr>${ga?'<tr><th>1%</th><th>1등급</th><th>2등급</th><th>3등급</th></tr>':''}</thead><tbody>`;
- du.forEach(x=>{const a=s.unitAvg[x.u];const tag=x.weak?'<span class="lbl r">보완</span>':x.onlyHard?'<span class="lbl k">고난도</span>':(x.gap>(isBlack()?1:0)&&x.n>=2)?'<span class="lbl g">강점</span>':'';
+ du.forEach(x=>{const a=s.unitAvg[x.u];const tag=x.weak?'<span class="lbl r">보완</span>':x.onlyHard?'<span class="lbl k">고난도</span>':(x.gap>0&&x.n>=2)?'<span class="lbl g">강점</span>':'';
   h+=`<tr><td>${x.u}</td><td>${x.n}</td><td>${x.c}</td><td>${x.T}</td><td class="me">${x.M}</td>${ga?a.map(v=>`<td>${v}</td>`).join(''):''}<td>${x.nums}</td><td style="background:#FFFBEA">${tag}</td></tr>`});
  $('unitTbl').innerHTML=(ga?'<colgroup><col style="width:17%">'+'<col style="width:6.8%">'.repeat(8)+'<col style="width:17%"><col style="width:11.6%"></colgroup>':'<colgroup><col style="width:24%">'+'<col style="width:11%">'.repeat(4)+'<col style="width:22%"><col style="width:10%"></colgroup>')+h+'</tbody>';
  const neg=du.filter(x=>x.gap<0).sort((a,b)=>a.gap-b.gap);
