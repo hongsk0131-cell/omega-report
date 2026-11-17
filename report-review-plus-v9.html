@@ -464,7 +464,7 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 <div class="grid g4">
 <div><div class="fl">시행 연도</div><div class="fv">2026년</div></div>
 <div><div class="fl">유형</div><div class="fv" id="iType">OMEGA</div></div>
-<div><div class="fl">회차</div><div class="fv">8</div></div>
+<div><div class="fl">회차</div><div class="fv" id="iRound">8</div></div>
 <div><div class="fl">과목</div><div class="fv" id="iSubj"></div></div>
 </div>
 <div class="point" id="pointBox"><div><b>✓ 출제 Point</b></div><div class="txt" id="pointTxt"></div><button class="lnk" id="pointBtn">… 더보기</button></div>
@@ -736,6 +736,7 @@ function diagUnits(s){
   return{...x,gap,weak,onlyHard:x.wrong.length>0&&personal.length===0}})}
 
 function render(){
+ ORDER.forEach(k=>{const r=[];for(let i=4;i>=0;i--)r.push(S.hist-i);SUBJ[k].hist.rounds=r});$('iRound').textContent=S.hist;
  const s=cur();const black=isBlack();
  $('heroT').textContent=(black?'OMEGA Black':'OMEGA')+' 모의고사 성적 리포트';
  $('iType').textContent=black?'OMEGA Black':'OMEGA';$('iSubj').textContent=s.sel;
@@ -1035,7 +1036,7 @@ function renderQType(){
  const QA=window.QTm;let sel=many?(S.qtSel||'cum'):String(curR);if(sel!=='cum'&&!att.includes(+sel))sel='cum';S.qtSel=sel;
  const roundView=rd=>{const g2=QA.map(x=>{const p=x.per.find(q=>q.rd===rd),me=Math.round(p.c/p.n*100),avg=Math.round(p.avg);return{g:x.g,N:p.n,C:p.c,me,avg,d:me-avg,ch:0,per:[p],multi:false}});const tot=g2.reduce((a,x)=>a+x.N,0);g2.forEach(x=>x.share=Math.round(x.N/tot*100));g2.sort((a,b)=>a.d-b.d||b.N-a.N);return g2};
  const gs=sel==='cum'?QA:roundView(+sel);
- $('qtTabs').innerHTML=`<button class="tbtn ${sel==='cum'?'on':''}" data-qs="cum" ${many?'':'disabled'} style="${many?'':'opacity:.45;cursor:not-allowed'}">누적</button>`+Array.from({length:curR},(_,i)=>i+1).map(r=>{const ok=att.includes(r);return `<button class="tbtn ${sel===String(r)?'on':''}" data-qs="${r}" ${ok?'':'disabled'} style="${ok?'':'opacity:.45;cursor:not-allowed'}">${r}회</button>`}).join('')+`<span style="font-size:13px;color:var(--mut)">${many?'응시한 회차만 선택할 수 있어요 (회색 = 미응시)':'첫 응시는 이번 회차만 보여줘요'}</span>`;
+ $('qtTabs').innerHTML=`<button class="tbtn ${sel==='cum'?'on':''}" data-qs="cum" ${many?'':'disabled'} style="${many?'':'opacity:.45;cursor:not-allowed'}">누적</button>`+Array.from({length:curR},(_,i)=>i+1).map(r=>{const ok=att.includes(r);return `<button class="tbtn ${sel===String(r)?'on':''}" data-qs="${r}" ${ok?'':'disabled'} style="${ok?'':'opacity:.45;cursor:not-allowed'}">${r}회</button>`}).join('')+`<span style="font-size:13px;color:var(--mut)">${many?'누적 또는 회차를 골라 볼 수 있어요':'첫 응시는 이번 회차만 보여줘요'}</span>`;
  const weak=gs.filter(x=>x.d<0).slice(0,5),strong=gs.filter(x=>x.d>0).sort((a,b)=>b.d-a.d).slice(0,3),rest=gs.filter(x=>!weak.includes(x)&&!strong.includes(x));
  $('qtNote').textContent=s.tam?'※ 통합사회·통합과학은 2028 문항분류코드 확정 전으로, 샘플 단원 기준으로 표시합니다.':'';
  const sn=strong[0],ga=w=>((w.charCodeAt(w.length-1)-0xAC00)%28?'이':'가');
