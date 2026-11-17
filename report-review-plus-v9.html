@@ -778,7 +778,7 @@ function renderSummary(){
  const mname=isBlack()?'OMEGA Black':'OMEGA';
  let L=[s.eng?`${s.name} <b>${s.raw}점 · ${s.grade}등급</b>이에요.`:`${s.name} <b>${s.raw}점 · ${s.grade}등급</b>${s.pct!=null?`(백분위 ${s.pct})`:''}, ${mname} 응시자 ${N.toLocaleString()}명 중 <b>상위 ${top}%</b>예요.`];
  if(!w.length)L.push('모든 문제를 맞혔어요. 지금처럼 이어가면 돼요.');
- else if(c1.length&&gap&&p1>=gap&&(usedC1=true))L.push(`다른 학생 대부분이 맞힌 ${c1.length}문제(${p1}점)가 <b>${s.grade-1}등급까지 남은 거리</b>예요. 이 문제만 지키면 ${s.grade-1}등급이 보여요.`);
+ else if(gap&&s.grade>1)L.push(`${s.grade-1}등급까지 <b>${gap}점</b> 남았어요.`);
  else if(qw)L.push(`<span class="v9m"><b>${qw.g}</b> ${QL}은 응시자 평균보다 ${gapW(-qw.d)} 낮아요. 가장 먼저 다지면 좋은 ${QL}이에요.</span>`);
  else if(c3.length===w.length)L.push('틀린 문제가 모두 응시자 대부분이 어려워한 문제예요. 풀이 흐름을 익히면 다음 단계로 나아갈 수 있어요.');
  else L.push(`틀린 ${w.length}문제가 여러 단원에 나뉘어 있어요. 문제별로 하나씩 확인해 보세요.`);
@@ -787,23 +787,23 @@ function renderSummary(){
  const sU=strongU(),fU=focusU(),key0=(S.sub==='math'||s.tam)?'unit':'sub';
  const hardOk=s.qs.filter(q=>q.ok&&q.rate<T.lo).sort((a,b)=>a.rate-b.rate)[0];
  let st;
- if(sU)st=`<b>${sU.g}</b> ${sU.C}/${sU.N}문제 정답 · 응시자 평균보다 ${sU.d>=15?'확실히 ':''}앞서요`;
+ if(sU)st=`<b>${sU.g}</b> ${sU.C===sU.N?sU.N+'문제 모두 정답':sU.N+'문제 중 '+sU.C+'문제 정답'} · 응시자 평균보다 ${sU.d>=15?'확실히 ':''}앞서요`;
  else if(hardOk)st=`응시자 10명 중 ${Math.max(1,Math.round(hardOk.rate/10))}명만 맞힌 <b>${hardOk.n}번</b>을 해결했어요`;
  else st=w.length?'정답률이 높은 기본 문항을 안정적으로 맞혔어요':'모든 문항을 맞혔어요';
  let wk;
  if(!w.length)wk='보완이 필요한 오답이 없어요';
- else if(fU){const fw=s.qs.filter(q=>q[key0]===fU.g&&!q.ok);wk=`<b>${fU.g}</b> ${fU.C}/${fU.N}문제 정답 · 응시자 평균보다 ${gapW(-fU.d)} 낮아요${fw.length?` (${fw.map(q=>q.n+'번').join(', ')})`:''}`}
+ else if(fU){const fw=s.qs.filter(q=>q[key0]===fU.g&&!q.ok);wk=`<b>${fU.g}</b> ${fU.N}문제 중 ${fU.C}문제 정답 · 응시자 평균보다 ${gapW(-fU.d)} 낮아요${fw.length?` (오답 ${fw.map(q=>q.n+'번').join(', ')})`:''}`}
  else wk='응시자 대부분이 어려워한 문항 위주로 틀렸어요';
  let band=`<div class="sxrow"><span class="sc">이번 회차</span><div class="sxit"><small class="g">잘한 점</small><span class="v9m">${st}</span></div><div class="sxit"><small class="r">챙길 점</small><span class="v9m">${wk}</span></div></div>`;
  /* 누적 */
  if(S.hist>1){
   const d=s.raw-s.prev.raw,rows=cumRows(s),rr=rows.find(x=>x.st[1]!=='k'&&x.st[1]!=='g');
-  band+=`<div class="sxrow"><span class="sc cu">누적 ${S.hist}회</span><div class="sxit"><small class="k">직전 대비</small><span class="v9m"><b>${d>0?'+':''}${d}점</b> ${d>0?'올랐어요':d<0?'내려갔어요':'같아요'}</span></div><div class="sxit"><small class="r">반복되는 점</small><span class="v9m">${rr?`<b>${rr.sb}</b>${rr.u!==rr.sb?`(${rr.u})`:''} 누적 ${rr.C}/${rr.N}문제 정답${rr.st[0]==='연속 오답'?' · 최근 연속 오답':''}`:'누적으로 반복해서 놓친 유형이 없어요'}</span></div></div>`;
+  band+=`<div class="sxrow"><span class="sc cu">누적 ${S.hist}회</span><div class="sxit"><small class="k">직전 대비</small><span class="v9m"><b>${d>0?'+':''}${d}점</b> ${d>0?'올랐어요':d<0?'내려갔어요':'같아요'}</span></div><div class="sxit"><small class="r">반복되는 점</small><span class="v9m">${rr?`<b>${rr.sb}</b>${rr.u!==rr.sb?`(${rr.u})`:''} 누적 ${rr.N}문제 중 ${rr.C}문제 정답${rr.st[0]==='연속 오답'?' · 최근 2회 연속 오답':''}`:'누적으로 반복해서 놓친 유형이 없어요'}</span></div></div>`;
  }else band+=`<div class="sxrow"><span class="sc cu">누적</span><div class="sxnone v9m">첫 응시라 누적 비교는 다음 회차부터 표시돼요.</div></div>`;
  $('sBand').innerHTML=band;
  /* 다음 학습 전략 */
  const rx=[],K=['①','②','③'];
- if(c1.length)rx.push(`<b>놓친 문항 ${c1.length}개(${p1}점)</b> 다시 풀기<br>응시자 ${T.hi}% 이상이 맞힌 문항부터`);
+ if(c1.length)rx.push(`<b>놓친 문항 ${c1.length}개(${p1}점)</b> <br>응시자 정답률 ${T.hi}% 이상인 문항부터 복습`);
  if(c2.length)rx.push(`<b>보완 문항 ${c2.length}개</b><br>해당 ${QL} 개념 정리 후 유사 기출 풀기`);
  if(c3.length)rx.push(`<b>도전 문항 ${c3.length}개</b><br>해설로 풀이 흐름만 확인`);
  const g0=c1.length?'놓친 문항 오답 0개':(fU?`${fU.g} ${QL} 정답률을 응시자 평균 이상으로`:`원점수 ${s.raw}점 이상 유지`);
