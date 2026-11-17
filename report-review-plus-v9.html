@@ -562,7 +562,7 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 <section class="card" id="secUnit">
 <h2>단원별 상세 분석 <span class="tagU">보강</span></h2>
 <details class="fold"><summary>단원별 정답률과 취약 단원 상세 보기</summary>
-<div class="concl" id="cUnit"></div><div class="tblwrap"><table id="unitTbl"></table></div>
+<div class="tblwrap"><table id="unitTbl"></table></div>
 </details>
 </section>
 
@@ -852,12 +852,10 @@ function renderLost(){
 
 function renderUnit(){
  const s=cur();const ga=hasGradeAvg();const du=diagUnits(s);
- let h=`<thead><tr><th rowspan="${ga?2:1}">단원</th><th rowspan="${ga?2:1}">전체<br>문항수</th><th rowspan="${ga?2:1}">정답<br>문항수</th><th rowspan="${ga?2:1}">전체<br>배점</th><th rowspan="${ga?2:1}" class="me">나의<br>득점</th>${ga?'<th colspan="4">등급별 평균 득점</th>':''}<th rowspan="${ga?2:1}">문항번호</th><th rowspan="${ga?2:1}" style="background:var(--y);color:var(--yt)">진단</th></tr>${ga?'<tr><th>1%</th><th>1등급</th><th>2등급</th><th>3등급</th></tr>':''}</thead><tbody>`;
- du.forEach(x=>{const a=s.unitAvg[x.u];const tag=x.weak?'<span class="lbl r">보완</span>':x.onlyHard?'<span class="lbl k"><span class="v9m">도전</span></span>':(x.d>0&&x.n>=2)?'<span class="lbl g">강점</span>':'';
-  h+=`<tr><td>${x.u}</td><td>${x.n}</td><td>${x.c}</td><td>${x.T}</td><td class="me">${x.M}</td>${ga?a.map(v=>`<td>${v}</td>`).join(''):''}<td>${x.nums}</td><td style="background:#FFFBEA">${tag}</td></tr>`});
- $('unitTbl').innerHTML=(ga?'<colgroup><col style="width:17%">'+'<col style="width:6.8%">'.repeat(8)+'<col style="width:17%"><col style="width:11.6%"></colgroup>':'<colgroup><col style="width:24%">'+'<col style="width:11%">'.repeat(4)+'<col style="width:22%"><col style="width:10%"></colgroup>')+h+'</tbody>';
- const neg=du.filter(x=>x.gap<0).sort((a,b)=>a.gap-b.gap);
- $('cUnit').innerHTML=ga?(neg.length?`1등급 평균까지 부족: ${neg.map(x=>`${x.u} ${x.gap}`).join(' · ')}<span class="s">부족분 합계 ${neg.reduce((a,x)=>a+x.gap,0)}점 · 진단 열의 '도전'은 응시자 대부분이 어려워한 문항만 틀린 단원</span>`:'모든 단원이 1등급 평균 이상입니다'):(neg.length?`응시자 평균 득점률보다 낮은 단원: ${neg.map(x=>`${x.u} ${Math.round(x.gap*10)}%p`).join(' · ')}<span class="s">OMEGA Black은 등급별 평균을 제공하지 않아 응시자 평균 득점률과 비교합니다</span>`:'모든 단원이 응시자 평균 득점률 이상입니다');
+ let h=`<thead><tr><th rowspan="${ga?2:1}">단원</th><th rowspan="${ga?2:1}">전체<br>문항수</th><th rowspan="${ga?2:1}">정답<br>문항수</th><th rowspan="${ga?2:1}">전체<br>배점</th><th rowspan="${ga?2:1}" class="me">나의<br>득점</th>${ga?'<th colspan="4">등급별 평균 득점</th>':''}<th rowspan="${ga?2:1}">문항번호</th></tr>${ga?'<tr><th>1%</th><th>1등급</th><th>2등급</th><th>3등급</th></tr>':''}</thead><tbody>`;
+ du.forEach(x=>{const a=s.unitAvg[x.u];
+  h+=`<tr><td>${x.u}</td><td>${x.n}</td><td>${x.c}</td><td>${x.T}</td><td class="me">${x.M}</td>${ga?a.map(v=>`<td>${v}</td>`).join(''):''}<td>${x.nums}</td></tr>`});
+ $('unitTbl').innerHTML=(ga?'<colgroup><col style="width:20%">'+'<col style="width:7.5%">'.repeat(8)+'<col style="width:20%"></colgroup>':'<colgroup><col style="width:28%">'+'<col style="width:11%">'.repeat(4)+'<col style="width:28%"></colgroup>')+h+'</tbody>';
 }
 function renderEval(){
  const s=cur();const show=hasEval(s);$('secEval').classList.toggle('hide',!show);if(!show)return;
