@@ -803,13 +803,13 @@ function renderSummary(){
  $('sBand').innerHTML=band;
  /* 다음 학습 전략 */
  const rx=[],K=['①','②','③'];
- if(c1.length)rx.push(`<b>놓친 문항 ${c1.length}개(${p1}점)</b> <br>응시자 정답률 ${T.hi}% 이상인 문항부터 복습`);
- if(c2.length)rx.push(`<b>보완 문항 ${c2.length}개</b><br>해당 ${QL} 개념 정리 후 유사 기출 풀기`);
- if(c3.length)rx.push(`<b>도전 문항 ${c3.length}개</b><br>해설로 풀이 흐름만 확인`);
+ if(c1.length)rx.push(`<b>놓친 문항 ${c1.length}개</b><br>정답률 ${T.hi}% 이상인 문항부터 다시 풀어보세요`);
+ if(c2.length)rx.push(`<b>보완 문항 ${c2.length}개</b><br>틀린 문제의 개념을 확인하고, 비슷한 기출문제를 풀어보세요`);
+ if(c3.length)rx.push(`<b>도전 문항 ${c3.length}개</b><br>해설을 보며 문제 풀이 과정을 익혀보세요`);
  const g0=c1.length?'놓친 문항 오답 0개':(fU?`${fU.g} ${QL} 정답률을 응시자 평균 이상으로`:`원점수 ${s.raw}점 이상 유지`);
  if(rx.length<3)rx.push(`다음 회차 목표<br><b>${g0}</b>`);
  $('sRx').innerHTML=rx.slice(0,3).map((x,i)=>`<div class="sxa"><span class="n">${K[i]}</span><span class="v9m">${x}</span></div>`).join('');
- $('sNote').innerHTML=`<span class="v9m">전략 기준: 오답을 문항 정답률로 놓친 문항(${T.hi}% 이상) · 보완 문항(${T.lo}~${T.hi}%) · 도전 문항(${T.lo}% 미만)으로 나누고, 구간 → 기대 점수 순으로 복습 순서를 정했어요. 문항 번호는 아래 '오답 문항 확인'에서 볼 수 있어요.</span>`;
+ $('sNote').innerHTML=`<span class="v9m">복습 우선순위 기준: 틀린 문제를 응시자 정답률에 따라 놓친 문항(${T.hi}% 이상)·보완 문항(${T.lo}~${T.hi}%)·도전 문항(${T.lo}% 미만)으로 구분했어요. 놓친 문항부터 우선 복습하고, 같은 구분에서는 기대 점수가 높은 문제를 먼저 추천해요. 문항 번호는 아래 '오답 문항 확인'에서 볼 수 있어요.</span>`;
 }
 
 function renderScore(){
