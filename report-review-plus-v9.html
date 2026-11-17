@@ -798,7 +798,7 @@ function renderSummary(){
  /* 누적 */
  if(S.hist>1){
   const d=s.raw-s.prev.raw,rows=cumRows(s),rr=rows.find(x=>x.st[1]!=='k'&&x.st[1]!=='g');
-  band+=`<div class="sxrow"><span class="sc cu">누적 ${S.hist}회</span><div class="sxit"><small class="k">직전 대비</small><span class="v9m">${d?`직전 회차보다 <b>${Math.abs(d)}점</b> ${d>0?'올랐어요':'내려갔어요'}.`:'직전 회차와 점수가 같아요.'}</span></div><div class="sxit"><small class="r">반복되는 점</small><span class="v9m">${rr?`<b>${rr.sb}</b>${rr.u!==rr.sb?`(${rr.u})`:''} 누적 ${rr.N}문제 중 ${rr.C}문제 정답${rr.st[0]==='연속 오답'?' · 최근 2회 연속 틀린 문항이 있어요':''}`:'누적으로 반복해서 놓친 유형이 없어요'}</span></div></div>`;
+  band+=`<div class="sxrow"><span class="sc cu">누적 ${S.hist}회</span><div class="sxit"><small class="k">직전 대비</small><span class="v9m">${d?`<b>${Math.abs(d)}점</b> ${d>0?'올랐어요':'내려갔어요'}`:'점수가 같아요'}</span></div><div class="sxit"><small class="r">반복되는 점</small><span class="v9m">${rr?`<b>${rr.sb}</b>${rr.u!==rr.sb?`(${rr.u})`:''} 누적 ${rr.N}문제 중 ${rr.C}문제 정답${rr.st[0]==='연속 오답'?' · 최근 2회 연속 틀린 문항이 있어요':''}`:'누적으로 반복해서 놓친 유형이 없어요'}</span></div></div>`;
  }else band+=`<div class="sxrow"><span class="sc cu">누적</span><div class="sxnone v9m">첫 응시라 누적 비교는 다음 회차부터 표시돼요.</div></div>`;
  $('sBand').innerHTML=band;
  /* 다음 학습 전략 */
