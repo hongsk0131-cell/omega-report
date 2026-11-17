@@ -450,8 +450,8 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 .lk .q .qtj{color:#15237A;font-size:15px;font-weight:700}.rv2 .rg{display:grid;grid-template-columns:56px 84px 1fr auto;gap:0 14px;align-items:center}
 .rv2 .rc{display:flex;flex-direction:column;gap:3px;min-width:0}.rv2 .rc .ru{font-size:16px;font-weight:700;color:var(--ink,#272727)}.rv2 .rc .rm{font-size:14px;color:var(--sub)}
 .rv2 .ri2{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:flex-end;min-width:210px}
-.rv2 .ra{display:flex;flex-direction:column;align-items:center;gap:1px}.rv2 .ra small{font-size:12px;color:var(--sub)}.rv2 .ra b{font-size:18px;font-weight:700}
-.rv2 .ra b.rno{font-size:15px;font-weight:500;color:var(--sub)}.rv2 .rarr{color:var(--sub)}.rv2 .rtrap{flex-basis:100%;text-align:right;font-size:13px;color:var(--sub);font-weight:600}
+.rv2 .ra{display:flex;flex-direction:column;align-items:center;gap:1px}.rv2 .ra small{font-size:12px;color:var(--sub)}.rv2 .ra b{font-size:17px;font-weight:700;color:#272727;min-height:26px;display:flex;align-items:center}.rv2 .ra b .cn{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border:2px solid #272727;border-radius:50%;font-size:14px;line-height:1}.rv2 .rg{min-height:100px;box-sizing:border-box}
+.rv2 .rarr{color:var(--sub)}.rv2 .rtrap{flex-basis:100%;text-align:right;font-size:13px;color:var(--sub);font-weight:600}
 </style>
 </head>
 <body>
@@ -941,7 +941,7 @@ function renderReview(){
  $('rvList').innerHTML=w.map(q=>{
   const meta=`${q.pts}점 · 응시자 정답률 ${fmt(q.rate)}%${q.sub&&q.sub!==q.unit?' · '+q.sub:''}${hasEvalCol(s)&&q.ev?' · '+(EVS[q.ev]||q.ev):''}`;
   const left=`<span class="rn">${q.n}번</span><span class="lbl ${lc[cls(q.rate)]}">${label[cls(q.rate)]}</span><span class="rc"><b class="ru">${q.unit}</b><span class="rm v9m">${meta}</span></span>`;
-  const ans=OBJ(q)?`<span class="ra"><small>내 답</small>${q.my==='-'?'<b class="rno">무응답</b>':`<b>${circ(q.my)}</b>`}</span><span class="rarr">→</span><span class="ra"><small>정답</small><b>${circ(q.ans)}</b></span>${trap(q)?'<span class="rtrap">응시자가 가장 많이 고른 오답과 같아요</span>':''}`:`<span class="ra"><small>내 답</small>${q.my==='-'?'<b class="rno">무응답</b>':`<b>${q.my}</b>`}</span><span class="rarr">→</span><span class="ra"><small>정답 (주관식)</small><b>${q.ans}</b></span>`;
+  const ans=OBJ(q)?`<span class="ra"><small>내 답</small>${q.my==='-'?'<b>무응답</b>':`<b><i class="cn">${q.my}</i></b>`}</span><span class="rarr">→</span><span class="ra"><small>정답</small><b><i class="cn">${q.ans}</i></b></span>${trap(q)?'<span class="rtrap">응시자가 가장 많이 고른 오답과 같아요</span>':''}`:`<span class="ra"><small>내 답</small>${q.my==='-'?'<b>무응답</b>':`<b>${q.my}</b>`}</span><span class="rarr">→</span><span class="ra"><small>정답</small><b>${q.ans}</b></span>`;
   return`<div class="rv2" id="rv${q.n}"><div class="rr rg">${left}<span class="ri2">${ans}</span></div></div>`;}).join('');
 }
 
