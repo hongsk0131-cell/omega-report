@@ -982,9 +982,9 @@ document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id&&e.targe
 document.addEventListener('click',e=>{
  const t=e.target.closest('[data-mode],[data-hist],[data-sub],[data-opp],[data-tr],[data-q],[data-rv],[data-retry],[data-reset],[data-why],[data-qf],[data-qs],#pointBtn,#qToggle,td.qn');if(!t)return;
  if(t.dataset.mode){S.mode=t.dataset.mode;document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('on',b===t));if(!subs().includes(S.sub))S.sub='math';render();return}
- if(t.dataset.hist){S.hist=+t.dataset.hist;S.qtScope=S.hist>1?'cum':'cur';document.querySelectorAll('[data-hist]').forEach(b=>b.classList.toggle('on',b===t));render();return}
+ if(t.dataset.hist){S.hist=+t.dataset.hist;S.qtN=S.hist;document.querySelectorAll('[data-hist]').forEach(b=>b.classList.toggle('on',b===t));render();return}
  if(t.dataset.sub){S.sub=t.dataset.sub;render();return}
- if(t.dataset.qs){if(t.disabled)return;S.qtScope=t.dataset.qs;renderQType();return}
+ if(t.dataset.qs){S.qtN=+t.dataset.qs;renderQType();return}
  if(t.dataset.tr){S.trend=t.dataset.tr;renderTrend();return}
  if(t.dataset.opp){const k=S.mode+S.sub;const n=+t.dataset.opp;const set=SEL[k];
   if(set.has(n)){if(set.size===1){$('oppMsg').textContent='최소 1개 문항은 선택해 주세요.';return}set.delete(n)}else set.add(n);
@@ -1032,9 +1032,9 @@ function renderQType(){
  const s=cur(),many=S.hist>1,key=(S.sub==='math'||s.tam)?'unit':'sub',H=s.hist,QL=key==='unit'?'단원':'유형';
  const att=H.rounds.slice(5-S.hist),curR=H.rounds[4];
  window.QTc=buildQT(s,key,[curR]);window.QTm=many?buildQT(s,key,att):window.QTc;window.QT=window.QTc;
- if(!many)S.qtScope='cur';else if(S.qtScope!=='cur'&&S.qtScope!=='cum')S.qtScope='cum';
- const sc=S.qtScope,gs=sc==='cum'?window.QTm:window.QTc;
- $('qtTabs').innerHTML=`<button class="tbtn ${sc==='cum'?'on':''}" data-qs="cum" ${many?'':'disabled'}>${many?'누적 '+att.length+'회':'누적 (2회 이상 응시 시)'}</button><button class="tbtn ${sc==='cur'?'on':''}" data-qs="cur">이번 회차</button><span class="v9m" style="font-size:13px">${many?'응시한 회차만큼 누적해서 보여줘요':'첫 응시는 이번 회차만 보여줘요'}</span>`;
+ const kk=Math.min(Math.max(S.qtN||S.hist,1),S.hist);S.qtN=kk;
+ const gs=kk===1?window.QTc:buildQT(s,key,H.rounds.slice(5-kk));
+ $('qtTabs').innerHTML=Array.from({length:S.hist},(_,i)=>i+1).map(k=>`<button class="tbtn ${k===kk?'on':''}" data-qs="${k}">누적 ${k}회</button>`).join('')+`<span style="font-size:13px;color:var(--mut)">${many?'응시한 회차까지 골라 누적해서 볼 수 있어요 (누적 1회 = 이번 회차)':'첫 응시는 이번 회차만 보여줘요'}</span>`;
  const weak=gs.filter(x=>x.d<0).slice(0,5),strong=gs.filter(x=>x.d>0).sort((a,b)=>b.d-a.d).slice(0,3),rest=gs.filter(x=>!weak.includes(x)&&!strong.includes(x));
  $('qtNote').textContent=s.tam?'※ 통합사회·통합과학은 2028 문항분류코드 확정 전으로, 샘플 단원 기준으로 표시합니다.':'';
  const nm=weak.slice(0,2).map(x=>x.g),sn=strong[0];
