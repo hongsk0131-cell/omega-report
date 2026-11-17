@@ -741,8 +741,8 @@ function diagUnits(s){
  const us=stats(s,'unit',s.unitOrder);
  return us.map(x=>{let gap;if(hasGradeAvg()){gap=x.M-s.unitAvg[x.u][1]}else{gap=Math.round((x.M/x.T*100-x.avgRate))/10}
   const personal=x.wrong.filter(q=>cls(q.rate)<3);const wp=personal.reduce((a,q)=>a+q.pts,0);
-  const weak=personal.length>=2||wp>=6||(personal.length===1&&gap<0);
-  return{...x,gap,weak,onlyHard:x.wrong.length>0&&personal.length===0}})}
+  const d=Math.round(x.c/x.n*100-x.qs.reduce((a,q)=>a+q.rate,0)/x.n),onlyHard=x.wrong.length>0&&personal.length===0;
+  return{...x,gap,d,weak:d<0&&!onlyHard,onlyHard}})}
 
 function render(){
  ORDER.forEach(k=>{const r=[];for(let i=4;i>=0;i--)r.push(S.hist-i);SUBJ[k].hist.rounds=r});$('iRound').textContent=S.hist;
@@ -756,13 +756,13 @@ function render(){
 function renderTabs(){$('subTabs').innerHTML=subs().map(k=>`<button class="tbtn ${k===S.sub?'on':''}" data-sub="${k}">${scoreName(SUBJ[k])}</button>`).join('')}
 
 const evs=q=>(q.ev&&!cur().tam)?`(${q.ev})`:'';
-const gapW=d=>d>=15?'많이':d>=5?'조금':'살짝';
+
 function cumRows(s){
  const subs=[...new Set(s.qs.map(q=>q.sub))];
  const r2=rng((s.seed||7)*41+5);
- const rows=subs.map(sb=>{const qs=s.qs.filter(q=>q.sub===sb),n=qs.length,c=qs.filter(q=>q.ok).length;const pn=Math.round(n*(1+r2()*2.5)),pc=Math.min(pn,Math.round(pn*(.45+r2()*.5)));const ln=Math.max(1,Math.round(pn/3)),lc=Math.min(ln,Math.round(ln*(.3+r2()*.7)));return{sb,u:qs[0].unit,ev:[...new Set(qs.map(q=>q.ev).filter(Boolean))].join('·'),N:n+pn,C:c+pc,last:[lc,ln],cur:[c,n]}});
- rows.forEach(x=>{x.rate=Math.round(x.C/x.N*100);const both=x.last[0]<x.last[1]&&x.cur[0]<x.cur[1];x.st=x.N<3?['분석 보류','k']:x.rate<50?['우선 복습','r']:both&&x.rate<75?['연속 오답','y']:x.rate<60?['복습 필요','y']:x.rate<80?['추가 연습','b']:['안정','g']});
- const ord={r:0,y:1,b:2,g:3,k:4};rows.sort((a,b)=>ord[a.st[1]]-ord[b.st[1]]||a.rate-b.rate);return rows}
+ const rows=subs.map(sb=>{const qs=s.qs.filter(q=>q.sub===sb),n=qs.length,c=qs.filter(q=>q.ok).length;const pn=Math.round(n*(1+r2()*2.5)),aN=qs.reduce((a,q)=>a+q.rate,0)/n,aP=Math.max(30,Math.min(92,aN-5-r2()*20)),pc=Math.min(pn,Math.max(0,Math.round(pn*(aP/100+(r2()-.5)*.45))));const ln=Math.max(1,Math.round(pn/3)),lc=Math.min(ln,Math.round(ln*(.3+r2()*.7)));return{sb,u:qs[0].unit,ev:[...new Set(qs.map(q=>q.ev).filter(Boolean))].join('·'),N:n+pn,C:c+pc,avg:Math.round((aN*n+aP*pn)/(n+pn)),last:[lc,ln],cur:[c,n]}});
+ rows.forEach(x=>{x.rate=Math.round(x.C/x.N*100);x.lost=(x.avg-x.rate)*x.N/100;const both=x.last[0]<x.last[1]&&x.cur[0]<x.cur[1];x.st=x.N<3?['판정 보류','k']:x.rate<x.avg?(both?['연속 오답','y']:['보완','r']):['안정','g']});
+ const ord=x=>x.st[1]==='k'?2:x.st[1]==='g'?1:0;rows.sort((a,b)=>ord(a)-ord(b)||(ord(a)===1?b.rate-b.avg-(a.rate-a.avg):b.lost-a.lost));return rows}
 function focusU(){const Q=window.QTc||[];return Q.find(x=>x.d<0)||[...Q].sort((a,b)=>a.me-b.me)[0]}
 function strongU(){const Q=window.QTc||[];return [...Q].filter(x=>x.d>0).sort((a,b)=>b.d-a.d)[0]}
 function buildRecs(){const s=cur(),key=(S.sub==='math'||s.tam)?'unit':'sub',Q=window.QTc||[];
@@ -848,7 +848,7 @@ function renderLost(){
 function renderUnit(){
  const s=cur();const ga=hasGradeAvg();const du=diagUnits(s);
  let h=`<thead><tr><th rowspan="${ga?2:1}">단원</th><th rowspan="${ga?2:1}">전체<br>문항수</th><th rowspan="${ga?2:1}">정답<br>문항수</th><th rowspan="${ga?2:1}">전체<br>배점</th><th rowspan="${ga?2:1}" class="me">나의<br>득점</th>${ga?'<th colspan="4">등급별 평균 득점</th>':''}<th rowspan="${ga?2:1}">문항번호</th><th rowspan="${ga?2:1}" style="background:var(--y);color:var(--yt)">진단</th></tr>${ga?'<tr><th>1%</th><th>1등급</th><th>2등급</th><th>3등급</th></tr>':''}</thead><tbody>`;
- du.forEach(x=>{const a=s.unitAvg[x.u];const tag=x.weak?'<span class="lbl r">보완</span>':x.onlyHard?'<span class="lbl k"><span class="v9m">도전</span></span>':(x.gap>0&&x.n>=2)?'<span class="lbl g">강점</span>':'';
+ du.forEach(x=>{const a=s.unitAvg[x.u];const tag=x.weak?'<span class="lbl r">보완</span>':x.onlyHard?'<span class="lbl k"><span class="v9m">도전</span></span>':(x.d>0&&x.n>=2)?'<span class="lbl g">강점</span>':'';
   h+=`<tr><td>${x.u}</td><td>${x.n}</td><td>${x.c}</td><td>${x.T}</td><td class="me">${x.M}</td>${ga?a.map(v=>`<td>${v}</td>`).join(''):''}<td>${x.nums}</td><td style="background:#FFFBEA">${tag}</td></tr>`});
  $('unitTbl').innerHTML=(ga?'<colgroup><col style="width:17%">'+'<col style="width:6.8%">'.repeat(8)+'<col style="width:17%"><col style="width:11.6%"></colgroup>':'<colgroup><col style="width:24%">'+'<col style="width:11%">'.repeat(4)+'<col style="width:22%"><col style="width:10%"></colgroup>')+h+'</tbody>';
  const neg=du.filter(x=>x.gap<0).sort((a,b)=>a.gap-b.gap);
@@ -1008,7 +1008,6 @@ document.addEventListener('click',e=>{
  if(t.id==='pointBtn'){const b=$('pointBox');b.classList.toggle('open');t.textContent=b.classList.contains('open')?'접기':'… 더보기'}
 });
 window.addEventListener('resize',()=>renderTrend());
-function rateCls(r){return r>=80?'g':r>=60?'b':r>=50?'y':'r'}
 function renderPlus2(){
  const s=cur(),many=S.hist>1,ev=hasEvalCol(s)&&!s.tam;
  /* ④ 안정·보완 영역 */
@@ -1019,8 +1018,8 @@ function renderPlus2(){
  applyQF();
  if(!many)return;
  const rows=cumRows(s);const show=rows.slice(0,8);
- $('unitChg').innerHTML=`<div class="tblwrap"><table class="wmap"><colgroup><col style="width:17%"><col style="width:13%"><col style="width:11%"><col style="width:10%"><col style="width:16%"><col style="width:23%"><col style="width:10%"></colgroup><thead><tr><th>소분류</th><th>단원</th>${ev?'<th>평가요소</th>':'<th>-</th>'}<th>누적 정답/출제</th><th>누적 정답률</th><th>회차별 정답률<br><span style="font-weight:400;font-size:13px">직전(${s.hist.rounds[3]}회) → 이번(${s.hist.rounds[4]}회)</span></th><th>상태</th></tr></thead><tbody>${show.map(x=>`<tr><td><b>${x.sb}</b></td><td>${x.u}</td><td>${x.ev||'-'}</td><td>${x.C} / ${x.N}</td><td>${x.N<3?'<span style="color:#8B95A1">판정 보류</span>':`<div class="wbar"><div class="dtr"><i class="${rateCls(x.rate)}" style="width:${x.rate}%"></i></div><b>${x.rate}%</b></div>`}</td><td>${(()=>{const a=Math.round(x.last[0]/x.last[1]*100),b=Math.round(x.cur[0]/x.cur[1]*100),d=b-a;return `<div class="rpw"><span class="rq">${a}%</span><span class="ra">→</span><b class="rq">${b}%</b><span class="rd ${d<0?'dn':d>0?'up':''}">${d<0?'▼ '+(-d)+'%p':d>0?'▲ '+d+'%p':'유지'}</span></div>`})()}</td><td><span class="st ${x.st[1]}">${x.st[0]}</span></td></tr>`).join('')}</tbody></table></div>
- <div class="caveat b">${s.hist.rounds[5-S.hist]}~${s.hist.rounds[4]}회 누적 기준 · 누적 출제 3문항 미만 소분류는 정답률을 단정하지 않고 판정 보류로 표시합니다. 정답률이 낮은 순으로 최대 8개.</div>`;
+ $('unitChg').innerHTML=`<div class="tblwrap"><table class="wmap"><colgroup><col style="width:17%"><col style="width:13%"><col style="width:11%"><col style="width:10%"><col style="width:16%"><col style="width:23%"><col style="width:10%"></colgroup><thead><tr><th>소분류</th><th>단원</th>${ev?'<th>평가요소</th>':'<th>-</th>'}<th>누적 정답/출제</th><th>누적 정답률</th><th>회차별 정답률<br><span style="font-weight:400;font-size:13px">직전(${s.hist.rounds[3]}회) → 이번(${s.hist.rounds[4]}회)</span></th><th>상태</th></tr></thead><tbody>${show.map(x=>`<tr><td><b>${x.sb}</b></td><td>${x.u}</td><td>${x.ev||'-'}</td><td>${x.C} / ${x.N}</td><td>${x.N<3?'<span style="color:#8B95A1">판정 보류</span>':`<div class="wbar"><div class="dtr"><i class="${x.st[1]}" style="width:${x.rate}%"></i></div><b>${x.rate}%</b></div><small style="color:var(--mut2);font-size:13px">평균 ${x.avg}%</small>`}</td><td>${(()=>{const a=Math.round(x.last[0]/x.last[1]*100),b=Math.round(x.cur[0]/x.cur[1]*100),d=b-a;return `<div class="rpw"><span class="rq">${a}%</span><span class="ra">→</span><b class="rq">${b}%</b><span class="rd ${d<0?'dn':d>0?'up':''}">${d<0?'▼ '+(-d)+'%p':d>0?'▲ '+d+'%p':'유지'}</span></div>`})()}</td><td><span class="st ${x.st[1]}">${x.st[0]}</span></td></tr>`).join('')}</tbody></table></div>
+ <div class="caveat b">${s.hist.rounds[5-S.hist]}~${s.hist.rounds[4]}회 누적 기준 · 누적 출제 3문항 미만 소분류는 정답률을 단정하지 않고 판정 보류로 표시합니다. 누적 응시자 평균보다 낮으면 보완(최근 2회 연속 틀리면 연속 오답), 높으면 안정 · 평균보다 덜 맞힌 문항 수가 많은 순으로 최대 8개.</div>`;
 }
 function buildQT(s,key,rds){
  const curR=rds[rds.length-1],nums0=null;
