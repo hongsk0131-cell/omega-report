@@ -417,7 +417,7 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 .sc.cu{background:#FFF1F3;color:var(--red)}
 .qt-tabs{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .qt-tabs .tbtn[disabled]{opacity:.45;cursor:not-allowed}
-.qt-grp{font-size:15px;font-weight:700;color:var(--ink);margin:18px 0 6px;padding-left:2px}
+.qt-grp{font-size:15px;font-weight:700;color:var(--ink);margin:18px 0 8px;padding-left:2px}
 .qt-grp small{font-size:13px;font-weight:500;color:var(--mut)}
 .qt-grp.g{color:var(--pri2)}
 .qt-nm small{display:block;font-size:12px;font-weight:500;color:var(--mut);margin-top:2px}
@@ -1044,10 +1044,9 @@ function renderQType(){
   const ar=x.multi?`<u class="${x.ch<0?'dn':x.ch>0?'up':'eq'}">${x.ch<0?'▼':x.ch>0?'▲':'–'}</u>`:'';
   return `<div class="qt-row${hot?' hot':''}"><div>${isW?`<span class="qt-rk">${i+1}</span>`:''}</div><div class="qt-nm">${x.g}<small>${x.multi?'누적 ':''}${x.N}문항 · 출제 ${x.share}%</small></div><div class="qt-bar"><div class="tr"><div class="fl" style="width:${x.me}%"></div><div class="tk" style="left:${x.avg}%"></div></div><b>${x.me}%</b></div><div class="qt-av">${x.avg}%</div><div class="qt-df"><i class="${cl}">${x.d>0?'+':x.d<0?'−':''}${Math.abs(x.d)}%p</i>${ar}</div><div class="qt-wr">${wrTxt(x)}</div></div>`};
  const head='<div class="qt-head"><span></span><span>문항 유형</span><span>나의 정답률 · 평균 눈금</span><span style="text-align:right">평균</span><span style="text-align:center">차이</span><span>오답 문항</span></div>';
- $('qtBody').innerHTML=head
-  +(weak.length?`<div class="qt-grp"><span class="v9m">보완이 필요한 ${QL}</span> <small>평균보다 낮은 순 · 최대 5개</small></div>`+weak.map((x,i)=>row(x,i,true)).join(''):'')
-  +(strong.length?`<div class="qt-grp g"><span class="v9m">강점 ${QL}</span> <small>평균보다 높은 순 · 최대 3개</small></div>`+strong.map(x=>row(x,0,false)).join(''):'')
-  +(rest.length?`<details class="qt-more"><summary>전체 ${QL} 보기 (총 ${gs.length}개)</summary>${rest.map(x=>row(x,0,false)).join('')}</details>`:'');
+ $('qtBody').innerHTML=(weak.length?`<div class="qt-grp"><span class="v9m">보완이 필요한 ${QL}</span> <small>평균보다 낮은 순 · 최대 5개</small></div>`+head+weak.map((x,i)=>row(x,i,true)).join(''):'')
+  +(strong.length?`<div class="qt-grp g"><span class="v9m">강점 ${QL}</span> <small>평균보다 높은 순 · 최대 3개</small></div>`+head+strong.map(x=>row(x,0,false)).join(''):'')
+  +(rest.length?`<details class="qt-more"><summary>전체 ${QL} 보기 (총 ${gs.length}개)</summary>${head}${rest.map(x=>row(x,0,false)).join('')}</details>`:'');
  $('qtDef').innerHTML='<span class="v9m">검은 눈금 = 응시자 평균 정답률 · 정답률 = 맞힌 문항 수 ÷ 출제 문항 수 (출제 문항 수가 달라도 비율로 비교)</span>';
 }
 function renderChal(){
