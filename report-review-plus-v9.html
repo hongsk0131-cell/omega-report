@@ -445,7 +445,7 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 <b>검토용 전환 · 비교안</b> (학생 화면에는 없음) · 노란 표시 = 운영 중인 성적표 대비 <span class="tagN">신규</span> 섹션 / <span class="tagU">보강</span> 변경 부분 · 영문 소제목과 섹션 번호는 전 섹션 공통 추가 · meBOOK 버튼은 아이디어 제안(앱 연동 방식 확인 필요)
 <div class="row"><span>시험 유형</span><button class="tbtn on" data-mode="OMEGA">OMEGA</button><button class="tbtn" data-mode="BLACK">OMEGA Black</button></div>
 <div class="row"><span>과목</span><div class="btnrow" id="subTabs"></div></div>
-<div class="row"><span>응시 이력</span><button class="tbtn on" data-hist="1">첫 응시 (1회)</button><button class="tbtn" data-hist="2">누적 2회</button><button class="tbtn" data-hist="3">누적 3회</button><button class="tbtn" data-hist="5">누적 5회</button></div>
+<div class="row"><span>응시 이력</span><button class="tbtn" data-hist="1">첫 응시 (1회)</button><button class="tbtn" data-hist="2">누적 2회</button><button class="tbtn" data-hist="3">누적 3회</button><button class="tbtn on" data-hist="5">누적 5회</button></div>
 </div>
 
 <div class="grp"><span class="t">성적 요약</span><span class="h">핵심 결과 먼저 확인</span><span class="tagN">신규</span></div>
@@ -598,7 +598,7 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 <script>
 const TH={OMEGA:{hi:70,lo:40},BLACK:{hi:70,lo:40}};
 const GR_PCT=[4,7,12,17,20,17,12,7,4];
-const S={mode:'OMEGA',hist:1,sub:'math',trend:'raw'};
+const S={mode:'OMEGA',hist:5,sub:'math',trend:'raw'};
 
 function rng(seed){let s=seed%2147483647;if(s<=0)s+=2147483646;return()=>(s=s*16807%2147483647)/2147483647}
 
