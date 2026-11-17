@@ -1037,8 +1037,9 @@ function renderQType(){
  $('qtTabs').innerHTML=Array.from({length:S.hist},(_,i)=>i+1).map(k=>`<button class="tbtn ${k===kk?'on':''}" data-qs="${k}">누적 ${k}회</button>`).join('')+`<span style="font-size:13px;color:var(--mut)">${many?'응시한 회차까지 골라 누적해서 볼 수 있어요 (누적 1회 = 이번 회차)':'첫 응시는 이번 회차만 보여줘요'}</span>`;
  const weak=gs.filter(x=>x.d<0).slice(0,5),strong=gs.filter(x=>x.d>0).sort((a,b)=>b.d-a.d).slice(0,3),rest=gs.filter(x=>!weak.includes(x)&&!strong.includes(x));
  $('qtNote').textContent=s.tam?'※ 통합사회·통합과학은 2028 문항분류코드 확정 전으로, 샘플 단원 기준으로 표시합니다.':'';
- const nm=weak.slice(0,2).map(x=>x.g),sn=strong[0];
- $('qtSum').innerHTML=(!nm.length?`모든 ${QL}이 응시자 평균 이상이에요.`:`<b>${nm.join('</b>, <b>')}</b> ${QL}이 응시자 평균보다 낮아, 먼저 챙기면 좋아요.`)+(sn?` <span style="color:var(--pri2)">강점은 <b style="color:var(--pri2)">${sn.g}</b>이에요.</span>`:'');
+ const sn=strong[0],ga=w=>((w.charCodeAt(w.length-1)-0xAC00)%28?'이':'가');
+ const bl=a=>a.map(x=>`<b>${x.g}</b>`).join(', ');
+ $('qtSum').innerHTML=(!weak.length?`모든 ${QL}이 응시자 평균 이상이에요.`:`응시자 평균보다 정답률이 낮은 ${QL}은 ${weak.length}개예요. 격차가 큰 ${bl(weak.slice(0,2))}부터 챙기면 좋아요.`)+(sn?` <span style="color:var(--pri2)">평균보다 정답률이 높은 ${QL}은 ${strong.length}개로, <b style="color:var(--pri2)">${sn.g}</b>${ga(sn.g)} 가장 앞서요.</span>`:'');
  const wrTxt=x=>{const p=x.per.filter(q=>q.wr.length);if(!p.length)return '–';return x.multi?p.map(q=>`${q.rd}회 ${q.wr.join('·')}번`).join(' · '):p[0].wr.join('·')+'번'};
  const row=(x,i,isW)=>{const hot=isW&&x.d<=-15,cl=x.d<=-15?'r':x.d>=10?'g':'';
   const ar=x.multi?`<u class="${x.ch<0?'dn':x.ch>0?'up':'eq'}">${x.ch<0?'▼':x.ch>0?'▲':'–'}</u>`:'';
