@@ -447,7 +447,12 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
  .card.v9{box-shadow:none}.v9tag,.scope{display:none!important}.v9m{background:none;color:inherit}
  .printqr .cap{display:none}
 }
-.lk .q .qtj{color:#15237A;font-size:15px;font-weight:700}</style>
+.lk .q .qtj{color:#15237A;font-size:15px;font-weight:700}.rv2 .rg{display:grid;grid-template-columns:56px 84px 1fr auto;gap:0 14px;align-items:center}
+.rv2 .rc{display:flex;flex-direction:column;gap:3px;min-width:0}.rv2 .rc .ru{font-size:16px;font-weight:700;color:var(--ink,#272727)}.rv2 .rc .rm{font-size:14px;color:var(--sub)}
+.rv2 .ri2{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:flex-end;min-width:210px}
+.rv2 .ra{display:flex;flex-direction:column;align-items:center;gap:1px}.rv2 .ra small{font-size:12px;color:var(--sub)}.rv2 .ra b{font-size:18px;font-weight:700}
+.rv2 .ra b.rno{font-size:15px;font-weight:500;color:var(--sub)}.rv2 .rarr{color:var(--sub)}.rv2 .rtrap{flex-basis:100%;text-align:right;font-size:13px;color:var(--sub);font-weight:600}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -540,7 +545,7 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 
 <section class="card new">
 <h2>오답 문항 확인 <span class="tagN">신규</span></h2>
-<div class="mebook"><div class="mbt"><span class="v9m">내 오답은 이 섹션에서 한 번에 확인해요.</span> 해설 보기와 다시 풀기는 <b>meBOOK 앱</b>에서 할 수 있어요. <span class="tagN">신규</span></div><div class="mbtn"><a href="#" onclick="return false">meBOOK 바로가기 ↗</a></div></div>
+<div class="mebook"><div class="mbt"><span class="v9m">내 오답은 이 섹션에서 한 번에 확인해요.</span> 해설 보기와 다시 풀기는 <b>meBOOK 앱</b>에서 할 수 있어요.</div><div class="mbtn"><a href="#" onclick="return false">meBOOK 바로가기 ↗</a></div></div>
 <div id="rvList"></div>
 
 </section>
@@ -934,9 +939,10 @@ function renderReview(){
  const OBJ=q=>s.key!=='math'||q.n<=15||(q.n>=23&&q.n<=28);const circ=v=>/^[1-5]$/.test(v)?'①②③④⑤'[v-1]:v;
  if(!w.length){$('rvList').innerHTML='<div style="color:var(--sub)">오답 문항이 없습니다.</div>';return}
  $('rvList').innerHTML=w.map(q=>{
-  const head=`<span class="rn">${q.n}번</span><span class="lbl ${lc[cls(q.rate)]}">${label[cls(q.rate)]}</span><span class="ru">${q.unit}</span><span class="rm v9m">${q.pts}점 · 정답률 ${fmt(q.rate)}%${q.sub&&q.sub!==q.unit?' · '+q.sub:''}${hasEvalCol(s)&&q.ev?' · '+(EVS[q.ev]||q.ev):''}</span>${cls(q.rate)===3?'<span class="hardtag">응시자 대부분이 어려워한 문항</span>':''}`;
-  if(!OBJ(q))return`<div class="rv2" id="rv${q.n}"><div class="rr">${head}<span class="ri">주관식 · 내 답 ${q.my==='-'?'무응답':q.my} → 정답 ${q.ans}</span></div></div>`;
-  return`<div class="rv2" id="rv${q.n}"><div class="rr">${head}<span class="ri">내 답 ${q.my==='-'?'무응답':circ(q.my)} → 정답 ${circ(q.ans)}${trap(q)?` · <b>많은 학생이 고른 오답과 같아요</b>`:''}</span></div></div>`}).join('');
+  const meta=`${q.pts}점 · 응시자 정답률 ${fmt(q.rate)}%${q.sub&&q.sub!==q.unit?' · '+q.sub:''}${hasEvalCol(s)&&q.ev?' · '+(EVS[q.ev]||q.ev):''}`;
+  const left=`<span class="rn">${q.n}번</span><span class="lbl ${lc[cls(q.rate)]}">${label[cls(q.rate)]}</span><span class="rc"><b class="ru">${q.unit}</b><span class="rm v9m">${meta}</span></span>`;
+  const ans=OBJ(q)?`<span class="ra"><small>내 답</small>${q.my==='-'?'<b class="rno">무응답</b>':`<b>${circ(q.my)}</b>`}</span><span class="rarr">→</span><span class="ra"><small>정답</small><b>${circ(q.ans)}</b></span>${trap(q)?'<span class="rtrap">응시자가 가장 많이 고른 오답과 같아요</span>':''}`:`<span class="ra"><small>내 답</small>${q.my==='-'?'<b class="rno">무응답</b>':`<b>${q.my}</b>`}</span><span class="rarr">→</span><span class="ra"><small>정답 (주관식)</small><b>${q.ans}</b></span>`;
+  return`<div class="rv2" id="rv${q.n}"><div class="rr rg">${left}<span class="ri2">${ans}</span></div></div>`;}).join('');
 }
 
 function renderTrend(){
