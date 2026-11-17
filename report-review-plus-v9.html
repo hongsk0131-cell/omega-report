@@ -452,7 +452,7 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 .rv2 .ri2{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:flex-end;min-width:210px}
 .rv2 .ra{display:flex;flex-direction:column;align-items:center;gap:1px}.rv2 .ra small{font-size:12px;color:var(--sub)}.rv2 .ra b{font-size:17px;font-weight:700;color:#272727;min-height:26px;display:flex;align-items:center}.rv2 .ra b .cn{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border:2px solid #272727;border-radius:50%;font-size:14px;line-height:1}.rv2 .rg{min-height:100px;box-sizing:border-box}
 .rv2 .rarr{color:var(--sub)}.rv2 .rtrap{flex-basis:100%;text-align:right;font-size:13px;color:var(--sub);font-weight:600}
-</style>
+.qtj{white-space:nowrap}.rvbtn{display:block;margin:14px auto 0;padding:10px 22px;border:1px solid #2F497D;border-radius:999px;background:#fff;color:#15237A;font-size:15px;font-weight:600;cursor:pointer}</style>
 </head>
 <body>
 <div class="wrap">
@@ -847,7 +847,7 @@ function renderLost(){
  $('lostDesc').innerHTML=`${s.total}점 만점 기준`;
  $('lostBar').innerHTML=`<div class="c0" style="width:${s.raw/s.total*100}%">득점 ${s.raw}점</div>`+['c1','c2','c3'].map((c,i)=>p[i]?`<div class="${c}" style="width:${p[i]/s.total*100}%">${p[i]}점</div>`:'').join('');
  const meta=[['놓친 문항','c1',`정답률 ${t.hi}% 이상 · 다수의 응시자가 맞힌 문항`],['보완 문항','c2',`정답률 ${t.lo}~${t.hi}% · 개념 및 풀이 점검이 필요한 문항`],['<span class="v9m">도전 문항</span>','c3',`정답률 ${t.lo}% 미만 · 상대적으로 난도가 높은 문항`]];
- $('lostKeys').innerHTML=meta.map((m,i)=>`<div class="lk"><div class="h"><i class="${m[1]}"></i>${m[0]}</div><div class="n">${p[i]}점 <span style="font-size:14px;color:var(--sub);font-weight:500">${g[i].length}문항</span></div><div class="q">${g[i].map(q=>`<a class="qtj" data-n="${q.n}">${q.n}번</a>`).join(', ')||'없음'}</div><div class="q">${m[2]}</div></div>`).join('');
+ $('lostKeys').innerHTML=meta.map((m,i)=>`<div class="lk"><div class="h"><i class="${m[1]}"></i>${m[0]}</div><div class="n">${p[i]}점 <span style="font-size:14px;color:var(--sub);font-weight:500">${g[i].length}문항</span></div><div class="q">${g[i].slice(0,10).map(q=>`<a class="qtj" data-n="${q.n}">${q.n}번</a>`).join(', ')||'없음'}${g[i].length>10?` 외 ${g[i].length-10}문항`:''}</div><div class="q">${m[2]}</div></div>`).join('');
 }
 
 function renderUnit(){
@@ -932,17 +932,22 @@ const WHY=['개념 몰랐음','조건 놓침','계산 실수','시간 부족'];
 function optDist(s,q){const r=rng(q.n*131+(s.seed||9));const ans=+q.ans,mw=+q.mw.split(',')[0]||((ans%5)+1),my=+q.my;const rest=100-q.rate;let w=[0,0,0,0,0];
  const others=[1,2,3,4,5].filter(o=>o!==ans);let parts=others.map(o=>o===mw?2.2+r():o===my?1.2+r():0.3+r()*.8);const sm=parts.reduce((a,b)=>a+b,0);
  others.forEach((o,i)=>w[o-1]=Math.round(rest*parts[i]/sm*10)/10);w[ans-1]=q.rate;return w}
+
+function rvSync(){const t=document.getElementById('rvToggle');if(!t)return;const x=[...document.querySelectorAll('#rvList .rvx')],hid=x.filter(e=>e.classList.contains('hide')).length;t.textContent=hid?'더보기 ▾':'접기 ▴'}
 function renderReview(){
  const s=cur();
  const w=s.qs.filter(q=>!q.ok).sort((a,b)=>cls(a.rate)-cls(b.rate)||expv(b)-expv(a));
  const label=['','놓친 문항','보완 문항','도전 문항'],lc=['','r','b','k'];
  const OBJ=q=>s.key!=='math'||q.n<=15||(q.n>=23&&q.n<=28);const circ=v=>/^[1-5]$/.test(v)?'①②③④⑤'[v-1]:v;
  if(!w.length){$('rvList').innerHTML='<div style="color:var(--sub)">오답 문항이 없습니다.</div>';return}
- $('rvList').innerHTML=w.map(q=>{
+ const LIM=5;const rvItems=w.map(q=>{
   const meta=`${q.pts}점 · 응시자 정답률 ${fmt(q.rate)}%${q.sub&&q.sub!==q.unit?' · '+q.sub:''}${hasEvalCol(s)&&q.ev?' · '+(EVS[q.ev]||q.ev):''}`;
   const left=`<span class="rn">${q.n}번</span><span class="lbl ${lc[cls(q.rate)]}">${label[cls(q.rate)]}</span><span class="rc"><b class="ru">${q.unit}</b><span class="rm v9m">${meta}</span></span>`;
   const ans=OBJ(q)?`<span class="ra"><small>내 답</small>${q.my==='-'?'<b>무응답</b>':`<b><i class="cn">${q.my}</i></b>`}</span><span class="rarr">→</span><span class="ra"><small>정답</small><b><i class="cn">${q.ans}</i></b></span>${trap(q)?'<span class="rtrap">응시자가 가장 많이 고른 오답과 같아요</span>':''}`:`<span class="ra"><small>내 답</small>${q.my==='-'?'<b>무응답</b>':`<b>${q.my}</b>`}</span><span class="rarr">→</span><span class="ra"><small>정답</small><b>${q.ans}</b></span>`;
-  return`<div class="rv2" id="rv${q.n}"><div class="rr rg">${left}<span class="ri2">${ans}</span></div></div>`;}).join('');
+  return`<div class="rv2" id="rv${q.n}"><div class="rr rg">${left}<span class="ri2">${ans}</span></div></div>`;});
+ const rvBtn=()=>`<button class="rvbtn" id="rvToggle"></button>`;
+ $('rvList').innerHTML=rvItems.map((x,i)=>i<LIM?x:x.replace('class="rv2"','class="rv2 hide rvx"')).join('')+(rvItems.length>LIM?rvBtn():'');
+ rvSync();
 }
 
 function renderTrend(){
@@ -1093,5 +1098,5 @@ function markV9(){V9ALWAYS.forEach(k=>SEC[k]&&SEC[k].classList.add('v9'));SEC['�
 render();numberSections();
 </script>
 <style>.qtj{color:var(--pri2);text-decoration:underline;cursor:pointer;font-weight:600}</style>
-<script>document.addEventListener('click',e=>{const a=e.target.closest('.qtj');if(!a)return;const rv=document.getElementById('rv'+a.dataset.n);if(rv){if(rv.tagName==='DETAILS')rv.open=true;rv.scrollIntoView({behavior:'smooth',block:'center'});rv.classList.add('flash');setTimeout(()=>rv.classList.remove('flash'),1400)}});</script></body>
+<script>document.addEventListener('click',e=>{const a=e.target.closest('.qtj');if(!a)return;const rv=document.getElementById('rv'+a.dataset.n);if(rv){if(rv.classList.contains('hide')){document.querySelectorAll('#rvList .rvx').forEach(e=>e.classList.remove('hide'));rvSync()}if(rv.tagName==='DETAILS')rv.open=true;rv.scrollIntoView({behavior:'smooth',block:'center'});rv.classList.add('flash');setTimeout(()=>rv.classList.remove('flash'),1400)}});</script><script>document.addEventListener('click',e=>{const t=e.target.closest('#rvToggle');if(!t)return;const x=[...document.querySelectorAll('#rvList .rvx')],hid=x.filter(e=>e.classList.contains('hide'));if(hid.length){hid.slice(0,5).forEach(e=>e.classList.remove('hide'))}else{x.forEach(e=>e.classList.add('hide'));t.closest('section').scrollIntoView({behavior:'smooth',block:'start'})}rvSync()});</script></body>
 </html>
