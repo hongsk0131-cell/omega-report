@@ -962,7 +962,7 @@ function renderTrend(){
  svg.innerHTML=g;
  let t=`<thead><tr><th>응시회차</th><th>원점수</th><th>응시생 평균</th>${s.eng?'':'<th>예상 표준점수</th><th>예상 백분위</th>'}<th>예상 등급</th></tr></thead><tbody>`;
  att.forEach(i=>{const lastR=i===4;t+=`<tr${lastR?' style="background:#FFF1F3"':''}><td>${H.rounds[i]}회</td><td>${lastR?'<span class="ans" style="background:#FFD5DC">':''}${H.raw[i]}점${lastR?'</span>':''}</td><td>${H.avg[i]}점</td>${s.eng?'':`<td>${H.std[i]}점</td><td>${H.pct[i]}</td>`}<td>${H.grade[i]}등급</td></tr>`});
- $('trTbl').innerHTML=t+'</tbody>';
+ const nc=s.eng?4:6;$('trTbl').innerHTML=`<colgroup>${`<col style="width:${(100/nc).toFixed(3)}%">`.repeat(nc)}</colgroup>`+t+'</tbody>';$('trTbl').style.tableLayout='fixed';
  $('trNote').textContent='시즌 전체 15회 기준 · 미응시 회차는 빈칸, 남은 회차는 점선으로 표시됩니다.';
 }
 
