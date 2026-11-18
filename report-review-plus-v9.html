@@ -754,7 +754,7 @@ function cumRows(s){
  rows.forEach(x=>{x.rate=Math.round(x.C/x.N*100);x.lost=(x.avg-x.rate)*x.N/100;const both=x.last[0]<x.last[1]&&x.cur[0]<x.cur[1];x.st=x.N<3?['판정 보류','k']:x.rate<x.avg?(both?['연속 오답','y']:['보완','r']):['안정','g']});
  const ord=x=>x.st[1]==='k'?2:x.st[1]==='g'?1:0;rows.sort((a,b)=>ord(a)-ord(b)||(ord(a)===1?b.rate-b.avg-(a.rate-a.avg):b.lost-a.lost));return rows}
 function focusU(){const Q=window.QTc||[];return Q.find(x=>x.d<0)||[...Q].sort((a,b)=>a.me-b.me)[0]}
-function strongU(){const Q=window.QTc||[];return [...Q].filter(x=>x.d>0).sort((a,b)=>(b.me-b.avg)*b.N-(a.me-a.avg)*a.N||b.d-a.d)[0]}
+function strongU(){const Q=window.QTc||[];return [...Q].filter(x=>x.d>0).sort((a,b)=>b.d-a.d||b.d-a.d)[0]}
 function buildRecs(){const s=cur(),key=(S.sub==='math'||S.sub==='eng'||s.tam)?'unit':'sub',Q=window.QTc||[];
  const src=['2027학년도 6월 평가원 모의고사','2026학년도 대학수학능력시험','2027학년도 9월 평가원 모의고사'];
  s.recs=Q.slice(0,3).map((x,i)=>{const qs=s.qs.filter(q=>q[key]===x.g),q=qs.find(q=>!q.ok)||qs.sort((a,b)=>a.rate-b.rate)[0];const u=q.unit;
@@ -1002,16 +1002,16 @@ function buildQT(s,key,rds){
   const tr=per.map(p=>Math.round(p.c/p.n*100));
   return{g,N,C,me,avg,d:me-avg,ch:tr[tr.length-1]-tr[0],per,multi:rds.length>1}});
  const tot=gs.reduce((a,x)=>a+x.N,0);gs.forEach(x=>x.share=Math.round(x.N/tot*100));
- const L=x=>(x.avg-x.me)*x.N;gs.sort((a,b)=>(a.d<0)!==(b.d<0)?(a.d<0?-1:1):a.d<0?L(b)-L(a):a.d-b.d);return gs}
+ const L=x=>x.avg-x.me;gs.sort((a,b)=>(a.d<0)!==(b.d<0)?(a.d<0?-1:1):a.d<0?L(b)-L(a):a.d-b.d);return gs}
 function renderQType(){
  const s=cur(),many=S.hist>1,key=(S.sub==='math'||S.sub==='eng'||s.tam)?'unit':'sub',H=s.hist,QL=(S.sub==='math'||s.tam)?'단원':'유형';
  const att=H.rounds.slice(5-S.hist),curR=H.rounds[4];
  window.QTc=buildQT(s,key,[curR]);window.QTm=many?buildQT(s,key,att):window.QTc;window.QT=window.QTc;
  const QA=window.QTm;const sel=String(curR);
- const roundView=rd=>{const g2=QA.map(x=>{const p=x.per.find(q=>q.rd===rd),me=Math.round(p.c/p.n*100),avg=Math.round(p.avg);return{g:x.g,N:p.n,C:p.c,me,avg,d:me-avg,ch:0,per:[p],multi:false}});const tot=g2.reduce((a,x)=>a+x.N,0);g2.forEach(x=>x.share=Math.round(x.N/tot*100));const L=x=>(x.avg-x.me)*x.N;g2.sort((a,b)=>(a.d<0)!==(b.d<0)?(a.d<0?-1:1):a.d<0?L(b)-L(a):a.d-b.d);return g2};
+ const roundView=rd=>{const g2=QA.map(x=>{const p=x.per.find(q=>q.rd===rd),me=Math.round(p.c/p.n*100),avg=Math.round(p.avg);return{g:x.g,N:p.n,C:p.c,me,avg,d:me-avg,ch:0,per:[p],multi:false}});const tot=g2.reduce((a,x)=>a+x.N,0);g2.forEach(x=>x.share=Math.round(x.N/tot*100));const L=x=>x.avg-x.me;g2.sort((a,b)=>(a.d<0)!==(b.d<0)?(a.d<0?-1:1):a.d<0?L(b)-L(a):a.d-b.d);return g2};
  const gs=sel==='cum'?QA:roundView(+sel);
  $('qtTabs').innerHTML='';$('qtTabs').style.display='none';
- const weak=gs.filter(x=>x.d<0).slice(0,5),strong=gs.filter(x=>x.d>0).sort((a,b)=>(b.me-b.avg)*b.N-(a.me-a.avg)*a.N||b.d-a.d).slice(0,3),rest=gs.filter(x=>!weak.includes(x)&&!strong.includes(x));
+ const weak=gs.filter(x=>x.d<0).slice(0,3),strong=gs.filter(x=>x.d>0).sort((a,b)=>b.d-a.d||b.d-a.d).slice(0,3),rest=gs.filter(x=>!weak.includes(x)&&!strong.includes(x));
  $('qtNote').textContent=s.tam?'※ 통합사회·통합과학은 2028 문항분류코드 확정 전으로, 샘플 단원 기준으로 표시합니다.':'';
  const sn=strong[0],ga=w=>((w.charCodeAt(w.length-1)-0xAC00)%28?'이':'가');
  const bl=a=>a.map(x=>`<b>${x.g}</b>`).join(', ');
@@ -1021,9 +1021,9 @@ function renderQType(){
   const ar=x.multi?`<u class="${x.ch<0?'dn':x.ch>0?'up':'eq'}">${x.ch<0?'▼':x.ch>0?'▲':'–'}</u>`:'';
   return `<div class="qt-row${hot?' hot':''}"><div>${isW?`<span class="qt-rk">${i+1}</span>`:''}</div><div class="qt-nm">${x.g}<small>${x.multi?'누적 ':''}${x.N}문항 중 ${x.C}문항 정답 · 출제 ${x.share}%</small></div><div class="qt-bar"><div class="tr"><div class="fl" style="width:${x.me}%"></div><div class="tk" style="left:${x.avg}%"></div></div><b>${x.me}%</b></div><div class="qt-av">${x.avg}%</div><div class="qt-df"><i class="${cl}">${x.d>0?'+':x.d<0?'−':''}${Math.abs(x.d)}%p</i>${ar}</div><div class="qt-wr">${wrTxt(x)}</div></div>`};
  const head=`<div class="qt-head"><span></span><span>${QL}</span><span>나의 정답률 · 평균 눈금</span><span style="text-align:right">평균</span><span style="text-align:center">차이</span><span>오답 문항</span></div>`;
- $('qtBody').innerHTML=(weak.length?`<div class="qt-grp"><span class="v9m">보완이 필요한 ${QL}</span> <small>응시자 평균보다 정답률이 낮은 ${QL} · 평균 대비 정답 문항 수가 적은 순 · 최대 5개</small></div>`+head+weak.map((x,i)=>row(x,i,true)).join(''):'')
-  +(strong.length?`<div class="qt-grp g"><span class="v9m">강점 ${QL}</span> <small>응시자 평균보다 정답률이 높은 ${QL} · 평균 대비 정답 문항 수가 많은 순 · 최대 3개</small></div>`+head+strong.map(x=>row(x,0,false)).join(''):'')
-  +(rest.length?`<details class="qt-more"><summary>전체 ${QL} 보기 (총 ${gs.length}개)</summary>${head}${rest.map(x=>row(x,0,false)).join('')}</details>`:'');
+ $('qtBody').innerHTML=(weak.length?`<div class="qt-grp"><span class="v9m">보완이 필요한 ${QL}</span> <small>응시자 평균보다 정답률이 낮은 ${QL} · 차이가 큰 순 · 최대 3개</small></div>`+head+weak.map((x,i)=>row(x,i,true)).join(''):'')
+  +(strong.length?`<div class="qt-grp g"><span class="v9m">강점 ${QL}</span> <small>응시자 평균보다 정답률이 높은 ${QL} · 차이가 큰 순 · 최대 3개</small></div>`+head+strong.map(x=>row(x,0,false)).join(''):'')
+  ;
  $('qtDef').innerHTML='<span class="v9m">검은 눈금 = 응시자 평균 정답률 · 정답률 = 맞힌 문항 수 ÷ 출제 문항 수 (출제 문항 수가 달라도 비율로 비교)</span>';
 }
 const KD={'화법':'말하기 방식 파악','음운·단어':'음운 변동','문장·담화':'문장의 짜임','작문':'고쳐쓰기','인문·예술':'세부 내용 추론','사회·문화':'구체적 사례 적용','과학·기술':'세부 내용 추론','현대시':'외적 준거에 따른 작품 감상','고전시가':'표현상의 특징 파악','현대소설':'서술상의 특징 파악','고전산문':'인물의 심리 파악'};
