@@ -792,14 +792,12 @@ function renderSummary(){
  }else band+=`<div class="sxrow"><span class="sc cu">누적</span><div class="sxnone v9m">첫 응시라 누적 비교는 다음 회차부터 표시돼요.</div></div>`;
  $('sBand').innerHTML=band;
  /* 다음 학습 전략 */
- const rx=[],K=['①','②','③'];
- if(c1.length)rx.push(`<b>놓친 문항 ${c1.length}개</b><br>정답률 ${T.hi}% 이상인 문항부터 다시 풀어보세요`);
- if(c2.length)rx.push(`<b>보완 문항 ${c2.length}개</b><br>틀린 문제의 개념을 확인하고, 비슷한 기출문제를 풀어보세요`);
- if(c3.length)rx.push(`<b>도전 문항 ${c3.length}개</b><br>해설을 보며 문제 풀이 과정을 익혀보세요`);
- const g0=c1.length?'놓친 문항 오답 0개':(fU?`${fU.g} ${QL} 정답률을 응시자 평균 이상으로`:`원점수 ${s.raw}점 이상 유지`);
- if(rx.length<3)rx.push(`다음 회차 목표<br><b>${g0}</b>`);
+ const rx=[],K=['①','②','③'],nb=a=>`<br><span style="color:var(--sub)">${[...a].sort((x,y)=>x.n-y.n).map(q=>q.n+'번').join(', ')}</span>`;
+ if(c1.length)rx.push(`<b>놓친 문항 ${c1.length}개</b>${nb(c1)}<br>정답률 ${T.hi}% 이상인 문항부터 다시 풀어보세요`);
+ if(c2.length)rx.push(`<b>보완 문항 ${c2.length}개</b>${nb(c2)}<br>틀린 문제의 개념을 확인하고, 비슷한 기출문제를 풀어보세요`);
+ if(c3.length)rx.push(`<b>도전 문항 ${c3.length}개</b>${nb(c3)}<br>해설을 보며 문제 풀이 과정을 익혀보세요`);
  $('sRx').innerHTML=rx.slice(0,3).map((x,i)=>`<div class="sxa"><span class="n">${K[i]}</span><span class="v9m">${x}</span></div>`).join('');
- $('sNote').innerHTML=`<span class="v9m">복습 우선순위 기준: 틀린 문제를 응시자 정답률에 따라 놓친 문항(${T.hi}% 이상)·보완 문항(${T.lo}~${T.hi}%)·도전 문항(${T.lo}% 미만)으로 구분했어요. 놓친 문항부터 우선 복습하고, 같은 구분에서는 예상 회복 점수가 높은 문항을 우선 추천해요. 문항 번호는 아래 '오답 문항 확인'에서 볼 수 있어요.</span>`;
+ $('sNote').innerHTML=`<span class="v9m">복습 우선순위 기준: 틀린 문제를 응시자 정답률에 따라 놓친 문항(${T.hi}% 이상)·보완 문항(${T.lo}~${T.hi}%)·도전 문항(${T.lo}% 미만)으로 구분했어요. 놓친 문항부터 우선 복습하고, 같은 구분에서는 예상 회복 점수가 높은 문항을 우선 추천해요.</span>`;
 }
 
 function renderScore(){
@@ -810,7 +808,7 @@ function renderScore(){
  $('scoreBox').innerHTML=cells.map(c=>`<div><div class="fl">${c[0]}</div>${c[1]}</div>`).join('');
  $('scoreNote').classList.toggle('hide',!!s.eng);
  const N=POP[S.mode],ap=actualPct(s),rank=Math.max(1,Math.round(N*(100-ap)/100));
- $('scoreRank').innerHTML=s.eng?`<span>실제 백분위 <b>${ap}</b> <small>이번 회차 응시자 기준</small></span><span class="v9m" style="font-size:13px">영어는 절대평가라 석차를 제공하지 않아요</span>`:`<span>실제 백분위 <b>${ap}</b> <small>이번 회차 응시자 기준</small></span><span>${isBlack()?'OMEGA Black':'OMEGA'} 응시자 중 <b>${rank.toLocaleString()}등</b> <small>/ ${N.toLocaleString()}명 · 상위 ${Math.round(rank/N*1000)/10}%</small></span>`;
+ $('scoreRank').style.display=s.eng?'none':'';$('scoreRank').closest('section').classList.toggle('new',!s.eng);$('scoreRank').innerHTML=s.eng?'':`<span>${isBlack()?'OMEGA Black':'OMEGA'} 응시자 중 <b>${rank.toLocaleString()}등</b> <small>/ ${N.toLocaleString()}명 · 상위 ${Math.round(rank/N*1000)/10}%</small></span>`;
 }
 
 function renderCut(){
@@ -1043,7 +1041,7 @@ function renderChal(){
  QM.forEach((x,i)=>{x.rate=Math.round(x.C/x.N*100);x.st=x.N<3?['판정 보류','k']:x.rate<x.avg?['보완','r']:['안정','g'];
   const L=x.per[x.per.length-1],P=x.per.length>1?x.per[x.per.length-2]:null;x.worse=P&&(L.c/L.n<P.c/P.n);x.det=detail(x,i);
   let run=0;for(let k=x.per.length-1;k>=0;k--){if(x.per[k].wr.length)run++;else break}x.run=run});
- let rows=[...QM].sort((a,b)=>(b.N-b.C)-(a.N-a.C)).slice(0,5);
+ let rows=[...QM].sort((a,b)=>(b.N-b.C)-(a.N-a.C)).slice(0,3);
  const rep=QM.filter(x=>x.run>=2).sort((a,b)=>b.run-a.run)[0];
  const best=many?QM.map(x=>{const a=x.per[x.per.length-2],b=x.per[x.per.length-1];return{g:x.g,d:b.c/b.n-a.c/a.n}}).sort((a,b)=>b.d-a.d)[0]:null;
  const ga=w=>((w.charCodeAt(w.length-1)-0xAC00)%28?'은':'는');
@@ -1056,7 +1054,7 @@ function renderChal(){
  <div class="r"><div class="ch-l">할 일</div>
  <div class="td"><span class="ch-n">①</span><div><small>오답 다시 풀기 · meBOOK 오답노트</small><b>놓친 문항 ${c1}개 · 보완 문항 ${c2}개</b></div></div>
  <div class="td"><span class="ch-n">②</span><div><small>비슷한 기출 풀기 · 맞춤 보완 문항</small>${(s.recs||[]).map((r,i)=>`<b><span style="color:#2C5BF6;font-weight:600">${i+1}순위</span> ${r[2]}</b>`).join('')}</div></div></div></div>
- <div class="mh">누적 약점 지도 <span style="margin-left:4px;font-size:14px;font-weight:400;color:#6B7684">최근 5회 동안 가장 많이 틀린 유형 5개예요</span></div>
+ <div class="mh">누적 약점 지도 <span style="margin-left:4px;font-size:14px;font-weight:400;color:#6B7684">최근 5회 동안 가장 많이 틀린 유형 3개예요</span></div>
  <div class="tblwrap"><table>${head}${body}</table></div>
  <div class="lg"><span><em style="background:#FFEEF0"></em>틀린 문제 있음</span><span><em style="background:#EEF3FF"></em>모두 맞힘</span></div>
 
