@@ -335,6 +335,12 @@ td.up{color:#0F8A55;font-weight:600}td.dn{color:#FF2C52;font-weight:600}
 .srank{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:16px;color:var(--sub)}
 .srank b{font-size:20px;font-weight:700;color:var(--ink)}.srank small{font-size:14px;color:var(--mut2)}.srank .tagU{margin-left:auto}
 #secSummary .sxband{margin-top:18px;border-top:1px solid var(--line)}
+#secSummary .sx2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0 4px}
+#secSummary .sxc{border-radius:12px;padding:16px 20px 6px;background:#F5F8FF}#secSummary .sxc.r{background:#FFF5F7}
+#secSummary .sxct{font-size:15px;font-weight:600;color:#2C5BF6;margin-bottom:6px;text-align:center}#secSummary .sxc.r .sxct{color:#FF2C52}
+#secSummary .sxl{display:grid;grid-template-columns:76px 1fr;gap:12px;align-items:center;padding:12px 0;border-top:1px solid rgba(25,31,40,.07);font-size:14px;color:#191F28}
+#secSummary .sxl .sk{font-size:13px;color:#4E5968}#secSummary .sxl b{font-weight:600;margin-right:8px}#secSummary .sxl .nm{color:#4E5968}#secSummary .sxl .na{color:#8B95A1}#secSummary .sxl .why{display:block;font-size:13px;color:#8B95A1;margin-top:2px}#secSummary .sxl{align-items:start}#secSummary .sxl .sk{line-height:22px}#secSummary .sxl .dt{color:#4E5968;margin-right:8px}#secSummary .sxl .dt::before{content:'· '}#secSummary .sxguide{font-size:13px;color:#4E5968;margin:12px 0 16px}
+@media(max-width:767px){#secSummary .sx2{grid-template-columns:1fr}}
 #secSummary .sxrow{display:grid;grid-template-columns:104px 1fr 1fr;gap:0 20px;align-items:start;padding:16px 0;border-bottom:1px solid var(--line)}
 #secSummary .sxrow>.sc{justify-self:start;margin:0}
 #secSummary .sxit{font-size:15px;line-height:24px;color:#191F28}
@@ -463,7 +469,7 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 <b>검토용 전환 · 비교안</b> (학생 화면에는 없음) · 노란 테두리 = 운영 중인 성적표 대비 신규·변경 섹션 · 영문 소제목과 섹션 번호는 전 섹션 공통 추가 · meBOOK 버튼은 아이디어 제안(앱 연동 방식 확인 필요)
 <div class="row"><span>시험 유형</span><button class="tbtn on" data-mode="OMEGA">OMEGA</button><button class="tbtn" data-mode="BLACK">OMEGA Black</button></div>
 <div class="row"><span>과목</span><div class="btnrow" id="subTabs"></div></div>
-<div class="row"><span>응시 이력</span><button class="tbtn" data-hist="1">첫 응시 (1회)</button><button class="tbtn" data-hist="2">누적 2회</button><button class="tbtn" data-hist="3">누적 3회</button><button class="tbtn on" data-hist="5">누적 5회</button></div>
+<div class="row"><span>응시 이력</span><button class="tbtn" data-hist="1">첫 응시 (1회)</button><button class="tbtn" data-hist="2">응시 2회</button><button class="tbtn" data-hist="3">응시 3회</button><button class="tbtn on" data-hist="5">응시 5회</button></div>
 </div>
 
 <div class="grp"><span class="t">성적 요약</span><span class="h">핵심 결과 먼저 확인</span></div>
@@ -591,7 +597,7 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 <div id="chal"></div>
 </section>
 
-<div class="printqr v9"><div class="qr">QR</div><div class="t"><b>더 자세한 분석은 앱에서 확인하세요.</b><br>문항별 오답 · 누적 약점 지도 · 맞춤 보완 문항<span class="cap"><span class="v9m">출력본(인쇄)에만 표시 · 출력 시 성적 요약·총평·추이만 한 장으로 인쇄됩니다</span></span></div></div>
+<div class="printqr v9"><div class="qr">QR</div><div class="t"><b>더 자세한 분석은 앱에서 확인하세요.</b><br>문항별 오답 · 최근 5회 약점 지도 · 맞춤 보완 문항<span class="cap"><span class="v9m">출력본(인쇄)에만 표시 · 출력 시 성적 요약·총평·추이만 한 장으로 인쇄됩니다</span></span></div></div>
 </div>
 
 <script>
@@ -766,7 +772,7 @@ function renderSummary(){
  const QL=(S.sub==='math'||s.tam)?'단원':'유형',QC=window.QTc||[];
  const qw=QC.find(x=>x.d<0),qb=[...QC].sort((a,b)=>b.d-a.d)[0];let usedC1=false;
  const mname=isBlack()?'OMEGA Black':'OMEGA';
- let L=[s.eng?`${s.name} <b>${s.raw}점 · ${s.grade}등급</b>이에요.`:`${s.name} <b>${s.raw}점 · ${s.grade}등급</b>${s.pct!=null?`(백분위 ${s.pct})`:''}, ${mname} 응시자 ${N.toLocaleString()}명 중 <b>상위 ${top}%</b>예요.`];
+ let L=[s.eng?`${s.name} <b>${s.raw}점 · ${s.grade}등급</b>이에요.`:`${s.name} <b>${s.raw}점 · ${s.grade}등급</b>${s.pct!=null?`(예상 백분위 ${s.pct})`:''}, ${mname} 응시자 ${N.toLocaleString()}명 중 <b>상위 ${top}%</b>예요.`];
  if(!w.length)L.push('모든 문제를 맞혔어요. 지금처럼 이어가면 돼요.');
  else if(gap&&s.grade>1)L.push(`${s.grade-1}등급까지 <b>${gap}점</b> 남았어요.`);
  else if(qw)L.push(`<span class="v9m"><b>${qw.g}</b> ${QL}은 응시자 평균보다 정답률이 낮아요. 가장 먼저 다지면 좋은 ${QL}이에요.</span>`);
@@ -776,16 +782,17 @@ function renderSummary(){
  $('sLead').innerHTML=L.join(' ');
  /* 이번 회차 */
  const sU=strongU(),fU=focusU(),key0=(S.sub==='math'||S.sub==='eng'||s.tam)?'unit':'sub';
- const fmtT=x=>`<b>${x.g}</b> · ${x.N}문제 중 ${x.C}문제 정답`,cell=(c,t)=>`<div class="sxit"><small class="${c}">${c==='g'?'잘한 점':'보완할 점'}</small><span class="v9m">${t}</span></div>`;
- let band=`<div class="sxrow sxhd"><span></span><small class="g">잘한 점</small><small class="r">보완할 점</small></div>`;
- band+=`<div class="sxrow"><span class="sc">이번 회차</span>${cell('g',sU?fmtT(sU):'응시자 평균보다 높은 유형이 없어요')}${cell('r',w.length&&fU?fmtT(fU):'틀린 문제가 없어요')}</div>`;
- /* 최근 5회 */
+ const dt=x=>{if(S.sub==='kor')return KD[x.g]||'세부 내용 추론';const sq=s.qs.filter(q=>q[key0]===x.g),w2=sq.filter(q=>!q.ok);return ((w2[0]||sq[0])||{}).sub||''};
+ const fmtT=(x,why)=>{const d=dt(x);return `<b>${x.g}</b>${d&&d!==x.g?`<span class="dt">${d}</span>`:''}<span class="nm">${x.N}문제 중 ${x.C}문제 정답</span><span class="why">${why}</span>`};
+ let G=[sU?fmtT(sU,`나 ${sU.me}% · 전체 응시자 정답률 ${sU.avg}%`):'응시자 평균보다 높은 유형이 없어요'],R=[w.length&&fU?fmtT(fU,`나 ${fU.me}% · 전체 응시자 정답률 ${fU.avg}%`):'틀린 문제가 없어요'];
  if(S.hist>1){
-  const kk=key0,att=s.hist.rounds.slice(5-S.hist),cols=att.slice(-5);
-  const QM=buildQT(s,kk,att);QM.forEach(x=>{const P=x.per.filter(p=>cols.includes(p.rd));x.N=P.reduce((a,p)=>a+p.n,0);x.C=P.reduce((a,p)=>a+p.c,0)});
+  const att=s.hist.rounds.slice(5-S.hist),cols=att.slice(-5);
+  const QM=buildQT(s,key0,att);QM.forEach(x=>{const P=x.per.filter(p=>cols.includes(p.rd));x.N=P.reduce((a,p)=>a+p.n,0);x.C=P.reduce((a,p)=>a+p.c,0)});
   const rr=[...QM].sort((a,b)=>(b.N-b.C)-(a.N-a.C))[0],bs=[...QM].sort((a,b)=>b.C/b.N-a.C/a.N||b.N-a.N)[0];
-  band+=`<div class="sxrow"><span class="sc cu">최근 5회</span>${cell('g',fmtT(bs))}${cell('r',rr.N>rr.C?fmtT(rr):'틀린 문제가 없어요')}</div>`;
- }else band+=`<div class="sxrow"><span class="sc cu">최근 5회</span><div class="sxnone v9m">첫 응시라 누적 비교는 다음 회차부터 표시돼요.</div></div>`;
+  G.push(fmtT(bs,'맞힌 비율이 가장 높아요'));R.push(rr.N>rr.C?fmtT(rr,`가장 많이 틀렸어요 (${rr.N-rr.C}문제)`):'틀린 문제가 없어요');
+ }else{const t='<span class="na">다음 회차부터 표시돼요</span>';G.push(t);R.push(t)}
+ const card=(c,h,a)=>`<div class="sxc ${c}"><div class="sxct">${h}</div>${['이번 회차','최근 5회'].map((k,i)=>`<div class="sxl"><span class="sk">${k}</span><span class="v9m">${a[i]}</span></div>`).join('')}</div>`;
+ const band=`<div class="sx2">${card('g','가장 잘한 유형',G)}${card('r','가장 먼저 보완할 유형',R)}</div><div class="sxguide">이번 회차 전체는 06 문항 유형별 분석, 최근 5회 전체는 15 최근 5회 약점 지도에서 볼 수 있어요.</div>`;
  $('sBand').innerHTML=band;
  /* 다음 학습 전략 */
  const rx=[],K=['①','②','③'],nb=a=>`<br><span style="color:var(--sub)">${[...a].sort((x,y)=>x.n-y.n).map(q=>q.n+'번').join(', ')}</span>`;
@@ -1050,12 +1057,12 @@ function renderChal(){
  <div class="r"><div class="ch-l">할 일</div>
  <div class="td"><span class="ch-n">①</span><div><small>오답 다시 풀기 · meBOOK 오답노트</small><b>놓친 문항 ${c1}개 · 보완 문항 ${c2}개</b></div></div>
  <div class="td"><span class="ch-n">②</span><div><small>비슷한 기출 풀기 · 맞춤 보완 문항</small>${(s.recs||[]).map((r,i)=>`<b><span style="color:#2C5BF6;font-weight:600">${i+1}순위</span> ${r[2]}</b>`).join('')}</div></div></div></div>
- <div class="mh">누적 약점 지도 <span style="margin-left:4px;font-size:14px;font-weight:400;color:#6B7684">최근 5회 동안 가장 많이 틀린 유형 3개예요</span></div>
+ <div class="mh">최근 5회 약점 지도 <span style="margin-left:4px;font-size:14px;font-weight:400;color:#6B7684">최근 5회 동안 가장 많이 틀린 유형 3개예요</span></div>
  <div class="tblwrap"><table>${head}${body}</table></div>
  <div class="lg"><span><em style="background:#FFEEF0"></em>틀린 문제 있음</span><span><em style="background:#EEF3FF"></em>모두 맞힘</span></div>
 
  </div>`;
- const sc=document.querySelector('#chal').closest('section').querySelector('.scope');if(sc)sc.textContent=many?'이번 회차 + 누적':'이번 회차 기준';
+ const sc=document.querySelector('#chal').closest('section').querySelector('.scope');if(sc)sc.textContent=many?'이번 회차 · 최근 5회':'이번 회차 기준';
 }
 let QF='all';function applyQF(){document.querySelectorAll('#qTbl tbody tr').forEach(tr=>{const ng=tr.classList.contains('wrong');tr.classList.toggle('hide',QF==='ng'&&!ng||QF==='ok'&&ng)});document.querySelectorAll('[data-qf]').forEach(b=>b.classList.toggle('on',b.dataset.qf===QF))}
 function numberSections(){let i=0;document.querySelectorAll('section.card').forEach(sec=>{const eb=sec.querySelector('h2 .eb');if(!eb)return;if(!eb.dataset.t)eb.dataset.t=eb.textContent;if(sec.classList.contains('hide')){eb.textContent=eb.dataset.t;return}i++;eb.innerHTML=`<span class="num">${String(i).padStart(2,'0')}</span>${eb.dataset.t}`})}
@@ -1063,7 +1070,7 @@ const EB={'학생 기본 정보':'STUDENT PROFILE','응시 정보':'EXAM INFO','
 const SEC={};document.querySelectorAll('.card>h2').forEach(h=>{const k=h.childNodes[0].textContent.trim();SEC[k]=h.parentElement;if(EB[k])h.insertAdjacentHTML('afterbegin',`<span class="eb">${EB[k]}</span>`);h.insertAdjacentHTML('beforeend','<span class="v9tag">V9 수정</span><span class="scope"></span>')});
 const V9ALWAYS=['등급 구분 점수','전략 총평','문항 유형별 분석','다시 찾을 점수','한 문제로 바뀌는 성적','오답 문항 확인','단원별 상세 분석','문항별 나의 점수 분석','회차별 나의 성적 추이','다음 회차 목표'];
 const SCOPE={'개인성적 분석':'cur','등급 구분 점수':'cur','다시 찾을 점수':'cur','한 문제로 바뀌는 성적':'cur','오답 문항 확인':'cur','맞춤 보완 문항':'cur','단원별 상세 분석':'cur','평가요소별 상세 분석':'cur','문항 유형별 분석':'cur','문항별 나의 점수 분석':'cur','다음 회차 목표':'both'};
-function setScopes(){{const e=SEC['전략 총평']&&SEC['전략 총평'].querySelector('.scope');if(e)e.style.display='none'}const m=S.hist>1;Object.keys(SCOPE).forEach(k=>{const el=SEC[k]&&SEC[k].querySelector('.scope');if(!el)return;const v=SCOPE[k];el.textContent=v==='cur'?'이번 회차 기준':v==='both'?(m?'이번 회차 · 누적':'이번 회차 기준'):(m?'누적 '+S.hist+'회':'이번 회차 기준')})}
+function setScopes(){{const e=SEC['전략 총평']&&SEC['전략 총평'].querySelector('.scope');if(e)e.style.display='none'}const m=S.hist>1;Object.keys(SCOPE).forEach(k=>{const el=SEC[k]&&SEC[k].querySelector('.scope');if(!el)return;const v=SCOPE[k];el.textContent=v==='cur'?'이번 회차 기준':v==='both'?(m?'이번 회차 · 최근 5회':'이번 회차 기준'):(m?'누적 '+S.hist+'회':'이번 회차 기준')})}
 function markV9(){V9ALWAYS.forEach(k=>SEC[k]&&SEC[k].classList.add('v9'));SEC['개인성적 분석'].classList.toggle('v9',!!cur().eng);setScopes()}
 render();numberSections();
 </script>
