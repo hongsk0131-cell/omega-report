@@ -807,7 +807,7 @@ function renderScore(){
  const s=cur();const isMath=s.name==='수학';
  const cmN=S.sub==='kor'?34:S.sub==='math'?22:0,cm=cmN?s.qs.filter(q=>q.ok&&q.n<=cmN).reduce((a,q)=>a+q.pts,0):0;
  const raw=`<div class="score"><b>${s.raw}<small>점</small></b></div>`+(cmN?`<div style="text-align:center;font-size:13px;color:#4E5968;margin-top:6px">공통 ${cm}점+선택 ${s.raw-cm}점</div>`:'');
- const cells=s.eng?[['원점수',raw],['등급',`<div class="score"><b>${s.grade}</b></div>`]]:[['원점수',raw],['표준점수',`<div class="score"><b>${s.std}<small>점</small></b></div>`],['예상 백분위',`<div class="score"><b>${s.pct}</b></div>`],['등급',`<div class="score"><b>${s.grade}</b></div>`]];
+ const cells=s.eng?[['원점수',raw],['등급',`<div class="score"><b>${s.grade}</b></div>`]]:[['원점수',raw],['표준점수',`<div class="score"><b>${s.std}<small>점</small></b></div>`],['백분위',`<div class="score"><b>${s.pct}</b></div>`],['등급',`<div class="score"><b>${s.grade}</b></div>`]];
  $('scoreBox').className='grid '+(s.eng?'g2':'g4');
  $('scoreBox').innerHTML=cells.map(c=>`<div><div class="fl">${c[0]}</div>${c[1]}</div>`).join('');
  $('scoreNote').classList.toggle('hide',!!s.eng);
@@ -942,7 +942,7 @@ function renderTrend(){
  let t=`<thead><tr><th>응시회차</th><th>원점수</th><th class="newc">응시생 평균</th>${s.eng?'':'<th>예상 표준점수</th><th>예상 백분위</th>'}<th>예상 등급</th></tr></thead><tbody>`;
  att.forEach(i=>{const lastR=i===4;t+=`<tr${lastR?' style="background:#FFF1F3"':''}><td>${H.rounds[i]}회</td><td>${lastR?'<span class="ans" style="background:#FFD5DC">':''}${H.raw[i]}점${lastR?'</span>':''}</td><td class="newc">${H.avg[i]}점</td>${s.eng?'':`<td>${H.std[i]}점</td><td>${H.pct[i]}</td>`}<td>${H.grade[i]}등급</td></tr>`});
  const nc=s.eng?4:6;$('trTbl').innerHTML=`<colgroup>${`<col style="width:${(100/nc).toFixed(3)}%">`.repeat(nc)}</colgroup>`+t+'</tbody>';$('trTbl').style.tableLayout='fixed';
-$('trNote').classList.add('newp');$('trNote').style.display='inline-block';$('trNote').textContent='시즌 전체 15회 기준 · 미응시 회차는 빈칸, 남은 회차는 점선으로 표시됩니다.';
+$('trNote').textContent='';$('trNote').style.display='none';
 }
 
 function evalGoal(s,g){
