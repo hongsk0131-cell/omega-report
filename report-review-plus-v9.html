@@ -772,7 +772,7 @@ function renderSummary(){
  const QL=(S.sub==='math'||s.tam)?'단원':'유형',QC=window.QTc||[];
  const qw=QC.find(x=>x.d<0),qb=[...QC].sort((a,b)=>b.d-a.d)[0];let usedC1=false;
  const mname=isBlack()?'OMEGA Black':'OMEGA';
- let L=[s.eng?`${s.name} <b>${s.raw}점 · ${s.grade}등급</b>이에요.`:`${s.name} <b>${s.raw}점 · ${s.grade}등급</b>${s.pct!=null?`(예상 백분위 ${s.pct})`:''}, ${mname} 응시자 ${N.toLocaleString()}명 중 <b>상위 ${top}%</b>예요.`];
+ let L=[s.eng?`${s.name} <b>${s.raw}점 · ${s.grade}등급</b>이에요.`:`${s.name} <b>${s.raw}점 · ${s.grade}등급</b>${s.pct!=null?`(백분위 ${s.pct})`:''}, ${mname} 응시자 ${N.toLocaleString()}명 중 <b>상위 ${top}%</b>예요.`];
  if(!w.length)L.push('모든 문제를 맞혔어요. 지금처럼 이어가면 돼요.');
  else if(gap&&s.grade>1)L.push(`${s.grade-1}등급까지 <b>${gap}점</b> 남았어요.`);
  else if(qw)L.push(`<span class="v9m"><b>${qw.g}</b> ${QL}은 응시자 평균보다 정답률이 낮아요. 가장 먼저 다지면 좋은 ${QL}이에요.</span>`);
