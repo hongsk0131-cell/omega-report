@@ -539,7 +539,7 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 
 <section class="card new">
 <h2>한 문제로 바뀌는 성적</h2>
-<p class="desc" style="margin-top:0">나의 오답 문항 중 <span class="v9m">응시자 정답률이 가장 높은(다시 풀면 가장 맞히기 쉬운) 3문항</span>을 더 맞혔을 경우 예상 성적 변화를 제공합니다.<br>문항을 선택한 뒤, 결과를 확인해 보세요.</p>
+<p class="desc" style="margin-top:0">나의 오답 문항 중 <span class="v9m">응시자 정답률이 가장 높은 3문항</span>을 더 맞혔을 경우 예상 성적 변화를 제공합니다.<br>문항을 선택한 뒤, 결과를 확인해 보세요.</p>
 <div><span class="dot"></span>핵심 기회 문항 TOP 3</div>
 <div class="grid g3" id="oppBox" style="margin-top:12px"></div>
 <div class="msg" id="oppMsg"></div>
@@ -792,7 +792,7 @@ function renderSummary(){
   G.push(fmtT(bs,'맞힌 비율이 가장 높아요'));R.push(rr.N>rr.C?fmtT(rr,`가장 많이 틀렸어요 (${rr.N-rr.C}문제)`):'틀린 문제가 없어요');
  }else{const t='<span class="na">다음 회차부터 표시돼요</span>';G.push(t);R.push(t)}
  const card=(c,h,a)=>`<div class="sxc ${c}"><div class="sxct">${h}</div>${['이번 회차','최근 5회'].map((k,i)=>`<div class="sxl"><span class="sk">${k}</span><span class="v9m">${a[i]}</span></div>`).join('')}</div>`;
- const band=`<div class="sx2">${card('g','가장 잘한 유형',G)}${card('r','가장 먼저 보완할 유형',R)}</div><div class="sxguide">이번 회차 전체는 06 문항 유형별 분석, 최근 5회 전체는 15 최근 5회 약점 지도에서 볼 수 있어요.</div>`;
+ const band=`<div class="sx2">${card('g','가장 잘한 유형',G)}${card('r','가장 먼저 보완할 유형',R)}</div><div class="sxguide">이번 회차 전체는 '문항 유형별 분석', 최근 5회 전체는 '다음 회차 목표'의 최근 5회 약점 지도에서 볼 수 있어요.</div>`;
  $('sBand').innerHTML=band;
  /* 다음 학습 전략 */
  const rx=[],K=['①','②','③'],nb=a=>`<br><span style="color:var(--sub)">${[...a].sort((x,y)=>x.n-y.n).map(q=>q.n+'번').join(', ')}</span>`;
@@ -829,7 +829,7 @@ function renderLost(){
  const s=cur();const t=TH[S.mode];const lost=s.total-s.raw;const w=s.qs.filter(q=>!q.ok);
  const g=[1,2,3].map(c=>w.filter(q=>cls(q.rate)===c));const p=g.map(x=>x.reduce((a,q)=>a+q.pts,0));
  const gap=nextGap(s);const ex=w.filter(q=>cls(q.rate)<3).reduce((a,q)=>a+expv(q),0);
- $('cLost').innerHTML=p[0]?`틀린 문항의 배점은 총 ${lost}점이에요. 이 중 ${p[0]}점은 다른 학생 대부분이 맞힌 문제라 가장 먼저 되찾을 점수예요<span class="s">놓친·보완 문항의 배점은 총 ${p[0]+p[1]}점이에요.</span>`:`틀린 문항의 배점은 총 ${lost}점이에요. 모두 보완·도전 문항이에요<span class="s">놓친·보완 문항의 배점은 총 ${p[0]+p[1]}점이에요.</span>`;
+ $('cLost').innerHTML=`틀린 문항의 배점은 총 ${lost}점이에요.`+(p[0]?` 이 중 ${p[0]}점은 다른 학생 대부분이 맞힌 문제라 가장 먼저 되찾을 점수예요.`:'');
  $('lostDesc').innerHTML=`${s.total}점 만점 기준`;
  $('lostBar').innerHTML=`<div class="c0" style="width:${s.raw/s.total*100}%">득점 ${s.raw}점</div>`+['c1','c2','c3'].map((c,i)=>p[i]?`<div class="${c}" style="width:${p[i]/s.total*100}%">${p[i]}점</div>`:'').join('');
  const meta=[['놓친 문항','c1',`정답률 ${t.hi}% 이상 · 다수의 응시자가 맞힌 문항`],['보완 문항','c2',`정답률 ${t.lo}~${t.hi}% · 개념 및 풀이 점검이 필요한 문항`],['<span class="v9m">도전 문항</span>','c3',`정답률 ${t.lo}% 미만 · 상대적으로 난도가 높은 문항`]];
@@ -1016,7 +1016,7 @@ function renderQType(){
  $('qtNote').textContent=s.tam?'※ 통합사회·통합과학은 2028 문항분류코드 확정 전으로, 샘플 단원 기준으로 표시합니다.':'';
  const sn=strong[0],ga=w=>((w.charCodeAt(w.length-1)-0xAC00)%28?'이':'가');
  const bl=a=>a.map(x=>`<b>${x.g}</b>`).join(', ');
- $('qtSum').innerHTML=(!weak.length?`모든 ${QL}이 응시자 평균 이상이에요.`:`응시자 평균보다 정답률이 낮은 ${QL}은 ${weak.length}개예요. <b>${weak[0].g}</b>부터 점검해 보세요.`)+(sn?` <span style="color:var(--pri2)">평균보다 정답률이 높은 ${QL}은 ${strong.length}개예요.</span>`:'');
+ $('qtSum').innerHTML=(!weak.length?`모든 ${QL}이 응시자 평균 이상이에요.`:`응시자 평균보다 정답률이 낮은 ${QL}은 ${gs.filter(x=>x.d<0).length}개예요. <b>${weak[0].g}</b>부터 점검해 보세요.`)+(sn?` <span style="color:var(--pri2)">평균보다 정답률이 높은 ${QL}은 ${gs.filter(x=>x.d>0).length}개예요.</span>`:'');
  const wrTxt=x=>{const p=x.per.filter(q=>q.wr.length);if(!p.length)return '–';return x.multi?p.map(q=>`${q.rd}회 ${q.wr.join('·')}번`).join(' · '):p[0].wr.map(n=>`<a class="qtj" data-n="${n}">${n}번</a>`).join(' · ')};
  const row=(x,i,isW)=>{const hot=isW&&i===0,cl=hot?'r':x.d>0?'g':'';
   const ar=x.multi?`<u class="${x.ch<0?'dn':x.ch>0?'up':'eq'}">${x.ch<0?'▼':x.ch>0?'▲':'–'}</u>`:'';
