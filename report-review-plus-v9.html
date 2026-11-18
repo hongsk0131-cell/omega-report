@@ -597,10 +597,6 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 <section class="card new">
 <h2>다음 회차 목표 <span class="tagN">신규</span></h2>
 <div id="chal"></div>
-<details class="fold hist2"><summary>누적 약점 지도 · 회차별 약점 변화와 반복 취약점 상세 보기</summary>
-<div id="unitChg"></div>
-</details>
-<div class="note">다음 회차 성적표에서 도전 결과를 함께 확인해요.</div>
 </section>
 
 <div class="printqr v9"><div class="qr">QR</div><div class="t"><b>더 자세한 분석은 앱에서 확인하세요.</b><br>문항별 오답 · 누적 약점 지도 · 맞춤 보완 문항<span class="cap"><span class="v9m">출력본(인쇄)에만 표시 · 출력 시 성적 요약·총평·추이만 한 장으로 인쇄됩니다</span></span></div></div>
@@ -986,7 +982,7 @@ function evalGoal(s,g){
  const c=qs.filter(q=>q.ok).length;return{ok:c/qs.length>=g.v,val:`${c}/${qs.length}문항 · 정답률 ${Math.round(c/qs.length*100)}%`}}
 function renderFeedback(){
  const s=cur();const many=S.hist>1;document.querySelectorAll('.hist2').forEach(e=>e.classList.toggle('hide',!many));
- if(!many){$('unitChg').innerHTML='<div class="box" style="color:var(--sub);font-size:14px">같은 단원이 2개 회차 이상 출제되면 단원별 정답률 흐름과 하락 단원을 표시합니다.</div>'}
+ if(!$('unitChg')){}else if(!many){$('unitChg').innerHTML='<div class="box" style="color:var(--sub);font-size:14px">같은 단원이 2개 회차 이상 출제되면 단원별 정답률 흐름과 하락 단원을 표시합니다.</div>'}
  else{const H=s.hist;const du=stats(s,'unit',s.unitOrder);const r=rng(s.seed||7);
   const rows=du.map(x=>{const now=Math.round(x.M/x.T*100);const seq=H.rounds.slice(1).map((_,j)=>j===3?now:Math.max(20,Math.min(100,Math.round(now+(r()-.45)*40))));const d=seq[3]-seq[2];return{u:x.u,seq,d}}).sort((a,b)=>a.d-b.d);
   $('unitChg').innerHTML=`<div class="tblwrap"><table class="chg"><thead><tr><th>단원</th>${H.rounds.slice(1).map(v=>`<th>${v}회</th>`).join('')}<th>직전 대비</th><th style="background:var(--y)">반복 오답</th></tr></thead><tbody>`+rows.map(x=>{let run=0,mx=0;x.seq.forEach(v=>{run=v<100?run+1:0;mx=Math.max(mx,run)});const rep=x.seq[3]<100&&x.seq[2]<100;return`<tr><td>${x.u}</td>${x.seq.map(v=>`<td>${v}%</td>`).join('')}<td class="${x.d<0?'dn':x.d>0?'up':''}">${x.d<0?'▼ '+(-x.d)+'%p':x.d>0?'▲ '+x.d+'%p':'유지'}</td><td style="background:#FFFBEA">${rep?`<span class="lbl r">${mx}회 연속</span>`:''}</td></tr>`}).join('')+'</tbody></table></div><div class="note">하락 단원 우선 정렬 · 반복 오답 = 직전 회차와 이번 회차 모두 오답</div>'}
@@ -1023,9 +1019,7 @@ function renderPlus2(){
  /* ③ 필터 상태 유지 */
  applyQF();
  if(!many)return;
- const rows=cumRows(s);const show=rows.slice(0,8);
- $('unitChg').innerHTML=`<div class="tblwrap"><table class="wmap"><colgroup><col style="width:17%"><col style="width:13%"><col style="width:11%"><col style="width:10%"><col style="width:16%"><col style="width:23%"><col style="width:10%"></colgroup><thead><tr><th>소분류</th><th>단원</th>${ev?'<th>평가요소</th>':'<th>-</th>'}<th>누적 정답/출제</th><th>누적 정답률</th><th>회차별 정답률<br><span style="font-weight:400;font-size:13px">직전(${s.hist.rounds[3]}회) → 이번(${s.hist.rounds[4]}회)</span></th><th>상태</th></tr></thead><tbody>${show.map(x=>`<tr><td><b>${x.sb}</b></td><td>${x.u}</td><td>${x.ev||'-'}</td><td>${x.C} / ${x.N}</td><td>${x.N<3?'<span style="color:#8B95A1">판정 보류</span>':`<div class="wbar"><div class="dtr"><i class="${x.st[1]}" style="width:${x.rate}%"></i></div><b>${x.rate}%</b></div><small style="color:var(--mut2);font-size:13px">평균 ${x.avg}%</small>`}</td><td>${(()=>{const a=Math.round(x.last[0]/x.last[1]*100),b=Math.round(x.cur[0]/x.cur[1]*100),d=b-a;return `<div class="rpw"><span class="rq">${a}%</span><span class="ra">→</span><b class="rq">${b}%</b><span class="rd ${d<0?'dn':d>0?'up':''}">${d<0?'▼ '+(-d)+'%p':d>0?'▲ '+d+'%p':'유지'}</span></div>`})()}</td><td><span class="st ${x.st[1]}">${x.st[0]}</span></td></tr>`).join('')}</tbody></table></div>
- <div class="caveat b">${s.hist.rounds[5-S.hist]}~${s.hist.rounds[4]}회 누적 기준 · 누적 출제 3문항 미만 소분류는 정답률을 단정하지 않고 판정 보류로 표시합니다. 누적 응시자 평균보다 낮으면 보완(최근 2회 연속 틀리면 연속 오답), 높으면 안정 · 평균보다 덜 맞힌 문항 수가 많은 순으로 최대 8개.</div>`;
+
 }
 function buildQT(s,key,rds){
  const curR=rds[rds.length-1],nums0=null;
@@ -1065,33 +1059,74 @@ function renderQType(){
   +(rest.length?`<details class="qt-more"><summary>전체 ${QL} 보기 (총 ${gs.length}개)</summary>${head}${rest.map(x=>row(x,0,false)).join('')}</details>`:'');
  $('qtDef').innerHTML='<span class="v9m">검은 눈금 = 응시자 평균 정답률 · 정답률 = 맞힌 문항 수 ÷ 출제 문항 수 (출제 문항 수가 달라도 비율로 비교)</span>';
 }
+const KD={'화법':'말하기 방식 파악','음운·단어':'음운 변동','문장·담화':'문장의 짜임','작문':'고쳐쓰기','인문·예술':'세부 내용 추론','사회·문화':'구체적 사례 적용','과학·기술':'세부 내용 추론','현대시':'외적 준거에 따른 작품 감상','고전시가':'표현상의 특징 파악','현대소설':'서술상의 특징 파악','고전산문':'인물의 심리 파악'};
 function renderChal(){
- const s=cur(),many=S.hist>1,QC=window.QTc||[],QM=window.QTm||[],key=(S.sub==='math'||s.tam)?'unit':'sub',QL=key==='unit'?'단원':'유형';
- const curR=s.hist.rounds[4],prevR=s.hist.rounds[3],nextR=curR+1;
- const f=focusU();
- if(!f){$('chal').innerHTML='';return}
+ const s=cur();let many=S.hist>1;const key=(S.sub==='math'||s.tam)?'unit':'sub',QL='문항 유형';
+ const att=s.hist.rounds.slice(5-S.hist),curR=att[att.length-1],nextR=curR+1,cols=att.slice(-5).reverse();
+ const f=focusU();if(!f){$('chal').innerHTML='';return}
  const qs=s.qs.filter(q=>q[key]===f.g),n=qs.length,c=qs.filter(q=>q.ok).length,pts=qs.reduce((a,q)=>a+q.pts,0),tg=Math.min(n,c+1);
- const wr=f.per[0].wr,wTxt=wr.length?wr.join('·')+'번':'';
- const rec=s.recs[0];
- const steps=[];if(wTxt)steps.push(`meBOOK 오답노트에서 <b>이번 시험 ${wTxt}</b> 다시 풀기`);steps.push(`맞춤 보완 <b>1순위</b> 기출${rec?` <b>${rec[2]}</b>`:''} 풀어 보기`);steps.push(`${nextR}회 성적표에서 결과 함께 확인하기`);
- let last='';
- if(many){const im=QM.map(x=>{const a=x.per[x.per.length-2],b=x.per[x.per.length-1];return{g:x.g,a,b,d:b.c/b.n-a.c/a.n}}).sort((a,b)=>b.d-a.d)[0];
-  last=`<div class="ch-last">${im&&im.d>0?`<b>${im.g}</b>${'이가'[(im.g.charCodeAt(im.g.length-1)-0xAC00)%28?0:1]} ${prevR}회보다 좋아졌어요(${im.a.n}문제 중 ${im.a.c}문제 → ${im.b.n}문제 중 ${im.b.c}문제). 이 흐름을 그대로 이어가면 돼요.`:`지난 회차와 같은 흐름을 이어가고 있어요. 이번 도전으로 한 걸음 더 나아가요.`}</div>`}
- const fold='';
- $('chal').innerHTML=`<div class="ch-t">${nextR}회까지 이것 하나만 챙겨요</div>
- <div class="ch-box"><div class="ch-l">이번 도전 <span class="v9m" style="font-size:12px;margin-left:4px">이번 회차 기준</span></div><div class="ch-g">${f.g} ${tg===n?`${n}문제 모두 맞히기`:`${n}문제 중 ${tg}문제 이상 맞히기`}</div><div class="ch-d">이번 회차에 ${n}문제(${pts}점)가 나온 ${QL}이에요. 여기서 오른 만큼 점수로 이어져요.</div></div>
- <div class="ch-st">${steps.map((x,i)=>`<div><span class="ch-n">${'①②③'[i]}</span>${x}</div>`).join('')}</div>${last}${fold}`;
+ const wr=f.per[0].wr,rec=s.recs[0];
+ const d=many?s.raw-s.prev.raw:0;
+ const chip=many?`<span class="chip ${d>0?'up':d<0?'dn':'k'}">직전 대비 ${d>0?'+'+d+'점':d<0?d+'점':'변동 없음'}</span>`:'';
+ const todo=[];const wq=s.qs.filter(q=>!q.ok),c1=wq.filter(q=>cls(q.rate)===1).length,c2=wq.filter(q=>cls(q.rate)===2).length,c3=wq.filter(q=>cls(q.rate)===3).length;
+ todo.push(`맞춤 보완 <b>1순위</b> 기출${rec?` <b>${rec[2]}</b>`:''} 풀기`);
+ /* 지도 */
+ const QM=buildQT(s,key,att);QM.forEach(x=>{const P=x.per.filter(p=>cols.includes(p.rd));x.N=P.reduce((a,p)=>a+p.n,0);x.C=P.reduce((a,p)=>a+p.c,0)});many=att.length>1;
+ const detail=(x,i)=>{if(S.sub==='kor')return KD[x.g]||'세부 내용 추론';if(S.sub==='eng'){const sq=s.qs.filter(q=>q[key]===x.g);return sq.some(q=>q.unit==='듣기')?'듣기':'독해'}const sq=s.qs.filter(q=>q[key]===x.g);const w=sq.filter(q=>!q.ok);return (w[0]||sq[0]).sub};
+ QM.forEach((x,i)=>{x.rate=Math.round(x.C/x.N*100);x.st=x.N<3?['판정 보류','k']:x.rate<x.avg?['보완','r']:['안정','g'];
+  const L=x.per[x.per.length-1],P=x.per.length>1?x.per[x.per.length-2]:null;x.worse=P&&(L.c/L.n<P.c/P.n);x.det=detail(x,i);
+  let run=0;for(let k=x.per.length-1;k>=0;k--){if(x.per[k].wr.length)run++;else break}x.run=run});
+ let rows=[...QM].sort((a,b)=>(b.N-b.C)-(a.N-a.C)).slice(0,5);
+ const rep=QM.filter(x=>x.run>=2).sort((a,b)=>b.run-a.run)[0];
+ const best=many?QM.map(x=>{const a=x.per[x.per.length-2],b=x.per[x.per.length-1];return{g:x.g,d:b.c/b.n-a.c/a.n}}).sort((a,b)=>b.d-a.d)[0]:null;
+ const ga=w=>((w.charCodeAt(w.length-1)-0xAC00)%28?'은':'는');
+ const alert=!many?'':rep?`<div class="alert"><b>${rep.g}</b>${ga(rep.g)} 최근 ${rep.run}회 연속 틀린 문항이 있어요.</div>`:best&&best.d>0?`<div class="alert g"><b>${best.g}</b>${ga(best.g)} 직전 회차보다 더 많이 맞혔어요.</div>`:'';
+ const cell=(x,rd,i)=>{const p=x.per.find(q=>q.rd===rd);if(!p)return '<span class="cl n">–</span>';const prev=i>0?x.per[i-1]:null,dn=prev&&rd===curR&&p.c/p.n<prev.c/prev.n;return `<span class="cl ${p.wr.length?'w':'o'}">${p.c}/${p.n}</span>`};
+ const head=`<tr><th rowspan="2" style="width:30%">${QL}</th><th colspan="${cols.length+1}" style="padding-bottom:4px">최근 5회</th></tr><tr><th style="padding-top:4px;width:15%">합계<br><span style="font-weight:400">정답 / 출제</span></th>${cols.map(r=>`<th style="padding-top:4px;${r===curR?'color:#2C5BF6':''}">${r}회</th>`).join('')}</tr>`;
+ const body=rows.map(x=>`<tr class="${x.g===f.g?'hot':''}"><td class="nm"><b>${x.g}</b>${x.g===f.g?'<span class="star">도전</span>':''}<small>${x.det}</small></td><td><b style="font-size:15px">${x.C}</b> / ${x.N}</td>${cols.map(r=>`<td>${cell(x,r,0)}</td>`).join('')}</tr>`).join('');
+ $('chal').innerHTML=`<div class="p15">
+ <div class="two"><div class="l"><div class="ch-l">다음 회차 도전</div><div class="ch-g">${f.g} 문제 모두 맞히기</div><div class="ch-d">이번 회차에는 ${n}문제 중 ${c}문제를 맞혔어요.</div></div>
+ <div class="r"><div class="ch-l">할 일</div>
+ <div class="td"><span class="ch-n">①</span><div><small>오답 다시 풀기 · meBOOK 오답노트</small><b>놓친 문항 ${c1}개 · 보완 문항 ${c2}개</b></div></div>
+ <div class="td"><span class="ch-n">②</span><div><small>비슷한 기출 풀기 · 맞춤 보완 문항</small>${(s.recs||[]).map((r,i)=>`<b><span style="color:#2C5BF6;font-weight:600">${i+1}순위</span> ${r[2]}</b>`).join('')}</div></div></div></div>
+ <div class="mh">누적 약점 지도 <span style="margin-left:4px;font-size:14px;font-weight:400;color:#6B7684">최근 5회 동안 가장 많이 틀린 유형 5개예요</span></div>
+ <div class="tblwrap"><table>${head}${body}</table></div>
+ <div class="lg"><span><em style="background:#FFEEF0"></em>틀린 문제 있음</span><span><em style="background:#EEF3FF"></em>모두 맞힘</span></div>
+
+ </div>`;
+ const sc=document.querySelector('#chal').closest('section').querySelector('.scope');if(sc)sc.textContent=many?'이번 회차 + 누적':'이번 회차 기준';
 }
 let QF='all';function applyQF(){document.querySelectorAll('#qTbl tbody tr').forEach(tr=>{const ng=tr.classList.contains('wrong');tr.classList.toggle('hide',QF==='ng'&&!ng||QF==='ok'&&ng)});document.querySelectorAll('[data-qf]').forEach(b=>b.classList.toggle('on',b.dataset.qf===QF))}
 function numberSections(){let i=0;document.querySelectorAll('section.card').forEach(sec=>{const eb=sec.querySelector('h2 .eb');if(!eb)return;if(!eb.dataset.t)eb.dataset.t=eb.textContent;if(sec.classList.contains('hide')){eb.textContent=eb.dataset.t;return}i++;eb.innerHTML=`<span class="num">${String(i).padStart(2,'0')}</span>${eb.dataset.t}`})}
 const EB={'학생 기본 정보':'STUDENT PROFILE','응시 정보':'EXAM INFO','개인성적 분석':'SCORE SUMMARY','등급 구분 점수':'GRADE CUTOFF','전략 총평':'STRATEGY SUMMARY','다시 찾을 점수':'POINTS TO RECOVER','한 문제로 바뀌는 성적':'SCORE IMPACT SIMULATION','맞춤 보완 문항':'RECOMMENDED PRACTICE','오답 문항 확인':'WRONG ANSWER CHECK','문항 유형별 분석':'QUESTION TYPE ANALYSIS','단원별 상세 분석':'UNIT ANALYSIS','평가요소별 상세 분석':'SKILL ANALYSIS','문항별 나의 점수 분석':'QUESTION ANALYSIS','회차별 나의 성적 추이':'SCORE TREND','다음 회차 목표':'NEXT GOAL'};
 const SEC={};document.querySelectorAll('.card>h2').forEach(h=>{const k=h.childNodes[0].textContent.trim();SEC[k]=h.parentElement;if(EB[k])h.insertAdjacentHTML('afterbegin',`<span class="eb">${EB[k]}</span>`);h.insertAdjacentHTML('beforeend','<span class="v9tag">V9 수정</span><span class="scope"></span>')});
 const V9ALWAYS=['등급 구분 점수','전략 총평','문항 유형별 분석','다시 찾을 점수','한 문제로 바뀌는 성적','오답 문항 확인','단원별 상세 분석','문항별 나의 점수 분석','회차별 나의 성적 추이','다음 회차 목표'];
-const SCOPE={'개인성적 분석':'cur','등급 구분 점수':'cur','전략 총평':'both','다시 찾을 점수':'cur','한 문제로 바뀌는 성적':'cur','오답 문항 확인':'cur','맞춤 보완 문항':'cur','단원별 상세 분석':'cur','평가요소별 상세 분석':'cur','문항별 나의 점수 분석':'cur','다음 회차 목표':'cur'};
+const SCOPE={'개인성적 분석':'cur','등급 구분 점수':'cur','전략 총평':'both','다시 찾을 점수':'cur','한 문제로 바뀌는 성적':'cur','오답 문항 확인':'cur','맞춤 보완 문항':'cur','단원별 상세 분석':'cur','평가요소별 상세 분석':'cur','문항별 나의 점수 분석':'cur','다음 회차 목표':'both'};
 function setScopes(){const m=S.hist>1;Object.keys(SCOPE).forEach(k=>{const el=SEC[k]&&SEC[k].querySelector('.scope');if(!el)return;const v=SCOPE[k];el.textContent=v==='cur'?'이번 회차 기준':v==='both'?(m?'이번 회차 · 누적':'이번 회차 기준'):(m?'누적 '+S.hist+'회':'이번 회차 기준')})}
 function markV9(){V9ALWAYS.forEach(k=>SEC[k]&&SEC[k].classList.add('v9'));SEC['개인성적 분석'].classList.toggle('v9',!!cur().eng);setScopes()}
 render();numberSections();
 </script>
-<style>.qtj{color:var(--pri2);text-decoration:underline;cursor:pointer;font-weight:600}</style>
+<style>.qtj{color:var(--pri2);text-decoration:underline;cursor:pointer;font-weight:600}
+/* 15 다음 회차 목표 */
+.p15 .top{display:flex;align-items:center;gap:8px;margin:0 0 12px}.p15 .top .ch-t{margin:0}
+.p15 .chip{display:inline-block;font-size:13px;font-weight:600;border-radius:999px;padding:3px 10px;background:var(--pril);color:var(--pri2)}
+.p15 .chip.up{background:#EEF3FF;color:#2C5BF6}.p15 .chip.dn{background:#FFF1F3;color:#D0283E}.p15 .chip.k{background:#F2F4F6;color:#4E5968}
+.p15 .two{display:grid;grid-template-columns:1.1fr 1fr;gap:12px;margin-bottom:22px}
+.p15 .two>div{border-radius:12px;padding:18px 20px}.p15 .two .l{background:#F7F8FF}.p15 .two .r{background:#fff;box-shadow:inset 0 0 0 1px #E5E8EB}
+.p15 .two .r .ch-l{margin-bottom:8px}.p15 .td{display:flex;gap:4px;padding:8px 0}.p15 .td+.td{border-top:1px solid #F2F4F6}.p15 .td .ch-n{font-size:15px;line-height:22px}.p15 .td small{display:block;font-size:13px;color:#6B7684}.p15 .td b{display:block;font-size:15px;font-weight:600;color:#191F28;line-height:22px;margin-top:2px}
+.p15 .mh{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:15px;font-weight:600;color:#191F28}
+.p15 .alert{font-size:15px;line-height:22px;color:#191F28;background:#FFF8E6;border-radius:10px;padding:10px 14px;margin-bottom:10px}
+.p15 .alert.g{background:#F2F5FF}
+.p15 table{width:100%;border-collapse:collapse;font-size:14px}
+.p15 th{font-size:13px;font-weight:600;color:#4E5968;background:#F9F9FB;padding:9px 6px;border-bottom:1px solid #E5E8EB}
+.p15 td{padding:8px 6px;border-bottom:1px solid #F2F4F6;text-align:center;color:#191F28}
+.p15 td.nm{text-align:left;padding-left:10px}.p15 td.nm b{font-size:15px;font-weight:600}
+.p15 td.nm small{display:block;font-size:13px;color:#6B7684;margin-top:2px}
+.p15 .cl{display:inline-block;min-width:46px;border-radius:6px;padding:4px 4px;font-size:14px;font-weight:600}
+.p15 .cl.w{background:#FFEEF0;color:#D0283E}.p15 .cl.o{background:#EEF3FF;color:#2C5BF6}.p15 .cl.n{color:#B0B8C1;font-weight:400}
+.p15 .cl i{font-style:normal;font-size:11px;margin-left:2px}
+.p15 tr.hot td{background:#FAFBFF}.p15 .star{font-size:12px;font-weight:600;color:#2C5BF6;background:#EEF3FF;border-radius:4px;padding:1px 6px;margin-left:6px}
+.p15 .lg{display:flex;gap:14px;font-size:13px;color:#6B7684;margin-top:10px;flex-wrap:wrap}.p15 .lg span{display:inline-flex;align-items:center;gap:5px}
+.p15 .lg em{display:inline-block;width:14px;height:14px;border-radius:4px}</style>
 <script>document.addEventListener('click',e=>{const a=e.target.closest('.qtj');if(!a)return;const rv=document.getElementById('rv'+a.dataset.n);if(rv){if(rv.classList.contains('hide')){document.querySelectorAll('#rvList .rvx').forEach(e=>e.classList.remove('hide'));rvSync()}if(rv.tagName==='DETAILS')rv.open=true;rv.scrollIntoView({behavior:'smooth',block:'center'});rv.classList.add('flash');setTimeout(()=>rv.classList.remove('flash'),1400)}});</script><script>document.addEventListener('click',e=>{const t=e.target.closest('#rvToggle');if(!t)return;const x=[...document.querySelectorAll('#rvList .rvx')],hid=x.filter(e=>e.classList.contains('hide'));if(hid.length){hid.slice(0,5).forEach(e=>e.classList.remove('hide'))}else{x.forEach(e=>e.classList.add('hide'));t.closest('section').scrollIntoView({behavior:'smooth',block:'start'})}rvSync()});</script></body>
 </html>
