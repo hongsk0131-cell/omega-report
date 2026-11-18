@@ -1053,16 +1053,17 @@ function renderChal(){
  const head=`<tr><th rowspan="2" style="width:30%">${QL}</th><th colspan="${cols.length+1}" style="padding-bottom:4px">최근 5회</th></tr><tr><th style="padding-top:4px;width:15%">합계<br><span style="font-weight:400">정답 / 출제</span></th>${cols.map(r=>`<th style="padding-top:4px;${r===curR?'color:#2C5BF6':''}">${r}회</th>`).join('')}</tr>`;
  const body=rows.map(x=>`<tr class="${x.g===f.g?'hot':''}"><td class="nm"><b>${x.g}</b>${x.g===f.g?'<span class="star">도전</span>':''}<small>${x.det}</small></td><td><b style="font-size:15px">${x.C}</b> / ${x.N}</td>${cols.map(r=>`<td>${cell(x,r,0)}</td>`).join('')}</tr>`).join('');
  $('chal').innerHTML=`<div class="p15">
+ <div class="mh">이번 회차 약점 지도 <span style="margin-left:4px;font-size:14px;font-weight:400;color:#6B7684">이번 회차에 가장 먼저 보완할 유형과 할 일이에요</span></div>
  <div class="two"><div class="l"><div class="ch-l">다음 회차 도전</div><div class="ch-g">${f.g} 문제 모두 맞히기</div><div class="ch-d">이번 회차에는 ${n}문제 중 ${c}문제를 맞혔어요.</div></div>
  <div class="r"><div class="ch-l">할 일</div>
  <div class="td"><span class="ch-n">①</span><div><small>오답 다시 풀기 · meBOOK 오답노트</small><b>놓친 문항 ${c1}개 · 보완 문항 ${c2}개</b></div></div>
  <div class="td"><span class="ch-n">②</span><div><small>비슷한 기출 풀기 · 맞춤 보완 문항</small>${(s.recs||[]).map((r,i)=>`<b><span style="color:#2C5BF6;font-weight:600">${i+1}순위</span> ${r[2]}</b>`).join('')}</div></div></div></div>
  <div class="mh">최근 5회 약점 지도 <span style="margin-left:4px;font-size:14px;font-weight:400;color:#6B7684">최근 5회 동안 가장 많이 틀린 유형 3개예요</span></div>
  <div class="tblwrap"><table>${head}${body}</table></div>
- <div class="lg"><span><em style="background:#FFEEF0"></em>틀린 문제 있음</span><span><em style="background:#EEF3FF"></em>모두 맞힘</span></div>
+ 
 
  </div>`;
- const sc=document.querySelector('#chal').closest('section').querySelector('.scope');if(sc)sc.textContent=many?'이번 회차 · 최근 5회':'이번 회차 기준';
+ 
 }
 let QF='all';function applyQF(){document.querySelectorAll('#qTbl tbody tr').forEach(tr=>{const ng=tr.classList.contains('wrong');tr.classList.toggle('hide',QF==='ng'&&!ng||QF==='ok'&&ng)});document.querySelectorAll('[data-qf]').forEach(b=>b.classList.toggle('on',b.dataset.qf===QF))}
 function numberSections(){let i=0;document.querySelectorAll('section.card').forEach(sec=>{const eb=sec.querySelector('h2 .eb');if(!eb)return;if(!eb.dataset.t)eb.dataset.t=eb.textContent;if(sec.classList.contains('hide')){eb.textContent=eb.dataset.t;return}i++;eb.innerHTML=`<span class="num">${String(i).padStart(2,'0')}</span>${eb.dataset.t}`})}
@@ -1070,7 +1071,7 @@ const EB={'학생 기본 정보':'STUDENT PROFILE','응시 정보':'EXAM INFO','
 const SEC={};document.querySelectorAll('.card>h2').forEach(h=>{const k=h.childNodes[0].textContent.trim();SEC[k]=h.parentElement;if(EB[k])h.insertAdjacentHTML('afterbegin',`<span class="eb">${EB[k]}</span>`);h.insertAdjacentHTML('beforeend','<span class="v9tag">V9 수정</span><span class="scope"></span>')});
 const V9ALWAYS=['등급 구분 점수','전략 총평','문항 유형별 분석','다시 찾을 점수','한 문제로 바뀌는 성적','오답 문항 확인','단원별 상세 분석','문항별 나의 점수 분석','회차별 나의 성적 추이','다음 회차 목표'];
 const SCOPE={'개인성적 분석':'cur','등급 구분 점수':'cur','다시 찾을 점수':'cur','한 문제로 바뀌는 성적':'cur','오답 문항 확인':'cur','맞춤 보완 문항':'cur','단원별 상세 분석':'cur','평가요소별 상세 분석':'cur','문항 유형별 분석':'cur','문항별 나의 점수 분석':'cur','다음 회차 목표':'both'};
-function setScopes(){{const e=SEC['전략 총평']&&SEC['전략 총평'].querySelector('.scope');if(e)e.style.display='none'}const m=S.hist>1;Object.keys(SCOPE).forEach(k=>{const el=SEC[k]&&SEC[k].querySelector('.scope');if(!el)return;const v=SCOPE[k];el.textContent=v==='cur'?'이번 회차 기준':v==='both'?(m?'이번 회차 · 최근 5회':'이번 회차 기준'):(m?'누적 '+S.hist+'회':'이번 회차 기준')})}
+function setScopes(){['전략 총평','다음 회차 목표'].forEach(k=>{const e=SEC[k]&&SEC[k].querySelector('.scope');if(e)e.style.display='none'});const m=S.hist>1;Object.keys(SCOPE).forEach(k=>{const el=SEC[k]&&SEC[k].querySelector('.scope');if(!el)return;const v=SCOPE[k];el.textContent=v==='cur'?'이번 회차 기준':v==='both'?(m?'이번 회차 · 최근 5회':'이번 회차 기준'):(m?'누적 '+S.hist+'회':'이번 회차 기준')})}
 function markV9(){V9ALWAYS.forEach(k=>SEC[k]&&SEC[k].classList.add('v9'));SEC['개인성적 분석'].classList.toggle('v9',!!cur().eng);setScopes()}
 render();numberSections();
 </script>
@@ -1091,7 +1092,7 @@ render();numberSections();
 .p15 td.nm{text-align:left;padding-left:10px}.p15 td.nm b{font-size:15px;font-weight:600}
 .p15 td.nm small{display:block;font-size:13px;color:#6B7684;margin-top:2px}
 .p15 .cl{display:inline-block;min-width:46px;border-radius:6px;padding:4px 4px;font-size:14px;font-weight:600}
-.p15 .cl.w{background:#FFEEF0;color:#D0283E}.p15 .cl.o{background:#EEF3FF;color:#2C5BF6}.p15 .cl.n{color:#B0B8C1;font-weight:400}
+.p15 .cl.w{color:#191F28;font-weight:400}.p15 .cl.o{color:#191F28;font-weight:400}.p15 .cl.n{color:#B0B8C1;font-weight:400}
 .p15 .cl i{font-style:normal;font-size:11px;margin-left:2px}
 .p15 tr.hot td{background:#FAFBFF}.p15 .star{font-size:12px;font-weight:600;color:#2C5BF6;background:#EEF3FF;border-radius:4px;padding:1px 6px;margin-left:6px}
 .p15 .lg{display:flex;gap:14px;font-size:13px;color:#6B7684;margin-top:10px;flex-wrap:wrap}.p15 .lg span{display:inline-flex;align-items:center;gap:5px}
