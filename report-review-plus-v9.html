@@ -537,7 +537,7 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 
 <div class="grp"><span class="t">점수 향상 전략</span><span class="h">실행할 문항과 오답 확인</span></div>
 
-<section class="card new">
+<section class="card">
 <h2>한 문제로 바뀌는 성적</h2>
 <p class="desc" style="margin-top:0">나의 오답 문항 중 <span class="v9m">응시자 정답률이 가장 높은 3문항</span>을 더 맞혔을 경우 예상 성적 변화를 제공합니다.<br>문항을 선택한 뒤, 결과를 확인해 보세요.</p>
 <div><span class="dot"></span>핵심 기회 문항 TOP 3</div>
@@ -1071,7 +1071,7 @@ const EB={'학생 기본 정보':'STUDENT PROFILE','응시 정보':'EXAM INFO','
 const SEC={};document.querySelectorAll('.card>h2').forEach(h=>{const k=h.childNodes[0].textContent.trim();SEC[k]=h.parentElement;if(EB[k])h.insertAdjacentHTML('afterbegin',`<span class="eb">${EB[k]}</span>`);h.insertAdjacentHTML('beforeend','<span class="v9tag">V9 수정</span><span class="scope"></span>')});
 const V9ALWAYS=['등급 구분 점수','전략 총평','문항 유형별 분석','다시 찾을 점수','한 문제로 바뀌는 성적','오답 문항 확인','단원별 상세 분석','문항별 나의 점수 분석','회차별 나의 성적 추이','다음 회차 목표'];
 const SCOPE={'개인성적 분석':'cur','등급 구분 점수':'cur','다시 찾을 점수':'cur','한 문제로 바뀌는 성적':'cur','오답 문항 확인':'cur','맞춤 보완 문항':'cur','단원별 상세 분석':'cur','평가요소별 상세 분석':'cur','문항 유형별 분석':'cur','문항별 나의 점수 분석':'cur','다음 회차 목표':'both'};
-function setScopes(){['전략 총평','다음 회차 목표'].forEach(k=>{const e=SEC[k]&&SEC[k].querySelector('.scope');if(e)e.style.display='none'});const m=S.hist>1;Object.keys(SCOPE).forEach(k=>{const el=SEC[k]&&SEC[k].querySelector('.scope');if(!el)return;const v=SCOPE[k];el.textContent=v==='cur'?'이번 회차 기준':v==='both'?(m?'이번 회차 · 최근 5회':'이번 회차 기준'):(m?'누적 '+S.hist+'회':'이번 회차 기준')})}
+function setScopes(){document.querySelectorAll('.scope').forEach(e=>e.style.display='none');return;['전략 총평','다음 회차 목표'].forEach(k=>{const e=SEC[k]&&SEC[k].querySelector('.scope');if(e)e.style.display='none'});const m=S.hist>1;Object.keys(SCOPE).forEach(k=>{const el=SEC[k]&&SEC[k].querySelector('.scope');if(!el)return;const v=SCOPE[k];el.textContent=v==='cur'?'이번 회차 기준':v==='both'?(m?'이번 회차 · 최근 5회':'이번 회차 기준'):(m?'누적 '+S.hist+'회':'이번 회차 기준')})}
 function markV9(){V9ALWAYS.forEach(k=>SEC[k]&&SEC[k].classList.add('v9'));SEC['개인성적 분석'].classList.toggle('v9',!!cur().eng);setScopes()}
 render();numberSections();
 </script>
