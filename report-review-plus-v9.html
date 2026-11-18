@@ -459,7 +459,7 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 .rv2 .ri2{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;justify-content:flex-end}
 .rv2 .ra{display:flex;flex-direction:column;align-items:center;gap:1px;width:64px}.rv2 .ra small{font-size:12px;color:var(--sub)}.rv2 .ra b{font-size:14px;font-weight:400;color:#191F28;min-height:26px;display:flex;align-items:center}.rv2 .ra b .cn{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border:1.5px solid #191F28;border-radius:50%;font-size:12px;font-weight:600;line-height:1}.rv2 .rg{min-height:88px;box-sizing:border-box}
 .rv2 .rarr{color:var(--sub);width:20px;text-align:center;align-self:flex-end;line-height:26px;margin-bottom:0}.rv2 .rtrap{flex-basis:100%;text-align:right;font-size:13px;color:var(--sub);font-weight:600}
-.qtj{white-space:nowrap}.rvbtn{display:block;margin:14px auto 0;padding:10px 22px;border:1px solid #2F497D;border-radius:999px;background:#fff;color:#15237A;font-size:15px;font-weight:600;cursor:pointer}</style>
+.qtj{white-space:nowrap}.rvbtn{display:block;margin:14px auto 0;padding:10px 22px;border:1px solid #2F497D;border-radius:999px;background:#fff;color:#15237A;font-size:15px;font-weight:600;cursor:pointer}.newp{outline:3px solid var(--yl);outline-offset:6px;border-radius:8px}.gup{outline:2px solid var(--yl);outline-offset:2px}</style>
 </head>
 <body>
 <div class="wrap">
@@ -494,14 +494,14 @@ body.nov9 .v9m{background:none;color:inherit;padding:0}
 <div class="point" id="pointBox"><div><b>✓ 출제 Point</b></div><div class="txt" id="pointTxt"></div><button class="lnk" id="pointBtn">… 더보기</button></div>
 </section>
 
-<section class="card new keep">
+<section class="card keep">
 <h2>개인성적 분석</h2>
 <div class="grid g4" id="scoreBox"></div>
-<div class="srank" id="scoreRank"></div>
+<div class="srank newp" id="scoreRank"></div>
 <div class="note" id="scoreNote">※ 표준점수/백분위/등급은 자사 재원생의 성적과 수능 DB를 매칭·분석한 결과로 실제 수능 점수와 다를 수 있습니다.</div>
 </section>
 
-<section class="card new keep">
+<section class="card keep">
 <h2>등급 구분 점수</h2>
 <div class="tblwrap"><table class="cut" id="cutTbl"></table></div>
 <div class="note" id="cutNote"></div>
@@ -811,7 +811,7 @@ function renderScore(){
  $('scoreBox').innerHTML=cells.map(c=>`<div><div class="fl">${c[0]}</div>${c[1]}</div>`).join('');
  $('scoreNote').classList.toggle('hide',!!s.eng);
  const N=POP[S.mode],ap=actualPct(s),rank=Math.max(1,Math.round(N*(100-ap)/100));
- $('scoreRank').style.display=s.eng?'none':'';$('scoreRank').closest('section').classList.toggle('new',!s.eng);$('scoreRank').innerHTML=s.eng?'':`<span>${isBlack()?'OMEGA Black':'OMEGA'} 응시자 중 <b>${rank.toLocaleString()}등</b> <small>/ ${N.toLocaleString()}명 · 상위 ${Math.round(rank/N*1000)/10}%</small></span>`;
+ $('scoreRank').style.display=s.eng?'none':'';$('scoreRank').innerHTML=s.eng?'':`<span>${isBlack()?'OMEGA Black':'OMEGA'} 응시자 중 <b>${rank.toLocaleString()}등</b> <small>/ ${N.toLocaleString()}명 · 상위 ${Math.round(rank/N*1000)/10}%</small></span>`;
 }
 
 function renderCut(){
