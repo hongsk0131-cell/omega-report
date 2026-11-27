@@ -1,0 +1,141 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OMEGA NEXT 성적 리포트 V12</title><style>
+:root{--n:#15237A;--m:#2F497D;--o:#F26300;--t:#272727;--l:#d8e0ea;--bg:#f6f8fa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font-family:Pretendard,-apple-system,'Malgun Gothic',sans-serif;line-height:1.55}
+main{max-width:1080px;margin:0 auto;padding:18px 20px 60px;background:#fff;min-height:100vh}
+.top{display:flex;align-items:center;gap:14px;padding-bottom:12px;border-bottom:1px solid var(--l)}
+.bd{font-size:20px;font-weight:800;color:var(--n);letter-spacing:.3px}.bd em{font-style:normal;font-size:13px;font-weight:600;color:var(--m)}
+.idm{font-size:14px;color:#54708a;font-weight:600;flex:1}
+.stamp{background:var(--n);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:3px}
+.qr{width:46px;height:46px;border:1px solid var(--l)}
+.ks{display:grid;grid-template-columns:repeat(5,1fr);margin:14px 0 16px;padding:16px 18px;background:#f4f8fb;border:1px solid #cfdde8;border-left:4px solid var(--n);border-radius:4px}
+.ks>div{padding:0 14px;border-left:1px solid #dbe5ee}.ks>div:first-child{border-left:0;padding-left:0}
+.ks small{display:block;font-size:14px;color:#54708a;font-weight:600}
+.ks b{font-size:34px;font-weight:800;color:var(--n);letter-spacing:-1px}.ks b em{font-style:normal;font-size:16px;margin-left:2px}
+.goal b{color:var(--o)}.ks span{display:block;font-size:12px;color:#6b7a8c}
+nav{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--l);position:sticky;top:0;background:#fff;z-index:9}
+nav button{border:0;background:#fff;padding:15px 4px;font-size:15.5px;font-weight:700;color:#8b95a1;cursor:pointer;border-bottom:3px solid transparent;font-family:inherit}
+nav button.on{color:var(--n);background:#eef3f9;border-bottom-color:var(--n)}
+section{display:none;padding-top:20px}section.on{display:block}
+h2{font-size:21px;color:var(--n);margin:26px 0 4px}h2:first-child{margin-top:0}
+h2+.sub{font-size:14px;color:#6b7a8c;margin:0 0 12px}
+.rule{height:2px;background:var(--l);margin:6px 0 14px;position:relative}.rule:before{content:"";position:absolute;left:0;top:0;width:46px;height:2px;background:var(--o)}
+.flow{display:grid;grid-template-columns:1fr 20px 1fr 20px 1fr;margin-bottom:8px}
+.flow .ar{display:flex;align-items:center;justify-content:center;color:var(--n);font-weight:800;font-size:18px}
+.fb{border:1.5px solid var(--n);background:#f3f6fb;padding:13px 14px;border-radius:3px}
+.fb small{font-size:12.5px;font-weight:700;color:var(--m)}.fb b{display:block;font-size:16px;color:var(--n);margin-top:4px}
+.fb.rx{background:var(--n)}.fb.rx small{color:#b9cddf}.fb.rx b{color:#fff}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{border-bottom:1px solid #e6ecf2;padding:9px 8px;text-align:center}
+th{background:#f4f8fb;color:var(--m);font-size:13.5px}
+tbody th{text-align:left;background:#fff;font-weight:700;font-size:14.5px}
+.tag{display:inline-block;margin-right:5px;padding:1px 6px;border-radius:3px;background:#e8eef4;color:#41607d;font-size:11px;font-weight:700}
+.oxc{font-size:19px;font-weight:800}.ox-o{color:#1d6b4f}.ox-t{color:#c98a00}.ox-x{color:#c0392b}.ox-n{color:#c3ccd6}
+.st{font-size:13px;font-weight:800;border-radius:3px}
+.s-i{color:#1d6b4f;background:#eaf6f0}.s-k{color:var(--m);background:#eef3f9}.s-r{color:#b4530a;background:#fdf0e4}.s-v{color:#c0392b;background:#fdecea}
+.cats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.cat{border:1px solid var(--l);border-top:4px solid var(--m);padding:15px 16px;border-radius:3px}
+.cat.c-m{border-top-color:var(--o)}.cat.c-e{border-top-color:#c0392b}.cat.c-d{border-top-color:var(--n)}.cat.c-h{border-top-color:#9aa6b2}
+.cn{font-size:17px;font-weight:800;color:var(--n)}.cd{font-size:13px;color:#6b7a8c;margin-bottom:8px}
+.cv{font-size:27px;font-weight:800;color:var(--n)}.cv em{font-style:normal;font-size:14px;font-weight:600;color:#6b7a8c;margin-left:5px}
+.cat ul{list-style:none;margin:8px 0 0;padding:0}.cat li{font-size:14.5px;padding:6px 0;border-top:1px solid #eef2f6}
+.cat li.none{color:#9aa6b2}.u{color:#54708a;font-size:13px}.r{color:var(--o);font-weight:700}.p{color:#6b7a8c;font-size:13px}
+.simrow{display:flex;gap:10px;align-items:center;padding:11px 12px;border:1px solid var(--l);margin-bottom:7px;border-radius:3px;cursor:pointer;font-size:15px}
+.simrow input{width:19px;height:19px;accent-color:var(--n)}
+.simout{margin-top:12px;padding:16px 18px;background:#f4f8fb;border:1px solid #cfdde8;border-left:4px solid var(--o);border-radius:4px;font-size:17px}
+.simout b{font-size:30px;color:var(--n);font-weight:800}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{border:1px solid var(--l);padding:15px 16px;border-radius:3px}
+.card h3{margin:0 0 8px;font-size:16px;color:var(--n)}
+.bars{display:flex;align-items:flex-end;gap:8px;height:150px;padding-top:10px}
+.gb{flex:1;text-align:center;font-size:11px}.gb i{display:block;background:var(--m);border-radius:2px 2px 0 0}
+.gb b{display:block;font-size:12.5px;color:var(--n);margin-top:3px}.gb small{color:#8b95a1}
+.note{font-size:12.5px;color:#8b95a1;margin-top:8px}
+.btn{display:inline-block;margin-top:10px;background:var(--n);color:#fff;border:0;padding:11px 18px;font-size:14.5px;font-weight:700;border-radius:3px;cursor:pointer;font-family:inherit}
+.demo{display:inline-block;background:#fdf0e4;color:#b4530a;font-size:12px;font-weight:700;padding:2px 8px;border-radius:3px;margin-left:6px}
+footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--l);font-size:12.5px;color:#8b95a1}
+@media(max-width:820px){.ks,.cats,.grid2{grid-template-columns:1fr}.ks>div{border-left:0;padding:8px 0;border-top:1px solid #dbe5ee}.ks>div:first-child{border-top:0}.flow{grid-template-columns:1fr}.flow .ar{transform:rotate(90deg);height:16px}nav button{font-size:13px}}
+</style></head><body><main>
+<header class="top"><span class="bd">OMEGA <em>NEXT 성적 리포트</em></span>
+<span class="idm">2027학년도 대비 · 15회 · 수학(미적분) · 러셀 대치 · 학생 A</span>
+<span class="stamp">V12 · 2026-11-27</span>
+<svg class="qr" viewBox="0 0 8 8"><rect width="8" height="8" fill="#fff"/><g fill="#15237A"><rect x="0" y="0" width="3" height="3"/><rect x="5" y="0" width="3" height="3"/><rect x="0" y="5" width="3" height="3"/><rect x="4" y="4" width="1" height="1"/><rect x="6" y="5" width="1" height="1"/><rect x="5" y="7" width="1" height="1"/><rect x="7" y="6" width="1" height="1"/></g></svg></header>
+
+<div class="ks"><div><small>원점수</small><b>84<em>점</em></b></div><div><small>예상 등급</small><b>2<em>등급</em></b></div>
+<div><small>예상 백분위</small><b>94</b></div><div><small>응시자 평균 대비</small><b>+8.3<em>점</em></b></div>
+<div class="goal"><small>다음 시험 목표</small><b>88<em>점</em></b><span>1등급 구분선</span></div></div>
+
+<nav><button class="on" data-s="0">이번 시험 핵심</button><button data-s="1">누적 성장 지도</button><button data-s="2">오답의 의미</button><button data-s="3">다음 시험 전략</button></nav>
+
+<section class="on"><div class="flow"><div class="fb"><small>진단</small><b>문제해결 문항에서 실점이 집중</b></div><div class="ar">›</div>
+<div class="fb"><small>원인</small><b>실점 16점 중 12점 · 무응답 2문항 8점</b></div><div class="ar">›</div>
+<div class="fb rx"><small>처방</small><b>15번 복습 + 뒤 번호 시간 확보</b></div></div>
+<h2>이번 시험은 실제로 잘 본 것인가</h2><div class="rule"></div>
+<div class="grid2"><div class="card"><h3>응시 집단 안에서의 위치</h3>
+<table><tbody><tr><th>원점수</th><td>84점</td><th>응시자 평균</th><td>75.7점</td></tr>
+<tr><th>예상 표준점수</th><td>131</td><th>1등급 구분</th><td>133</td></tr>
+<tr><th>예상 백분위</th><td>94</td><th>예상 등급</th><td>2등급</td></tr></tbody></table>
+<p class="note">표준점수·백분위·등급은 수능 DB 기반 추정치입니다.</p></div>
+<div class="card"><h3>최근 3회 흐름</h3><div class="bars"><div class="gb"><i style="height:28.8px"></i><b>69</b><small>13회</small></div><div class="gb"><i style="height:54.400000000000006px"></i><b>77</b><small>14회</small></div><div class="gb"><i style="height:76.80000000000001px"></i><b>84</b><small>15회</small></div></div>
+<p class="note">11~13회 하락 후 14·15회 회복. 15회는 평균 대비 +8.3점으로 최근 11회 중 가장 높습니다.</p></div></div>
+<h2>이번 회차 강점과 약점</h2><div class="rule"></div>
+<div class="grid2"><div class="card"><h3>유지되는 강점</h3><p style="font-size:16px">계산영역 <b>11문항 전부 정답</b><br>정답률 70% 이상 문항 <b>실점 0점</b></p></div>
+<div class="card"><h3>메워야 할 약점</h3><p style="font-size:16px">문제해결 <b>12점 실점</b> (전체 실점의 75%)<br>이해력 <b>4점 실점</b></p></div></div></section>
+
+<section><h2>무엇이 나아지고 무엇이 나빠졌는가</h2><div class="sub">최근 5회차(11~15회) 단원별 정·오답 추이 — 건강검진 지표 방식</div><div class="rule"></div>
+<table><thead><tr><th style="text-align:left">단원</th><th>11회</th><th>12회</th><th>13회</th><th>14회</th><th>15회</th><th>상태</th></tr></thead><tbody><tr><th><span class=tag>공통</span>지수함수와 로그함수</th><td class="oxc ox-t">△</td><td class="oxc ox-t">△</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-t">△</td><td class="st s-v">취약</td></tr><tr><th><span class=tag>공통</span>삼각함수</th><td class="oxc ox-t">△</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="st s-i">개선</td></tr><tr><th><span class=tag>공통</span>수열</th><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="st s-k">유지</td></tr><tr><th><span class=tag>공통</span>함수의 극한과 연속</th><td class="oxc ox-t">△</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="st s-i">개선</td></tr><tr><th><span class=tag>공통</span>다항함수의 미분법</th><td class="oxc ox-t">△</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="st s-i">개선</td></tr><tr><th><span class=tag>공통</span>다항함수의 적분법</th><td class="oxc ox-x">×</td><td class="oxc ox-t">△</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-t">△</td><td class="st s-v">취약</td></tr><tr><th><span class=tag>미적분</span>수열의 극한</th><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="st s-k">유지</td></tr><tr><th><span class=tag>미적분</span>미분법</th><td class="oxc ox-t">△</td><td class="oxc ox-t">△</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-t">△</td><td class="st s-v">취약</td></tr><tr><th><span class=tag>미적분</span>적분법</th><td class="oxc ox-x">×</td><td class="oxc ox-t">△</td><td class="oxc ox-t">△</td><td class="oxc ox-t">△</td><td class="oxc ox-t">△</td><td class="st s-v">취약</td></tr></tbody></table>
+<p class="note">○ 전부 정답 · △ 일부 오답 · × 전부 오답 · – 미출제 &nbsp;|&nbsp; 개선 = 과거 실점 후 최근 정답 / 유지 = 계속 정답 / 재발 = 정답 후 다시 실점 / 취약 = 반복 실점<span class="demo">11~14회 가상 예시</span></p>
+<h2>평가요소별 누적 변화</h2><div class="rule"></div>
+<table><thead><tr><th style="text-align:left">평가요소</th><th>11회</th><th>12회</th><th>13회</th><th>14회</th><th>15회</th></tr></thead><tbody><tr><th>계산영역</th><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td></tr><tr><th>이해력</th><td class="oxc ox-t">△</td><td class="oxc ox-t">△</td><td class="oxc ox-t">△</td><td class="oxc ox-t">△</td><td class="oxc ox-t">△</td></tr><tr><th>문제해결</th><td class="oxc ox-x">×</td><td class="oxc ox-t">△</td><td class="oxc ox-x">×</td><td class="oxc ox-t">△</td><td class="oxc ox-t">△</td></tr><tr><th>추론</th><td class="oxc ox-x">×</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td><td class="oxc ox-o">○</td></tr></tbody></table>
+<h2>회차별 원점수</h2><div class="rule"></div><div class="bars"><div class="gb"><i style="height:24.0px"></i><b>72</b><small>5회</small></div><div class="gb"><i style="height:22.0px"></i><b>71</b><small>6회</small></div><div class="gb"><i style="height:40.0px"></i><b>80</b><small>7회</small></div><div class="gb"><i style="height:32.0px"></i><b>76</b><small>8회</small></div><div class="gb"><i style="height:48.0px"></i><b>84</b><small>9회</small></div><div class="gb"><i style="height:42.0px"></i><b>81</b><small>10회</small></div><div class="gb"><i style="height:18.0px"></i><b>69</b><small>11회</small></div><div class="gb"><i style="height:24.0px"></i><b>72</b><small>12회</small></div><div class="gb"><i style="height:18.0px"></i><b>69</b><small>13회</small></div><div class="gb"><i style="height:34.0px"></i><b>77</b><small>14회</small></div><div class="gb"><i style="height:48.0px"></i><b>84</b><small>15회</small></div></div></section>
+
+<section><h2>왜 점수를 잃었는가</h2><div class="sub">오답을 원인별로 나눕니다. 같은 오답이라도 처방이 달라집니다.</div><div class="rule"></div>
+<div class="cats"><div class="cat c-m"><div class="cn">무응답</div><div class="cd">손도 못 댄 문항 — 시간 배분 문제</div>
+<div class="cv">2<em>문항 · 8점</em></div>
+<ul><li><b>22번</b> <span class=u>공통 · 지수함수와 로그함수</span> <span class=r>27.2%</span> <span class=p>4점</span></li><li><b>30번</b> <span class=u>미적분 · 미분법</span> <span class=r>3.7%</span> <span class=p>4점</span></li></ul></div><div class="cat c-h"><div class="cn">도전 문항</div><div class="cd">정답률 40% 미만 — 목표 등급에 필수 아님</div>
+<div class="cv">1<em>문항 · 4점</em></div>
+<ul><li><b>28번</b> <span class=u>미적분 · 적분법</span> <span class=r>34.4%</span> <span class=p>4점</span></li></ul></div><div class="cat c-d"><div class="cn">아깝게 놓침</div><div class="cd">정답률 40~70% — 가장 먼저 메울 곳</div>
+<div class="cv">1<em>문항 · 4점</em></div>
+<ul><li><b>15번</b> <span class=u>공통 · 다항함수의 적분법</span> <span class=r>52.3%</span> <span class=p>4점</span></li></ul></div><div class="cat c-e"><div class="cn">반드시 맞혔어야 할 오답</div><div class="cd">정답률 70% 이상</div>
+<div class="cv">0<em>문항 · 0점</em></div>
+<ul><li class=none>해당 없음</li></ul></div></div>
+<h2>불안정 정답</h2><div class="sub">맞혔지만 정답률이 낮아 재출제 시 확인이 필요한 문항</div><div class="rule"></div>
+<table><thead><tr><th>문항</th><th>단원</th><th>평가요소</th><th>정답률</th></tr></thead><tbody>
+<tr><td><b>21번</b></td><td>공통 · 다항함수의 미분법</td><td>문제해결</td><td class=r>31.6%</td></tr>
+</tbody></table>
+<p class="note">정답률 40% 미만 문항의 정답입니다. 다음 출제 시 다시 맞히는지 확인합니다.</p>
+<h2>오답노트 연동</h2><div class="rule"></div>
+<div class="card"><h3>자동 태그 분류</h3><p style="font-size:15px">무응답 2 · 도전 문항 1 · 아깝게 놓침 1 · 불안정 정답 1</p>
+<button class="btn" id="dl">태그별 문항 목록 내려받기 (CSV)</button>
+<p class="note">마이페이지 · 미북(M-Book) 오답노트로 바로 연결됩니다. 종이 성적표는 상단 QR로 이동합니다.</p></div></section>
+
+<section><h2>다음 시험에서 무엇을 하면 가장 효과적인가</h2><div class="sub">복습할 문항을 고르면 목표 도달 여부가 바로 계산됩니다.</div><div class="rule"></div>
+<label class="simrow"><input type="checkbox" data-pt="4" data-no="15"><span><b>15번</b> <span class=u>공통 · 다항함수의 적분법</span> <span class=r>52.3%</span> <span class=p>4점</span></span></label><label class="simrow"><input type="checkbox" data-pt="4" data-no="28"><span><b>28번</b> <span class=u>미적분 · 적분법</span> <span class=r>34.4%</span> <span class=p>4점</span></span></label><label class="simrow"><input type="checkbox" data-pt="4" data-no="22"><span><b>22번</b> <span class=u>공통 · 지수함수와 로그함수</span> <span class=r>27.2%</span> <span class=p>4점</span></span></label><label class="simrow"><input type="checkbox" data-pt="4" data-no="30"><span><b>30번</b> <span class=u>미적분 · 미분법</span> <span class=r>3.7%</span> <span class=p>4점</span></span></label><div class="simout">복습 후 예상 원점수 <b id="sc">84</b>점 &nbsp;·&nbsp; 목표 88점까지 <b id="gp">4</b>점<div class="note" id="gm">문항을 선택하면 계산됩니다.</div></div>
+<h2>복습 순서</h2><div class="rule"></div>
+<table><thead><tr><th>순서</th><th>문항</th><th>이유</th><th>추천 기출</th></tr></thead><tbody>
+<tr><td><b>1</b></td><td>15번</td><td>정답률 52.3% — 가장 많은 학생이 맞힌 오답</td><td>2027 6월 평가원 미적분 15번</td></tr>
+<tr><td><b>2</b></td><td>22 · 30번</td><td>무응답 — 푸는 능력보다 시간 배분 문제</td><td>동일 단원 4점 문항 시간 재기</td></tr>
+<tr><td><b>3</b></td><td>21번</td><td>불안정 정답 — 재출제 시 확인 필요</td><td>2027 9월 평가원 미적분 22번</td></tr>
+<tr><td>참고</td><td>28번</td><td>정답률 34.4% — 1등급 도달에 필수 아님</td><td>목표 달성 후 도전</td></tr></tbody></table>
+<h2>시간 배분 처방</h2><div class="rule"></div>
+<div class="card"><p style="font-size:16px">무응답 <b>2문항(22 · 30번) 8점</b>은 전체 실점 16점의 절반입니다. 두 문항 모두 <b>뒤 번호대 4점 문항</b>이라 실력보다 <b>남은 시간</b>이 원인일 가능성이 큽니다.</p>
+<p style="font-size:16px">앞 번호(1~14번)를 <b>25분 안에</b> 끝내고 22번 이후에 <b>최소 20분</b>을 남기는 연습을 권합니다.</p></div>
+<h2>다음 시험에서 검증할 목표</h2><div class="rule"></div>
+<div class="grid2"><div class="card"><h3>유지</h3><p style="font-size:16px">계산영역 전 문항 정답 <b>(11/11 유지)</b></p></div>
+<div class="card"><h3>개선</h3><p style="font-size:16px">문제해결 <b>4문항 중 3문항 이상 정답</b><br>무응답 <b>0문항</b></p></div></div></section>
+
+<footer>OMEGA 15회 미적분 · 익명 예시. 15회 정오·성적과 회차별 성적은 실제자료 기반. 11~14회 단원·평가요소 이력은 화면 설계용 가상 예시입니다. 학번별 회차 정오 누적 저장은 신규 개발 대상입니다.</footer>
+</main><script>
+document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){
+document.querySelectorAll('nav button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');
+document.querySelectorAll('section').forEach(function(s,i){s.classList.toggle('on',i==+b.dataset.s)});window.scrollTo(0,0)}});
+var cbs=document.querySelectorAll('.simrow input');
+function calc(){var s=84;cbs.forEach(function(c){if(c.checked)s+=+c.dataset.pt});
+document.getElementById('sc').textContent=s;var gp=Math.max(0,88-s);document.getElementById('gp').textContent=gp;
+document.getElementById('gm').textContent=gp===0?'목표 88점에 도달합니다. 예상 1등급.':'아직 '+gp+'점 부족합니다.';}
+cbs.forEach(function(c){c.onchange=calc});
+document.getElementById('dl').onclick=function(){
+var rows=[['태그','문항','단원','정답률'],['무응답','22','공통 지수함수와 로그함수','27.2%'],['무응답','30','미적분 미분법','3.7%'],['도전 문항','28','미적분 적분법','34.4%'],['아깝게 놓침','15','공통 다항함수의 적분법','52.3%'],['불안정 정답','21','공통 다항함수의 미분법','31.6%']];
+var csv='\ufeff'+rows.map(function(r){return r.join(',')}).join('\n');
+var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='omega_15회_오답태그.csv';a.click();};
+</script></body></html>
